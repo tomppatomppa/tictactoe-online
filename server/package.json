@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
     "build:deploy": "cd ../client && npm install && npm run build && xcopy /s /y /i build ..\\server\\build && rmdir /s /q build && cd ../server",
-    "build:dev": "cd ../client && npm install && npm run build && xcopy /s /y /i build ..\\server\\build && rmdir /s /q build && cd ../server && npm run dev"
+    "build:dev": "cd ../client && npm install && npm run build && xcopy /s /y /i build ..\\server\\build && rmdir /s /q build && cd ../server && npm run dev",
+    "connect:db": "flyctl postgres connect -a tictactoe-online-db",
+    "start:proxy": "flyctl proxy 5432 -a tictactoe-online-db"
   },
   "author": "",
   "license": "ISC",
