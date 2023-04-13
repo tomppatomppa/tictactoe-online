@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom'
 
 const Navbar = () => {
   const [user, setUser] = useState(null)
-  //if user show other
+
   const handleLogin = () => {
     setUser('tomi')
   }
   const handleLogout = () => {
     setUser(null)
   }
+
   const loggedInMenu = () => {
     return (
       <div className="flex gap-4">
@@ -20,7 +21,7 @@ const Navbar = () => {
     )
   }
   return (
-    <nav className="w-full bg-blue-200 flex justify-end">
+    <nav className="w-full bg-blue-200 flex justify-end p-4">
       {user ? loggedInMenu() : <Link onClick={handleLogin}>login</Link>}
     </nav>
   )
