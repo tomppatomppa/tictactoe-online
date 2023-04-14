@@ -1,9 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
-const Navbar = () => {
-  const [user, setUser] = useState(null)
-
+const Navbar = ({ user, setUser }) => {
   const handleLogin = () => {
     setUser('tomi')
   }
@@ -14,8 +12,9 @@ const Navbar = () => {
   const loggedInMenu = () => {
     return (
       <div className="flex gap-4">
-        <Link>Profile</Link>
-        <Link>Leaderboards</Link>
+        <Link to={'/games'}>Games</Link>
+        <Link to={'/leaderboard'}>Leaderboards</Link>
+        <Link to={'/profile'}>Profile</Link>
         <Link onClick={handleLogout}>logout</Link>
       </div>
     )

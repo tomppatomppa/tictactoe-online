@@ -1,5 +1,6 @@
 import React from 'react'
-import LeaderboardList from '../components/LeaderboardList'
+import LeaderboardTable from '../components/LeaderboardTable'
+
 const data = [
   { ranking: 1, name: 'Team A', wins: 10, losses: 2, ties: 3 },
   { ranking: 2, name: 'Team B', wins: 8, losses: 4, ties: 3 },
@@ -11,7 +12,7 @@ const data = [
 const Leaderboard = () => {
   return (
     <div className="flex justify-center">
-      <LeaderboardList players={data} />
+      <LeaderboardTable players={data} />
     </div>
   )
 }

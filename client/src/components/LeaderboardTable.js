@@ -1,6 +1,6 @@
 import React from 'react'
 
-const LeaderboardListItem = ({ player }) => {
+const LeaderboardTableItem = ({ player }) => {
   return (
     <tr key={player.ranking}>
       <td className="border px-4 py-2">{player.ranking}</td>
@@ -15,7 +15,7 @@ const LeaderboardListItem = ({ player }) => {
   )
 }
 
-const LeaderboardList = ({ players }) => {
+const LeaderboardTable = ({ players }) => {
   return (
     <div className="overflow-x-auto">
       <table className="table-auto text-left">
@@ -31,7 +31,7 @@ const LeaderboardList = ({ players }) => {
         </thead>
         <tbody>
           {players.map((player, index) => (
-            <LeaderboardListItem key={index} player={player} />
+            <LeaderboardTableItem key={index} player={player} />
           ))}
         </tbody>
       </table>
@@ -39,4 +39,4 @@ const LeaderboardList = ({ players }) => {
   )
 }
 
-export default LeaderboardList
+export default LeaderboardTable

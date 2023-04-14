@@ -1,23 +1,46 @@
-import { Navigate, Outlet, Route, Routes, useNavigate } from 'react-router-dom'
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
-import Game from './pages/Game'
-import { useState } from 'react'
+import Games from './pages/Games'
+import { useEffect, useState } from 'react'
 import Navbar from './components/Navbar'
 import Leaderboard from './pages/Leaderboard'
+import Profile from './pages/Profile'
+import useSocket from './hooks/useSocket'
 
 function App() {
   const [user, setUser] = useState(null)
+  const socket = useSocket()
+
+  const sendEvent = () => {
+    socket.emit('hello', 'hello there')
+  }
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('get-all-users', (message) => {
+        console.log(message)
+      })
+    }
+  }, [socket])
+
   return (
     <div className="App">
-      <Navbar />
+      <Navbar user={user} setUser={setUser} />
+      <button className="bg-red-200" onClick={sendEvent}>
+        click
+      </button>
       <Routes>
+        <Route path="/" element={<Leaderboard />} />
         <Route path="*" element={<Leaderboard />} />
-        <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="leaderboard" element={<Leaderboard />} />
         <Route
-          element={<ProtectedRoute isAllowed={user} redirectPath="/login" />}
+          element={
+            <ProtectedRoute isAllowed={user} redirectPath="leaderboard" />
+          }
         >
-          <Route path="/game" element={<Game />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="games" element={<Games />} />
+          <Route path="home" element={<Home />} />
         </Route>
       </Routes>
     </div>
