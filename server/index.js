@@ -44,7 +44,9 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'))
 })
 
+//needed for localhost only
 io.listen(4000)
+
 const start = async () => {
   await connectToDatabase()
   httpServer.listen(PORT, () => {

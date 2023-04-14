@@ -3,12 +3,19 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import App from './App'
 import { BrowserRouter } from 'react-router-dom'
+import LocalStorageContext from './contexts/LocalStorageContext'
+import LocalStorage from './utils/localStorage'
+
 const root = ReactDOM.createRoot(document.getElementById('root'))
+
+const authstorage = new LocalStorage()
 
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <LocalStorageContext.Provider value={authstorage}>
+        <App />
+      </LocalStorageContext.Provider>
     </BrowserRouter>
   </React.StrictMode>
 )

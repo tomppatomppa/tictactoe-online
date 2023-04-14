@@ -28,9 +28,9 @@ const Games = () => {
     }
     fetchData()
   }, [])
-  console.log('games')
+
   return (
-    <div>
+    <div className='flex flex-col items-center'>
       Games
       <div>
         <OnlineGamesList games={onlineGames} />
