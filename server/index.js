@@ -24,9 +24,14 @@ const usersRouter = require('./controllers/users')
 const gamesRouter = require('./controllers/games')
 const sessionsRouter = require('./controllers/sessions')
 
+app.use((req, res, next) => {
+  res.set('Cache-Control', 'no-cache')
+  next()
+})
 app.use(cors())
 app.use(express.json())
-app.use(express.static(path.join(__dirname, 'build')))
+app.use(express.static(path.join(__dirname, './build')))
+
 app.use(socketMiddleware(io))
 
 app.use('/api/users', usersRouter)
@@ -35,7 +40,7 @@ app.use('/api', sessionsRouter)
 
 app.use(errorHandler)
 
-app.get('/*', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'))
 })
 

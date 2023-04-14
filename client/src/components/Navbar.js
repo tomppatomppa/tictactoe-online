@@ -11,7 +11,7 @@ const Navbar = ({ user, setUser }) => {
 
   const loggedInMenu = () => {
     return (
-      <div className="flex gap-4">
+      <div className='flex gap-4'>
         <Link to={'/games'}>Games</Link>
         <Link to={'/'}>Leaderboards</Link>
         <Link to={'/profile'}>Profile</Link>
@@ -20,7 +20,7 @@ const Navbar = ({ user, setUser }) => {
     )
   }
   return (
-    <nav className="w-full bg-blue-200 flex justify-end p-4">
+    <nav className='w-full bg-blue-200 flex justify-end p-4'>
       {user ? loggedInMenu() : <Link onClick={handleLogin}>login</Link>}
     </nav>
   )

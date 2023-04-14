@@ -33,18 +33,18 @@ function App() {
   }, [socket])
 
   return (
-    <div className="App">
+    <div className='App'>
       <Navbar user={user} setUser={setUser} />
-      <button className="bg-red-200" onClick={sendEvent}>
+      <button className='bg-red-200' onClick={sendEvent}>
         click
       </button>
       <Routes>
-        <Route path="*" element={<Leaderboard />} />
-        <Route path="" element={<Leaderboard />} />
-        <Route element={<ProtectedRoute isAllowed={user} redirectPath="" />}>
-          <Route path="profile" element={<Profile />} />
-          <Route path="games" element={<Games />} />
-          <Route path="home" element={<Home />} />
+        <Route path='*' element={<Leaderboard />} />
+        <Route path='/' element={<Leaderboard />} />
+        <Route element={<ProtectedRoute isAllowed={user} redirectPath='/' />}>
+          <Route path='profile' element={<Profile />} />
+          <Route path='games' element={<Games />} />
+          <Route path='home' element={<Home />} />
         </Route>
       </Routes>
     </div>
