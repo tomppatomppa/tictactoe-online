@@ -4,7 +4,7 @@ import useCurrentUser from '../hooks/useCurrentUser'
 import useLogin from '../hooks/useLogin'
 
 const Navbar = () => {
-  const { user, setUser } = useCurrentUser()
+  const { user, resetCurrentUser } = useCurrentUser()
   const login = useLogin()
 
   const handleLogin = () => {
@@ -12,12 +12,13 @@ const Navbar = () => {
   }
 
   const handleLogout = () => {
-    setUser(null)
+    resetCurrentUser()
   }
 
   const loggedInMenu = () => {
     return (
       <div className='flex gap-4'>
+        <div>Current User : {user.username}</div>
         <Link to={'/games'}>Games</Link>
         <Link to={'/'}>Leaderboards</Link>
         <Link to={'/profile'}>Profile</Link>
