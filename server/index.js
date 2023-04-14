@@ -22,6 +22,7 @@ const { PORT } = require('./util/config')
 
 const usersRouter = require('./controllers/users')
 const gamesRouter = require('./controllers/games')
+const loginRouter = require('./controllers/login')
 
 app.use(cors())
 app.use(express.json())
@@ -29,6 +30,7 @@ app.use(express.static(path.join(__dirname, 'build')))
 app.use(socketMiddleware(io))
 
 app.use('/api/users', usersRouter)
+app.use('/api/login', loginRouter)
 app.use('/api/games', gamesRouter)
 app.use(errorHandler)
 
