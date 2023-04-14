@@ -2,7 +2,14 @@ const { Model, DataTypes } = require('sequelize')
 
 const { sequelize } = require('../util/database')
 
-class User extends Model {}
+class User extends Model {
+  toJSON() {
+    // exclude passwordHash by default
+    let attributes = Object.assign({}, this.get())
+    delete attributes.passwordHash
+    return attributes
+  }
+}
 
 User.init(
   {
@@ -15,6 +22,11 @@ User.init(
       type: DataTypes.STRING,
       unique: true,
       allowNull: false,
+    },
+    passwordHash: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
     },
   },
   {
