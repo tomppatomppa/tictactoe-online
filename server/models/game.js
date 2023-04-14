@@ -31,7 +31,7 @@ Game.init(
     },
     moves: {
       type: DataTypes.ARRAY(DataTypes.ARRAY(DataTypes.INTEGER)),
-      default: [],
+      defaultValue: [],
     },
     gridSize: {
       type: DataTypes.INTEGER,

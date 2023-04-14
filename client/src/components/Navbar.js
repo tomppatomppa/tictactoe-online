@@ -13,7 +13,7 @@ const Navbar = ({ user, setUser }) => {
     return (
       <div className="flex gap-4">
         <Link to={'/games'}>Games</Link>
-        <Link to={'/leaderboard'}>Leaderboards</Link>
+        <Link to={'/'}>Leaderboards</Link>
         <Link to={'/profile'}>Profile</Link>
         <Link onClick={handleLogout}>logout</Link>
       </div>

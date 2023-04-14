@@ -1,3 +1,5 @@
+const { User, Session } = require('../models')
+
 const socketMiddleware = (io) => {
   const onConnection = (socket) => {
     socket.on('disconnect', () => {
@@ -37,4 +39,32 @@ const errorHandler = (error, req, res, next) => {
   next(error)
 }
 
-module.exports = { socketMiddleware, errorHandler }
+const sessionFrom = async (token) => {
+  return await Session.findOne({
+    where: {
+      token,
+    },
+    include: {
+      model: User,
+    },
+  })
+}
+
+const userFromToken = async (req, res, next) => {
+  const authorization = req.get('authorization')
+  if (!authorization || !authorization.toLowerCase().startsWith('bearer ')) {
+    return res.status(401).json({ error: 'token missing' })
+  }
+
+  const session = await sessionFrom(authorization.substring(7))
+
+  if (!session) {
+    return res.status(401).json({ error: 'no valid session' })
+  }
+
+  req.user = session.user
+
+  next()
+}
+
+module.exports = { socketMiddleware, errorHandler, userFromToken }

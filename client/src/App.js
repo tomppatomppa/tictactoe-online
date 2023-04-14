@@ -6,13 +6,22 @@ import Navbar from './components/Navbar'
 import Leaderboard from './pages/Leaderboard'
 import Profile from './pages/Profile'
 import useSocket from './hooks/useSocket'
+import gameServices from './services/gamesService'
 
 function App() {
   const [user, setUser] = useState(null)
   const socket = useSocket()
 
-  const sendEvent = () => {
+  const sendEvent = async () => {
     socket.emit('hello', 'hello there')
+    console.log('here')
+    try {
+      const response = await gameServices.getAll()
+
+      console.log(response)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   useEffect(() => {
@@ -30,14 +39,9 @@ function App() {
         click
       </button>
       <Routes>
-        <Route path="/" element={<Leaderboard />} />
         <Route path="*" element={<Leaderboard />} />
-        <Route path="leaderboard" element={<Leaderboard />} />
-        <Route
-          element={
-            <ProtectedRoute isAllowed={user} redirectPath="leaderboard" />
-          }
-        >
+        <Route path="" element={<Leaderboard />} />
+        <Route element={<ProtectedRoute isAllowed={user} redirectPath="" />}>
           <Route path="profile" element={<Profile />} />
           <Route path="games" element={<Games />} />
           <Route path="home" element={<Home />} />
