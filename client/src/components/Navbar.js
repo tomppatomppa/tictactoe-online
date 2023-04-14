@@ -1,10 +1,16 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import useCurrentUser from '../hooks/useCurrentUser'
+import useLogin from '../hooks/useLogin'
 
-const Navbar = ({ user, setUser }) => {
+const Navbar = () => {
+  const { user, setUser } = useCurrentUser()
+  const login = useLogin()
+
   const handleLogin = () => {
-    setUser('tomi')
+    login({ username: 'tomi', password: 'password' })
   }
+
   const handleLogout = () => {
     setUser(null)
   }

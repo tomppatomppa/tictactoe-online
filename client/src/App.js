@@ -7,17 +7,25 @@ import Leaderboard from './pages/Leaderboard'
 import Profile from './pages/Profile'
 import useSocket from './hooks/useSocket'
 import gameServices from './services/gamesService'
+import { useLocalStorage } from './hooks/useLocalStorage'
+import useCurrentUser from './hooks/useCurrentUser'
 
 function App() {
-  const [user, setUser] = useState(null)
+  const { user, setUser } = useCurrentUser()
   const socket = useSocket()
+  const authstorage = useLocalStorage()
+
+  useEffect(() => {
+    const user = authstorage.getAccessToken()
+    if (user) {
+      setUser(user)
+    }
+  }, [])
 
   const sendEvent = async () => {
     socket.emit('hello', 'hello there')
-    console.log('here')
     try {
       const response = await gameServices.getAll()
-
       console.log(response)
     } catch (e) {
       console.log(e)
@@ -34,7 +42,7 @@ function App() {
 
   return (
     <div className='App'>
-      <Navbar user={user} setUser={setUser} />
+      <Navbar />
       <button className='bg-red-200' onClick={sendEvent}>
         click
       </button>
