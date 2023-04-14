@@ -1,3 +1,6 @@
 const User = require('./user')
+const Game = require('./game')
 
-module.exports = { User }
+User.hasMany(Game)
+
+module.exports = { User, Game }

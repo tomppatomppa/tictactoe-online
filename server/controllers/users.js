@@ -7,4 +7,10 @@ router.get('/', async (req, res) => {
   res.status(200).json(allUsers)
 })
 
+router.post('/', async (req, res) => {
+  const createdUser = await User.create(req.body)
+
+  return res.status(200).json(createdUser)
+})
+
 module.exports = router
