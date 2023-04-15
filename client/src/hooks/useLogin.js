@@ -1,7 +1,5 @@
-import React from 'react'
 import useCurrentUser from './useCurrentUser'
 import loginServices from '../services/loginService'
-import { useLocalStorage } from './useLocalStorage'
 
 const useLogin = () => {
   const { setCurrentUser } = useCurrentUser()

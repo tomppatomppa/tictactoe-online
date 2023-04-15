@@ -3,7 +3,6 @@ import axios from 'axios'
 const baseUri = '/api/login'
 
 const login = async ({ username, password }) => {
-  console.log(username, password)
   const { data } = await axios.post(baseUri, { username, password })
   return data
 }

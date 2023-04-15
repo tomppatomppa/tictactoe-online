@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import gameServices from '../services/gamesService'
+import CreateGame from '../components/CreateGame'
 
 const OnlineGamesList = ({ games }) => {
   return (
-    <div>
+    <div className="border">
       {games.map((game) => (
-        <div key={game.id}>{game.id}</div>
+        <div key={game.id}>
+          {game.id} {game.type}
+        </div>
       ))}
     </div>
   )
@@ -30,10 +33,11 @@ const Games = () => {
   }, [])
 
   return (
-    <div className='flex flex-col items-center'>
+    <div className="flex flex-col items-center">
       Games
       <div>
         <OnlineGamesList games={onlineGames} />
+        <CreateGame />
       </div>
     </div>
   )

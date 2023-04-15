@@ -11,8 +11,9 @@ export const CurrentUserProvider = ({ children }) => {
 
   const setCurrentUser = (user) => {
     setUser(user)
-    authstorage.setAccessToken(user)
+    authstorage.setAccessToken(JSON.stringify(user))
   }
+
   const resetCurrentUser = () => {
     setUser(null)
     authstorage.removeAccessToken()

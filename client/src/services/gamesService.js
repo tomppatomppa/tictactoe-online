@@ -7,6 +7,15 @@ const getAll = async () => {
   return data
 }
 
-const gameServices = { getAll }
+const create = async (game, token) => {
+  const { data } = await axios.post(baseUri, game, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  return data
+}
+
+const gameServices = { getAll, create }
 
 export default gameServices

@@ -15,11 +15,16 @@ function App() {
   const socket = useSocket()
   const authstorage = useLocalStorage()
 
-  useEffect(() => {
+  const setUserLogin = () => {
     const user = authstorage.getAccessToken()
     if (user) {
-      setUser(user)
+      setUser(JSON.parse(user))
     }
+  }
+
+  useEffect(() => {
+    setUserLogin()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const sendEvent = async () => {
@@ -41,18 +46,18 @@ function App() {
   }, [socket])
 
   return (
-    <div className='App'>
+    <div className="App">
       <Navbar />
-      <button className='bg-red-200' onClick={sendEvent}>
+      <button className="bg-red-200" onClick={sendEvent}>
         click
       </button>
       <Routes>
-        <Route path='*' element={<Leaderboard />} />
-        <Route path='/' element={<Leaderboard />} />
-        <Route element={<ProtectedRoute isAllowed={user} redirectPath='/' />}>
-          <Route path='profile' element={<Profile />} />
-          <Route path='games' element={<Games />} />
-          <Route path='home' element={<Home />} />
+        <Route path="*" element={<Leaderboard />} />
+        <Route path="/" element={<Leaderboard />} />
+        <Route element={<ProtectedRoute isAllowed={user} redirectPath="/" />}>
+          <Route path="profile" element={<Profile />} />
+          <Route path="games" element={<Games />} />
+          <Route path="home" element={<Home />} />
         </Route>
       </Routes>
     </div>

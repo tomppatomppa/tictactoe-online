@@ -10,6 +10,7 @@ router.get('/', async (req, res) => {
 router.post('/', userFromToken, async (req, res) => {
   const createdGame = await Game.create({
     ...req.body,
+    userId: req.user.id,
     inTurn: req.user.id,
     player1: req.user.id,
   })

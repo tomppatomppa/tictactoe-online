@@ -39,6 +39,7 @@ Game.init(
     },
     isFinished: {
       type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
     winner: {
       type: DataTypes.INTEGER,
