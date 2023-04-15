@@ -15,7 +15,18 @@ const create = async (game, token) => {
   })
   return data
 }
-
-const gameServices = { getAll, create }
+const join = async (id, token) => {
+  const { data } = await axios.put(
+    `${baseUri}/${id}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
+  return data
+}
+const gameServices = { getAll, create, join }
 
 export default gameServices

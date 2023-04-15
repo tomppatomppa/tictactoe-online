@@ -1,62 +1,30 @@
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import Games from './pages/Games'
-import { useEffect, useState } from 'react'
 import Navbar from './components/Navbar'
 import Leaderboard from './pages/Leaderboard'
 import Profile from './pages/Profile'
 import useSocket from './hooks/useSocket'
-import gameServices from './services/gamesService'
-import { useLocalStorage } from './hooks/useLocalStorage'
+
 import useCurrentUser from './hooks/useCurrentUser'
+import useLogin from './hooks/useLogin'
+import useGames from './hooks/useGames'
 
 function App() {
-  const { user, setUser } = useCurrentUser()
   const socket = useSocket()
-  const authstorage = useLocalStorage()
-
-  const setUserLogin = () => {
-    const user = authstorage.getAccessToken()
-    if (user) {
-      setUser(JSON.parse(user))
-    }
-  }
-
-  useEffect(() => {
-    setUserLogin()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const sendEvent = async () => {
-    socket.emit('hello', 'hello there')
-    try {
-      const response = await gameServices.getAll()
-      console.log(response)
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  useEffect(() => {
-    if (socket) {
-      socket.on('get-all-users', (message) => {
-        console.log(message)
-      })
-    }
-  }, [socket])
+  const { user } = useCurrentUser()
+  const { onlineGames } = useGames(socket)
+  useLogin()
 
   return (
     <div className="App">
       <Navbar />
-      <button className="bg-red-200" onClick={sendEvent}>
-        click
-      </button>
       <Routes>
         <Route path="*" element={<Leaderboard />} />
         <Route path="/" element={<Leaderboard />} />
         <Route element={<ProtectedRoute isAllowed={user} redirectPath="/" />}>
           <Route path="profile" element={<Profile />} />
-          <Route path="games" element={<Games />} />
+          <Route path="games" element={<Games onlineGames={onlineGames} />} />
           <Route path="home" element={<Home />} />
         </Route>
       </Routes>

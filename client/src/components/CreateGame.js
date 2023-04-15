@@ -5,10 +5,10 @@ import useCurrentUser from '../hooks/useCurrentUser'
 const CreateGame = () => {
   const { user } = useCurrentUser()
 
-  const createNewGame = async () => {
+  const createNewGame = async (type) => {
     try {
       const game = await gameServices.create(
-        { type: 'online', gridSize: 4 },
+        { type: type, gridSize: 4 },
         user.token
       )
       console.log(game)
@@ -16,7 +16,20 @@ const CreateGame = () => {
       console.log(e)
     }
   }
-  return <button onClick={createNewGame}>CreateGame</button>
+  const handleCreateOnline = () => {
+    createNewGame('online')
+  }
+
+  const handleCreateLocal = () => {
+    createNewGame('local')
+  }
+
+  return (
+    <>
+      <button onClick={handleCreateLocal}>CreateGame</button>
+      <button onClick={handleCreateOnline}>create online game</button>
+    </>
+  )
 }
 
 export default CreateGame

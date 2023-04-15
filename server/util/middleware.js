@@ -1,7 +1,11 @@
 const { User, Session } = require('../models')
 
+const registerGameHandlers = require('./socketHandlers.js/gameHandler')
+
 const socketMiddleware = (io) => {
   const onConnection = (socket) => {
+    registerGameHandlers(io, socket)
+
     socket.on('disconnect', () => {
       console.log('user disconnected')
     })
@@ -52,6 +56,7 @@ const sessionFrom = async (token) => {
 
 const userFromToken = async (req, res, next) => {
   const authorization = req.get('authorization')
+
   if (!authorization || !authorization.toLowerCase().startsWith('bearer ')) {
     return res.status(401).json({ error: 'token missing' })
   }

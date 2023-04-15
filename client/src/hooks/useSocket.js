@@ -16,6 +16,12 @@ const useSocket = () => {
     }
   }, [])
 
+  useEffect(() => {
+    if (socket) {
+      socket.emit('get-initial-games', 'get')
+    }
+  }, [socket])
+
   return socket
 }
 
