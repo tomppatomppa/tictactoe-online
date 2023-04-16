@@ -4,7 +4,7 @@ const Session = require('./session')
 
 User.hasMany(Session)
 User.hasMany(Game)
-
+Game.belongsTo(User, { foreignKey: 'userId' })
 Session.belongsTo(User)
 
 User.sync()

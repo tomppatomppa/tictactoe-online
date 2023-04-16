@@ -13,7 +13,7 @@ import useGames from './hooks/useGames'
 function App() {
   const socket = useSocket()
   const { user } = useCurrentUser()
-  const { onlineGames } = useGames(socket)
+  const { onlineGames } = useGames(socket, user)
   useLogin()
 
   return (

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
+import { isMyGame, isPlayerGame } from '../utils/helpers'
 
-const useGames = (socket) => {
+const useGames = (socket, user) => {
   const [onlineGames, setOnlineGames] = useState([])
 
   const updateGame = (updatedGame) => {
@@ -15,7 +16,13 @@ const useGames = (socket) => {
       return updatedGames
     })
   }
-
+  const removeGame = (updatedGame) => {
+    const { id } = updatedGame
+    setOnlineGames((prevGames) => {
+      const filteredGames = prevGames.filter((game) => game.id !== id)
+      return filteredGames
+    })
+  }
   useEffect(() => {
     if (socket) {
       socket.on('initial-game-state', (allGames) => {
@@ -25,7 +32,11 @@ const useGames = (socket) => {
         setOnlineGames((prevGames) => [...prevGames, createdGame])
       })
       socket.on('player-joined-game', (joinedGame) => {
-        updateGame(joinedGame)
+        if (isMyGame(joinedGame, user) || isPlayerGame(joinedGame, user)) {
+          updateGame(joinedGame)
+        } else {
+          removeGame(joinedGame)
+        }
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

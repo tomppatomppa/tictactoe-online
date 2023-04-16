@@ -25,10 +25,10 @@ const CreateGame = () => {
   }
 
   return (
-    <>
+    <div>
       <button onClick={handleCreateLocal}>CreateGame</button>
       <button onClick={handleCreateOnline}>create online game</button>
-    </>
+    </div>
   )
 }
 

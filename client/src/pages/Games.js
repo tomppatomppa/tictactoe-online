@@ -5,9 +5,7 @@ import CreateGame from '../components/CreateGame'
 import useCurrentUser from '../hooks/useCurrentUser'
 import gameServices from '../services/gamesService'
 
-const OnlineGamesList = ({ games }) => {
-  const { user } = useCurrentUser()
-
+const OnlineGamesList = ({ user, games }) => {
   //Check if user is a player in the game
   //If not creator show join game button
   //When the game has 2 players show Play button
@@ -20,13 +18,21 @@ const OnlineGamesList = ({ games }) => {
     }
   }
   const GameItem = ({ game }) => {
-    if (game.userId === user.id) {
+    const { player1, player2 } = game
+    const isMyGame = user.id === game.userId ? true : false
+    const isPlayable = player2 === null ? false : true
+
+    if (isMyGame) {
       return (
-        <div>
-          {game.id} waiting for a player to join your game
+        <div className="flex hover:bg-green-200">
+          <span className="flex-1">
+            {isPlayable
+              ? 'Go and play'
+              : `${game.id} waiting for a player to join...`}
+          </span>
           {game.player2 && (
             <button className="bg-green-300 border rounded-md px-2 animate-pulse">
-              start
+              Play
             </button>
           )}
         </div>
@@ -37,8 +43,7 @@ const OnlineGamesList = ({ games }) => {
         <span className="flex-1">
           GameId: {game.id} type: {game.type}
         </span>
-
-        {!game.player2 ? (
+        {!player2 ? (
           <button
             onClick={() => handleJoinGame(game.id)}
             className="bg-blue-300 border rounded-md px-2 animate-pulse"
@@ -64,13 +69,36 @@ const OnlineGamesList = ({ games }) => {
     </div>
   )
 }
+const MyGames = ({ user, myGames }) => {
+  return (
+    <div className="flex flex-col">
+      <OnlineGamesList user={user} games={myGames} />
+    </div>
+  )
+}
 const Games = ({ onlineGames }) => {
+  const { user } = useCurrentUser()
+
+  const myGames = onlineGames.filter(
+    (game) => game.userId === user.id || game.player2 === user.id
+  )
+  const joinableGames = onlineGames.filter(
+    (game) => game.userId !== user.id && game.player2 !== user.id
+  )
   return (
     <div className="flex flex-col items-center">
       Games Lobby
-      <div>
-        <OnlineGamesList games={onlineGames} />
+      <div className="flex gap-12">
+        <div>
+          <span>public games</span>
+          <OnlineGamesList user={user} games={joinableGames} />
+        </div>
+
         <CreateGame />
+        <div>
+          <span>my games</span>
+          <MyGames user={user} myGames={myGames} />
+        </div>
       </div>
     </div>
   )

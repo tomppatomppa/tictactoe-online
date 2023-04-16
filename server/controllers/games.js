@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Game } = require('../models/index')
+const { Game, User } = require('../models/index')
 const { userFromToken } = require('../util/middleware')
 
 router.get('/', async (req, res) => {
@@ -21,7 +21,6 @@ router.post('/', userFromToken, async (req, res) => {
 })
 
 router.put('/:id', userFromToken, async (req, res) => {
-  //const game = await Game.findByPk(req.params.id)
   const result = await Game.update(
     {
       player2: req.user.id,
@@ -42,7 +41,13 @@ router.put('/:id', userFromToken, async (req, res) => {
   if (req.io) {
     req.io.emit('player-joined-game', updatedGame)
   }
+
   res.status(200).json(updatedGame)
 })
-
+router.delete('/', async (req, res) => {
+  await Game.destroy({
+    where: {},
+  })
+  return res.status(200).json('Deleted all games')
+})
 module.exports = router
