@@ -16,9 +16,8 @@ const GameBoard = () => {
       <h2>Previous Move: {message}</h2>
       <h2 className="text-blue-400">inTurn {gameState?.inTurn}</h2>
       <h2 className="text-green-400">winner {gameState?.winner}</h2>
-      {/* <button onClick={handleAction}>ACTION</button> */}
+
       <Grid gameState={gameState} handleAction={makeMove} />
-      {/* <button onClick={sendEvent}>test</button> */}
     </div>
   )
 }

@@ -40,7 +40,11 @@ const makeMove = async (id, move, token) => {
   )
   return data
 }
+const getLeaderboard = async () => {
+  const { data } = await axios.get(`${baseUri}`)
+  return data
+}
 
-const gameServices = { getAll, create, join, makeMove }
+const gameServices = { getAll, create, join, makeMove, getLeaderboard }
 
 export default gameServices

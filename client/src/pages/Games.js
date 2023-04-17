@@ -21,7 +21,7 @@ const OnlineGamesList = ({ user, games }) => {
     }
   }
   const GameItem = ({ game }) => {
-    const { player2, type } = game
+    const { player2, type, isFinished } = game
     const isOnline = type === 'online' ? true : false
     const isPlayable = player2 === null ? false : true
 
@@ -34,7 +34,9 @@ const OnlineGamesList = ({ user, games }) => {
         >
           <span className="flex-1">
             {isPlayable
-              ? 'Go and play'
+              ? isFinished
+                ? `${game.id} ENDED`
+                : `${game.id} Ready To Play`
               : `${game.id} waiting for a player to join...`}
           </span>
           {player2 && (

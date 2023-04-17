@@ -23,17 +23,20 @@ const { PORT } = require('./util/config')
 const usersRouter = require('./controllers/users')
 const gamesRouter = require('./controllers/games')
 const sessionsRouter = require('./controllers/sessions')
+const leaderboardsRouter = require('./controllers/leaderboards')
 
 app.use((req, res, next) => {
   res.set('Cache-Control', 'no-cache')
   next()
 })
+
 app.use(cors())
 app.use(express.json())
 app.use(express.static(path.join(__dirname, './build')))
 
 app.use(socketMiddleware(io))
 
+app.use('/api/leaderboards', leaderboardsRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/games', gamesRouter)
 app.use('/api', sessionsRouter)
