@@ -4,12 +4,15 @@ import CreateGame from '../components/CreateGame'
 
 import useCurrentUser from '../hooks/useCurrentUser'
 import gameServices from '../services/gamesService'
+import { isMyGame } from '../utils/helpers'
+import { useNavigate } from 'react-router-dom'
 
 const OnlineGamesList = ({ user, games }) => {
-  //Check if user is a player in the game
-  //If not creator show join game button
-  //When the game has 2 players show Play button
+  const navigate = useNavigate()
 
+  const handleStartGame = (id) => {
+    navigate(`/games/${id}`)
+  }
   const handleJoinGame = async (id) => {
     try {
       await gameServices.join(id, user.token)
@@ -18,20 +21,27 @@ const OnlineGamesList = ({ user, games }) => {
     }
   }
   const GameItem = ({ game }) => {
-    const { player1, player2 } = game
-    const isMyGame = user.id === game.userId ? true : false
+    const { player2, type } = game
+    const isOnline = type === 'online' ? true : false
     const isPlayable = player2 === null ? false : true
 
-    if (isMyGame) {
+    if (isMyGame(game, user)) {
       return (
-        <div className="flex hover:bg-green-200">
+        <div
+          className={`flex ${
+            isOnline ? 'bg-transparent' : 'bg-orange-200'
+          } hover:bg-green-200`}
+        >
           <span className="flex-1">
             {isPlayable
               ? 'Go and play'
               : `${game.id} waiting for a player to join...`}
           </span>
-          {game.player2 && (
-            <button className="bg-green-300 border rounded-md px-2 animate-pulse">
+          {player2 && (
+            <button
+              onClick={() => handleStartGame(game.id)}
+              className="bg-green-300 border rounded-md px-2 animate-pulse"
+            >
               Play
             </button>
           )}
@@ -52,7 +62,7 @@ const OnlineGamesList = ({ user, games }) => {
           </button>
         ) : (
           <button
-            onClick={() => console.log('play')}
+            onClick={() => handleStartGame(game.id)}
             className="bg-blue-300 border rounded-md px-2 animate-pulse"
           >
             Play
@@ -93,7 +103,6 @@ const Games = ({ onlineGames }) => {
           <span>public games</span>
           <OnlineGamesList user={user} games={joinableGames} />
         </div>
-
         <CreateGame />
         <div>
           <span>my games</span>

@@ -27,6 +27,20 @@ const join = async (id, token) => {
   )
   return data
 }
-const gameServices = { getAll, create, join }
+
+const makeMove = async (id, move, token) => {
+  const { data } = await axios.post(
+    `${baseUri}/${id}`,
+    { move },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
+  return data
+}
+
+const gameServices = { getAll, create, join, makeMove }
 
 export default gameServices

@@ -9,6 +9,7 @@ import useSocket from './hooks/useSocket'
 import useCurrentUser from './hooks/useCurrentUser'
 import useLogin from './hooks/useLogin'
 import useGames from './hooks/useGames'
+import GameBoard from './components/GameBoard'
 
 function App() {
   const socket = useSocket()
@@ -25,6 +26,7 @@ function App() {
         <Route element={<ProtectedRoute isAllowed={user} redirectPath="/" />}>
           <Route path="profile" element={<Profile />} />
           <Route path="games" element={<Games onlineGames={onlineGames} />} />
+          <Route path="games/:id" element={<GameBoard />} />
           <Route path="home" element={<Home />} />
         </Route>
       </Routes>

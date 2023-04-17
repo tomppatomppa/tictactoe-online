@@ -1,4 +1,5 @@
-const { User, Session } = require('../models')
+const { compareCoords } = require('../games/tic-tac-toe')
+const { User, Session, Game } = require('../models')
 
 const registerGameHandlers = require('./socketHandlers.js/gameHandler')
 
@@ -8,9 +9,6 @@ const socketMiddleware = (io) => {
 
     socket.on('disconnect', () => {
       console.log('user disconnected')
-    })
-    socket.on('hello', (msg) => {
-      console.log(msg)
     })
   }
 
@@ -72,4 +70,44 @@ const userFromToken = async (req, res, next) => {
   next()
 }
 
-module.exports = { socketMiddleware, errorHandler, userFromToken }
+const validateMoveMiddleware = async (req, res, next) => {
+  const { id } = req.params
+  const { user } = req
+
+  if (!req.body.move) {
+    return res.status(400).json({ error: 'No move' })
+  }
+
+  const game = await Game.findByPk(id)
+
+  if (!game) {
+    return res.status(400).json({ error: 'Invalid Game Room' + id })
+  }
+  if (game.isFinished) {
+    return res.status(400).json({ error: 'Game has finished' })
+  }
+  const { type, player1, player2 } = game
+
+  if (type === 'local') {
+    req.game = game
+    return next()
+  }
+
+  if (user.id !== player1 && user.id !== player2) {
+    return res.status(400).json({ error: 'Permission to play denied' })
+  }
+
+  if (game.inTurn !== user.id) {
+    return res.status(400).json({ error: 'Not your turn' })
+  }
+  //TODO:check for duplicate coords
+  req.game = game
+
+  next()
+}
+module.exports = {
+  socketMiddleware,
+  errorHandler,
+  userFromToken,
+  validateMoveMiddleware,
+}
