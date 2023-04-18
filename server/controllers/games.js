@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const { Sequelize, Op } = require('sequelize')
 const { checkGame, nextInTurn, isLastMove } = require('../games/tic-tac-toe')
 const { Game, Leaderboard } = require('../models/index')
 const { userFromToken, validateMoveMiddleware } = require('../util/middleware')
@@ -28,31 +29,26 @@ router.post('/', async (req, res) => {
 const addToLeaderboard = async (game) => {
   const { player1, player2, winner } = game
 
-  if (!winner) {
+  if (winner !== null) {
     await Leaderboard.update(
-      { wins: sequelize.literal('ties + 1') },
-      {
-        where: { userId: player1 },
-      }
-    )
-    await Leaderboard.update(
-      { wins: sequelize.literal('ties + 1') },
-      {
-        where: { userId: player2 },
-      }
-    )
-  } else {
-    const losingPlayer = winner === player1 ? player1 : player2
-    await Leaderboard.update(
-      { wins: sequelize.literal('wins + 1') },
+      { wins: Sequelize.literal('wins + 1') },
       {
         where: { userId: winner },
       }
     )
     await Leaderboard.update(
-      { wins: sequelize.literal('losses + 1') },
+      { losses: Sequelize.literal('losses + 1') },
       {
-        where: { userId: losingPlayer },
+        where: { userId: winner === player1 ? player2 : player1 },
+      }
+    )
+  } else {
+    await Leaderboard.update(
+      { ties: Sequelize.literal('ties + 1') },
+      {
+        where: {
+          [Op.or]: [{ userId: player1 }, { userId: player2 }],
+        },
       }
     )
   }
@@ -65,6 +61,7 @@ router.post('/:id', validateMoveMiddleware, async (req, res) => {
   if (isLastMove(game)) {
     game.isFinished = true
   }
+
   if (checkGame(game, game.inTurn)) {
     game.isFinished = true
     game.winner = game.inTurn

@@ -23,9 +23,12 @@ router.post('/', async (req, res) => {
     username: username,
     passwordHash: passwordHash,
   })
+
   await Leaderboard.create({ userId: createdUser.id })
+
   return res.status(200).json(createdUser)
 })
+
 router.delete('/:id', async (req, res) => {
   try {
     await Leaderboard.destroy({

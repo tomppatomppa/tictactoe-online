@@ -33,26 +33,6 @@ module.exports = {
     [2, 1],
     [2, 3],
   ],
-  player1TieMoves: [
-    [0, 0],
-    [0, 1],
-    [0, 2],
-    [1, 3],
-    [2, 0],
-    [2, 1],
-    [2, 2],
-    [3, 3],
-  ],
-  player2TieMoves: [
-    [1, 0],
-    [1, 1],
-    [1, 2],
-    [0, 3],
-    [3, 0],
-    [3, 1],
-    [3, 2],
-    [2, 3],
-  ],
   defaultTieMoves: [
     [0, 0],
     [1, 0],
@@ -71,4 +51,10 @@ module.exports = {
     // [3, 3],
     // [2, 3],
   ],
+
+  defaultLeaderboardScore: {
+    wins: 15,
+    losses: 15,
+    ties: 5,
+  },
 }

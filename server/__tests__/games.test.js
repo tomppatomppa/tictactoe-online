@@ -13,17 +13,16 @@ const player2 = config.player2
 const player1Moves = config.player1Moves
 const player2Moves = config.player2Moves
 const player1LosingMoves = config.player1LosingMoves
-const player1TieMoves = config.player1TieMoves
-const player2TieMoves = config.player2TieMoves
 const gameOnline = config.gameOnline
 const defaultTieMoves = config.defaultTieMoves
 const baseUri = '/api/games'
 const player1Token = '1234'
 const player2Token = '4321'
 
-describe('POST /api/users', () => {
+describe('POST /api/games', () => {
   beforeAll(async () => {
     const saltRounds = 10
+
     const passwordHash1 = await bcrypt.hash(player1.password, saltRounds)
     const passwordHash2 = await bcrypt.hash(player2.password, saltRounds)
 
@@ -37,7 +36,8 @@ describe('POST /api/users', () => {
       username: player2.username,
       passwordHash: passwordHash2,
     })
-
+    await Leaderboard.create({ userId: player1.id })
+    await Leaderboard.create({ userId: player2.id })
     await Session.create({ token: player1Token, userId: player1.id })
     await Session.create({ token: player2Token, userId: player2.id })
   })
@@ -107,7 +107,28 @@ describe('POST /api/users', () => {
           .set('Authorization', `Bearer ${player2Token}`)
       }
       const gameMoves = await Game.findByPk(gameOnline.id)
+
       expect(gameMoves.winner).toEqual(player1.id)
+    })
+    test('leaderboard after game1', async () => {
+      const player1LeaderBoard = await Leaderboard.findOne({
+        where: {
+          userId: player1.id,
+        },
+      })
+      const player2LeaderBoard = await Leaderboard.findOne({
+        where: {
+          userId: player2.id,
+        },
+      })
+
+      expect(player1LeaderBoard.wins).toEqual(1)
+      expect(player1LeaderBoard.losses).toEqual(0)
+      expect(player1LeaderBoard.ties).toEqual(0)
+
+      expect(player2LeaderBoard.wins).toEqual(0)
+      expect(player2LeaderBoard.losses).toEqual(1)
+      expect(player2LeaderBoard.ties).toEqual(0)
     })
 
     test('Reset game state', async () => {
@@ -143,6 +164,25 @@ describe('POST /api/users', () => {
       expect(gameMoves.winner).toEqual(player2.id)
     })
   })
+  test('leaderboard after game2', async () => {
+    const player1LeaderBoard = await Leaderboard.findOne({
+      where: {
+        userId: player1.id,
+      },
+    })
+    const player2LeaderBoard = await Leaderboard.findOne({
+      where: {
+        userId: player2.id,
+      },
+    })
+    expect(player1LeaderBoard.wins).toEqual(1)
+    expect(player1LeaderBoard.losses).toEqual(1)
+    expect(player1LeaderBoard.ties).toEqual(0)
+
+    expect(player2LeaderBoard.wins).toEqual(1)
+    expect(player2LeaderBoard.losses).toEqual(1)
+    expect(player2LeaderBoard.ties).toEqual(0)
+  })
   test('Reset game state', async () => {
     await Game.update(
       { isFinished: false, moves: [], winner: null, inTurn: player1.id },
@@ -158,6 +198,7 @@ describe('POST /api/users', () => {
     expect(game.moves.length).toEqual(0)
     expect(game.inTurn).toEqual(player1.id)
   })
+
   test('game ends in tie', async () => {
     //Add 14 moves that dont result in a win
     await Game.update(
@@ -182,5 +223,24 @@ describe('POST /api/users', () => {
     const gameMoves = await Game.findByPk(gameOnline.id)
     expect(gameMoves.isFinished).toEqual(true)
     expect(gameMoves.winner).toEqual(null)
+  })
+  test('test that leaderboard got updated', async () => {
+    const player1LeaderBoard = await Leaderboard.findOne({
+      where: {
+        userId: player1.id,
+      },
+    })
+    const player2LeaderBoard = await Leaderboard.findOne({
+      where: {
+        userId: player2.id,
+      },
+    })
+    expect(player1LeaderBoard.wins).toEqual(1)
+    expect(player1LeaderBoard.losses).toEqual(1)
+    expect(player1LeaderBoard.ties).toEqual(1)
+
+    expect(player2LeaderBoard.wins).toEqual(1)
+    expect(player2LeaderBoard.losses).toEqual(1)
+    expect(player2LeaderBoard.ties).toEqual(1)
   })
 })

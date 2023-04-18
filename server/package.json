@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test jest --runInBand --silent --testPathPattern=games.test.js",
+    "test": "NODE_ENV=test jest --runInBand --silent --testPathPattern=leaderboard.test.js",
     "dev": "nodemon index.js",
     "build:prod": "cd ../client && npm install && npm run build && xcopy /s /y /i build ..\\server\\build && rmdir /s /q build && cd ../server",
     "build:dev": "cd ../client && npm install && npm run build && xcopy /s /y /i build ..\\server\\build && rmdir /s /q build && cd ../server && npm run dev",
