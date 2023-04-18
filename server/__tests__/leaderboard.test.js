@@ -62,7 +62,7 @@ describe('/api/leaderboards', () => {
     test('endpoint should calculate win/loss/tie ratio', async () => {
       const { body } = await api.get(baseUri)
       const player1leaderboard = body.find(
-        (item) => item.user.username === player1.username
+        (item) => item.username === player1.username
       )
 
       expect(player1leaderboard).toBeDefined()

@@ -13,6 +13,7 @@ const leaderBoardLabels = {
   winLossTieRatio: 'W/L/T',
   totalGames: 'Total',
 }
+
 const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([])
 

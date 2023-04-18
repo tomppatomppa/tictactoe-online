@@ -99,19 +99,16 @@ const gameLobbyLabels = {
 }
 const Games = ({ onlineGames }) => {
   const { user } = useCurrentUser()
-
-  const myGames = onlineGames.filter((game) => game.player1 === user.id)
-  const myGamesAsPlayer2 = onlineGames.filter(
-    (game) => game.player2 === user.id
-  )
-  console.log(myGamesAsPlayer2)
-  const joinableGames = onlineGames.filter(
-    (game) => game.userId !== user.id && game.player2 !== user.id
-  )
-
+  const handleClick = (action) => {
+    console.log(action)
+  }
   return (
     <div className="flex flex-col items-center">
-      <DataTable headers={gameLobbyLabels} data={onlineGames} />
+      <DataTable
+        onClick={handleClick}
+        headers={gameLobbyLabels}
+        data={onlineGames}
+      />
       {/* Games Lobby
       <div className="flex gap-12">
         <div>
