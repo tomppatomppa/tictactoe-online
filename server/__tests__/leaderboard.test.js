@@ -61,10 +61,13 @@ describe('/api/leaderboards', () => {
   describe('/api/leaderboards', () => {
     test('endpoint should calculate win/loss/tie ratio', async () => {
       const { body } = await api.get(baseUri)
-      const player1leaderboard = body.find((item) => item.userId === player1.id)
+      const player1leaderboard = body.find(
+        (item) => item.user.username === player1.username
+      )
 
       expect(player1leaderboard).toBeDefined()
-      expect(player1leaderboard.winLossRatio).toEqual('0.50')
+      expect(player1leaderboard.winLossRatio).toEqual(0.5)
+      expect(player1leaderboard.winLossTieRatio).toEqual(0.43)
       expect(player1leaderboard.wins).toEqual(defaultLeaderboardScore.wins)
       expect(player1leaderboard.losses).toEqual(defaultLeaderboardScore.losses)
       expect(player1leaderboard.ties).toEqual(defaultLeaderboardScore.ties)

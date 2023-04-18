@@ -1,15 +1,13 @@
 const router = require('express').Router()
-
-const { Game, User, Leaderboard } = require('../models/index')
-const { Op, Sequelize, fn } = require('sequelize')
+const { Leaderboard, User } = require('../models/index')
+const { Sequelize } = require('sequelize')
 
 router.get('/', async (req, res) => {
   const leaderboard = await Leaderboard.findAll({
     attributes: [
-      'userId',
-      [Sequelize.literal('COALESCE(wins, 0)'), 'wins'],
-      [Sequelize.literal('COALESCE(losses, 0)'), 'losses'],
-      [Sequelize.literal('COALESCE(ties, 0)'), 'ties'],
+      'wins',
+      'losses',
+      'ties',
       [
         Sequelize.literal(
           'CAST(ROUND(CASE WHEN (wins + losses) > 0 THEN (wins * 1.0) / (wins + losses) ELSE 0 END, 2) AS FLOAT)'
@@ -23,6 +21,12 @@ router.get('/', async (req, res) => {
         'winLossTieRatio',
       ],
       [Sequelize.literal('(wins + losses + ties)'), 'totalGames'],
+    ],
+    include: [
+      {
+        model: User,
+        attributes: ['username'],
+      },
     ],
   })
   res.status(200).json(leaderboard)

@@ -14,14 +14,14 @@ const data = [
 const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([])
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const leaderboardData = await leaderboardServices.getLeaderboard()
-  //     setLeaderboard(leaderboardData)
-  //   }
-  //   fetchData()
-  // }, [])
-  // console.log(leaderboard)
+  useEffect(() => {
+    const fetchData = async () => {
+      const leaderboardData = await leaderboardServices.getLeaderboard()
+      setLeaderboard(leaderboardData)
+    }
+    fetchData()
+  }, [])
+  console.log(leaderboard)
   return (
     <div className="flex justify-center">
       <LeaderboardTable players={data} />

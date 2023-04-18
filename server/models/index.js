@@ -5,11 +5,8 @@ const Leaderboard = require('./leaderboard')
 User.hasMany(Session)
 User.hasMany(Game)
 
-Game.belongsToMany(User, { through: 'GameUser' })
-User.belongsToMany(Game, { through: 'GameUser' })
-// in Game model
-
 Session.belongsTo(User)
+Leaderboard.belongsTo(User)
 
 User.sync()
 Session.sync()
