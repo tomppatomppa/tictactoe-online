@@ -5,6 +5,13 @@ const { Sequelize } = require('sequelize')
 router.get('/', async (req, res) => {
   const leaderboard = await Leaderboard.findAll({
     attributes: [
+      [
+        Sequelize.literal(
+          'ROW_NUMBER() OVER (ORDER BY (wins * 1.0) / (wins + losses) DESC)'
+        ),
+        'ranking',
+      ],
+      'user.username',
       'wins',
       'losses',
       'ties',
@@ -25,9 +32,10 @@ router.get('/', async (req, res) => {
     include: [
       {
         model: User,
-        attributes: ['username'],
+        attributes: [],
       },
     ],
+    raw: true,
   })
   res.status(200).json(leaderboard)
 })

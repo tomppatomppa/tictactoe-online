@@ -18,7 +18,7 @@ const useSocket = () => {
 
   useEffect(() => {
     if (socket) {
-      socket.emit('get-initial-games', 'get')
+      socket.emit('get-initial-games')
     }
   }, [socket])
 

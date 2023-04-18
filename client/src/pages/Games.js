@@ -6,6 +6,7 @@ import useCurrentUser from '../hooks/useCurrentUser'
 import gameServices from '../services/gamesService'
 import { isMyGame } from '../utils/helpers'
 import { useNavigate } from 'react-router-dom'
+import DataTable from '../components/DataTable'
 
 const OnlineGamesList = ({ user, games }) => {
   const navigate = useNavigate()
@@ -88,18 +89,30 @@ const MyGames = ({ user, myGames }) => {
     </div>
   )
 }
+
+const gameLobbyLabels = {
+  id: 'id',
+  type: 'type',
+  player1: 'player1',
+  player2: 'player2',
+  gridSize: 'gridSize',
+}
 const Games = ({ onlineGames }) => {
   const { user } = useCurrentUser()
 
-  const myGames = onlineGames.filter(
-    (game) => game.userId === user.id || game.player2 === user.id
+  const myGames = onlineGames.filter((game) => game.player1 === user.id)
+  const myGamesAsPlayer2 = onlineGames.filter(
+    (game) => game.player2 === user.id
   )
+  console.log(myGamesAsPlayer2)
   const joinableGames = onlineGames.filter(
     (game) => game.userId !== user.id && game.player2 !== user.id
   )
+
   return (
     <div className="flex flex-col items-center">
-      Games Lobby
+      <DataTable headers={gameLobbyLabels} data={onlineGames} />
+      {/* Games Lobby
       <div className="flex gap-12">
         <div>
           <span>public games</span>
@@ -110,7 +123,11 @@ const Games = ({ onlineGames }) => {
           <span>my games</span>
           <MyGames user={user} myGames={myGames} />
         </div>
-      </div>
+        <div>
+          <span>As player2 games</span>
+          <MyGames user={user} myGames={myGamesAsPlayer2} />
+        </div>
+      </div> */}
     </div>
   )
 }

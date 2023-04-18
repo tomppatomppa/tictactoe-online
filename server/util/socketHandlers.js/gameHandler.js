@@ -2,7 +2,12 @@ const { Game } = require('../../models/index')
 
 module.exports = (io, socket) => {
   const initialGame = async () => {
-    const games = await Game.findAll({})
+    //filter out local games
+    const games = await Game.findAll({
+      where: {
+        type: 'online',
+      },
+    })
     socket.emit('initial-game-state', games)
   }
   const joinGameRoom = (gameId) => {
