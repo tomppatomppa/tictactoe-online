@@ -26,6 +26,9 @@ app.use(cors())
 app.use(express.json())
 app.use(express.static(path.join(__dirname, './build')))
 
+app.use('/ping', async (req, res) => {
+  return res.status(200).json('hello ping')
+})
 app.use(socketMiddleware(io))
 
 app.use('/api/leaderboards', leaderboardsRouter)
@@ -39,7 +42,8 @@ app.use(errorHandler)
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'))
 })
+
 //needed for localhost only
-io.listen(4000)
+//io.listen(4000)
 
 module.exports = { app, httpServer }

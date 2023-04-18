@@ -6,6 +6,10 @@ const { SECRET } = require('../util/config')
 const { userFromToken } = require('../util/middleware')
 const { User, Session } = require('../models/index')
 
+router.get('/sessions', async (req, res) => {
+  const all = await Session.findAll()
+  return res.json(all)
+})
 router.post('/login', async (req, res) => {
   const { username, password } = req.body
 

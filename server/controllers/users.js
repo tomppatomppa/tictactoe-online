@@ -26,5 +26,21 @@ router.post('/', async (req, res) => {
   await Leaderboard.create({ userId: createdUser.id })
   return res.status(200).json(createdUser)
 })
-
+router.delete('/:id', async (req, res) => {
+  try {
+    await Leaderboard.destroy({
+      where: {
+        userId: req.params.id,
+      },
+    })
+    await User.destroy({
+      where: {
+        id: req.params.id,
+      },
+    })
+    return res.status(200).json(`deleted ${req.params.id}`)
+  } catch (err) {
+    return res.json({ error: err })
+  }
+})
 module.exports = router
