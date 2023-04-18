@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const { checkGame, nextInTurn, isLastMove } = require('../games/tic-tac-toe')
-const { Game } = require('../models/index')
+const { Game, Leaderboard } = require('../models/index')
 const { userFromToken, validateMoveMiddleware } = require('../util/middleware')
 
 router.get('/', async (req, res) => {
@@ -25,6 +25,38 @@ router.post('/', async (req, res) => {
   res.status(200).json(createdGame)
 })
 
+const addToLeaderboard = async (game) => {
+  const { player1, player2, winner } = game
+
+  if (!winner) {
+    await Leaderboard.update(
+      { wins: sequelize.literal('ties + 1') },
+      {
+        where: { userId: player1 },
+      }
+    )
+    await Leaderboard.update(
+      { wins: sequelize.literal('ties + 1') },
+      {
+        where: { userId: player2 },
+      }
+    )
+  } else {
+    const losingPlayer = winner === player1 ? player1 : player2
+    await Leaderboard.update(
+      { wins: sequelize.literal('wins + 1') },
+      {
+        where: { userId: winner },
+      }
+    )
+    await Leaderboard.update(
+      { wins: sequelize.literal('losses + 1') },
+      {
+        where: { userId: losingPlayer },
+      }
+    )
+  }
+}
 router.post('/:id', validateMoveMiddleware, async (req, res) => {
   let { game } = req
 
@@ -42,6 +74,9 @@ router.post('/:id', validateMoveMiddleware, async (req, res) => {
 
   try {
     const savedGame = await game.save()
+    if (game.isFinished) {
+      await addToLeaderboard(game)
+    }
     if (req.io) {
       req.io.to(game.id.toString()).emit('game-state', savedGame)
     }

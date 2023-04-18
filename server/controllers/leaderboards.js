@@ -1,10 +1,12 @@
 const router = require('express').Router()
 
-const { Game } = require('../models/index')
+const { Game, User, Leaderboard } = require('../models/index')
+const { Op, Sequelize, fn } = require('sequelize')
 
 router.get('/', async (req, res) => {
-  const allGames = await Game.findAll()
-  res.status(200).json(allGames)
+  console.log(req.io)
+  const all = await Leaderboard.findAll()
+  res.status(200).json(all)
 })
 
 module.exports = router

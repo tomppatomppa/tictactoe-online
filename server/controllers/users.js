@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 const router = require('express').Router()
 
-const { User } = require('../models/index')
+const { User, Leaderboard } = require('../models/index')
 
 router.get('/', async (req, res) => {
   const allUsers = await User.findAll()
@@ -23,7 +23,7 @@ router.post('/', async (req, res) => {
     username: username,
     passwordHash: passwordHash,
   })
-
+  await Leaderboard.create({ userId: createdUser.id })
   return res.status(200).json(createdUser)
 })
 
