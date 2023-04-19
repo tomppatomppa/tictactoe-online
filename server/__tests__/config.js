@@ -14,6 +14,11 @@ module.exports = {
     type: 'online',
     gridSize: 4,
   },
+  gameOffline: {
+    id: 999999999,
+    type: 'offline',
+    gridSize: 4,
+  },
   player1Moves: [
     [0, 0],
     [0, 1],

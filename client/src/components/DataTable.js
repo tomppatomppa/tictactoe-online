@@ -1,9 +1,10 @@
 import React from 'react'
-
-const myUserId = 1
+import useCurrentUser from '../hooks/useCurrentUser'
 
 const DataTableItem = ({ data, onClick }) => {
+  const { user } = useCurrentUser()
   const tableDataItem = Object.values(data)
+
   if (onClick) {
     tableDataItem.push('action')
   }
@@ -11,30 +12,30 @@ const DataTableItem = ({ data, onClick }) => {
     if (tableDataItem[3] !== null) {
       return (
         <td
-          onClick={() => onClick('Play game')}
+          onClick={() => onClick({ type: 'start', gameId: tableDataItem[0] })}
           className="border px-4 py-2 cursor-pointer bg-green-200"
         >
           {'Play'}
         </td>
       )
     }
-    if (tableDataItem[2] !== myUserId) {
+    if (tableDataItem[2] !== user.id) {
       return (
         <td
-          onClick={() => onClick('Join game')}
+          onClick={() => onClick({ type: 'join', gameId: tableDataItem[0] })}
           className="border px-4 py-2 cursor-pointer bg-blue-200"
         >
           {'Join'}
         </td>
       )
     }
-    if (tableDataItem[2] === myUserId) {
+    if (tableDataItem[2] === user.id) {
       return (
         <td
           onClick={() => onClick('Waiting for a player to join my game')}
           className="border px-4 py-2 cursor-pointer animate-pulse bg-red-200"
         >
-          {'waiting'}
+          {'waiting...'}
         </td>
       )
     }

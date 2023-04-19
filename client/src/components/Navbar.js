@@ -5,10 +5,13 @@ import useLogin from '../hooks/useLogin'
 
 const Navbar = () => {
   const { user, resetCurrentUser } = useCurrentUser()
-  const login = useLogin()
+  const { login, loginSecond } = useLogin()
 
   const handleLogin = () => {
     login({ username: 'tomi', password: 'password' })
+  }
+  const handleLoginSecond = () => {
+    loginSecond({ username: 'kalle', password: 'password' })
   }
 
   const handleLogout = () => {
@@ -17,7 +20,7 @@ const Navbar = () => {
 
   const loggedInMenu = () => {
     return (
-      <div className='flex gap-4'>
+      <div className="flex gap-4">
         <div>Current User : {user.username}</div>
         <Link to={'/games'}>Games</Link>
         <Link to={'/'}>Leaderboards</Link>
@@ -26,9 +29,17 @@ const Navbar = () => {
       </div>
     )
   }
+  const logInMenu = () => {
+    return (
+      <div className="flex gap-4">
+        <Link onClick={handleLogin}>Login Tomi</Link>
+        <Link onClick={handleLoginSecond}>Login Kalle</Link>
+      </div>
+    )
+  }
   return (
-    <nav className='w-full bg-blue-200 flex justify-end p-4'>
-      {user ? loggedInMenu() : <Link onClick={handleLogin}>login</Link>}
+    <nav className="w-full bg-blue-200 flex justify-end p-4">
+      {user ? loggedInMenu() : logInMenu()}
     </nav>
   )
 }

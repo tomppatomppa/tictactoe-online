@@ -15,6 +15,14 @@ const useLogin = () => {
       console.log(e)
     }
   }
+  const loginSecond = async (userCredentials) => {
+    try {
+      const user = await loginServices.login(userCredentials)
+      setCurrentUser(user)
+    } catch (e) {
+      console.log(e)
+    }
+  }
   const setUserLogin = () => {
     const user = authstorage.getAccessToken()
     if (user) {
@@ -27,7 +35,7 @@ const useLogin = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return login
+  return { login, loginSecond }
 }
 
 export default useLogin

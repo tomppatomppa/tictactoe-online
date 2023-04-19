@@ -5,12 +5,13 @@ module.exports = (io, socket) => {
     //filter out local games
     const games = await Game.findAll({
       where: {
-        type: 'online',
+        isFinished: false,
       },
     })
     socket.emit('initial-game-state', games)
   }
   const joinGameRoom = (gameId) => {
+    console.log(`User ${socket.id} joined game room id ${gameId}`)
     socket.join(gameId)
     io.to(gameId).emit(
       'user-joined',

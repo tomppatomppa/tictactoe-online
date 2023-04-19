@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import useGameSocket from './Game/hooks/useGameSocket'
 import { Grid } from './Game/Grid'
 import useMakeMove from './Game/hooks/useMakeMove'
+
 const GameBoard = () => {
   let { id } = useParams()
   const { gameState, message } = useGameSocket(id)

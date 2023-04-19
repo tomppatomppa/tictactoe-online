@@ -14,6 +14,7 @@ const player1Moves = config.player1Moves
 const player2Moves = config.player2Moves
 const player1LosingMoves = config.player1LosingMoves
 const gameOnline = config.gameOnline
+const gameOffline = config.gameOffline
 const defaultTieMoves = config.defaultTieMoves
 const baseUri = '/api/games'
 const player1Token = '1234'
@@ -38,13 +39,15 @@ describe('POST /api/games', () => {
     })
     await Leaderboard.create({ userId: player1.id })
     await Leaderboard.create({ userId: player2.id })
+
     await Session.create({ token: player1Token, userId: player1.id })
     await Session.create({ token: player2Token, userId: player2.id })
   })
+
   afterAll(async () => {
     await Game.destroy({
       where: {
-        id: gameOnline.id,
+        [Op.or]: [{ id: gameOnline.id }],
       },
     })
     await Leaderboard.destroy({
@@ -243,4 +246,6 @@ describe('POST /api/games', () => {
     expect(player2LeaderBoard.losses).toEqual(1)
     expect(player2LeaderBoard.ties).toEqual(1)
   })
+
+  describe('Offline Game', () => {})
 })

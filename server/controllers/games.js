@@ -27,8 +27,13 @@ router.post('/', async (req, res) => {
 })
 
 const addToLeaderboard = async (game) => {
-  const { player1, player2, winner } = game
+  const { player1, player2, winner, type } = game
+  //Set score for Offline games
+  if (type === 'local') {
+    console.log(type, 'type')
+  }
 
+  //Set Score for Online Games
   if (winner !== null) {
     await Leaderboard.update(
       { wins: Sequelize.literal('wins + 1') },
@@ -53,6 +58,13 @@ const addToLeaderboard = async (game) => {
     )
   }
 }
+
+router.post('/offline/:id', validateMoveMiddleware, async (req, res) => {
+  let { game } = req
+
+  res.status(200).json(game)
+})
+
 router.post('/:id', validateMoveMiddleware, async (req, res) => {
   let { game } = req
 
@@ -68,7 +80,7 @@ router.post('/:id', validateMoveMiddleware, async (req, res) => {
   } else {
     game.inTurn = nextInTurn(game)
   }
-
+  console.log(game)
   try {
     const savedGame = await game.save()
     if (game.isFinished) {
