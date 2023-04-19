@@ -6,7 +6,7 @@ const initialState = {
   moves: [],
   isFinished: false,
   type: 'offline',
-  gridSize: 5,
+  gridSize: 4,
   userId: 2,
   inTurn: 2,
   player1: 2,
@@ -32,7 +32,7 @@ const GameBoardOffline = () => {
     } else {
       updatedState.inTurn = nextInTurn(gameState)
     }
-    if (isLastMove(gameState)) {
+    if (isLastMove(updatedState)) {
       updatedState.isFinished = true
     }
     setGameState(updatedState)
@@ -43,7 +43,6 @@ const GameBoardOffline = () => {
       const move = gameAi.nextMove(gameState)
       handleOnClick(move)
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameState.inTurn])
 
