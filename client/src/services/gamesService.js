@@ -41,6 +41,7 @@ const makeMove = async (id, move, token) => {
   return data
 }
 const makeOfflineMove = async (id, move, token) => {
+  console.log('offline')
   const { data } = await axios.post(
     `${baseUri}/offline/${id}`,
     { move },

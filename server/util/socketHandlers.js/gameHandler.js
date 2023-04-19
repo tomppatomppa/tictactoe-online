@@ -2,7 +2,6 @@ const { Game } = require('../../models/index')
 
 module.exports = (io, socket) => {
   const initialGame = async () => {
-    //filter out local games
     const games = await Game.findAll({
       where: {
         isFinished: false,
@@ -10,18 +9,20 @@ module.exports = (io, socket) => {
     })
     socket.emit('initial-game-state', games)
   }
+
   const joinGameRoom = (gameId) => {
-    console.log(`User ${socket.id} joined game room id ${gameId}`)
     socket.join(gameId)
     io.to(gameId).emit(
       'user-joined',
       `User ${socket.id} joined game room id ${gameId}`
     )
   }
+
   const getGameState = async (gameId) => {
     const game = await Game.findByPk(gameId)
     io.to(gameId).emit('game-state', game)
   }
+
   const makeMove = async ({ gameId, move }) => {
     io.to(gameId).emit('make-move', move)
   }

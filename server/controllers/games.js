@@ -1,6 +1,12 @@
 const router = require('express').Router()
 const { Sequelize, Op } = require('sequelize')
-const { checkGame, nextInTurn, isLastMove } = require('../games/tic-tac-toe')
+const {
+  checkGame,
+  nextInTurn,
+  isLastMove,
+  Ai,
+  checkOfflineGame,
+} = require('../games/tic-tac-toe')
 const { Game, Leaderboard } = require('../models/index')
 const { userFromToken, validateMoveMiddleware } = require('../util/middleware')
 
@@ -18,7 +24,7 @@ router.post('/', async (req, res) => {
     userId: id,
     inTurn: id,
     player1: id,
-    player2: req.body.type === 'online' ? null : id,
+    player2: null,
   })
   if (req.io) {
     req.io.emit('new-created-game', createdGame)
@@ -48,6 +54,7 @@ const addToLeaderboard = async (game) => {
       }
     )
   } else {
+    //Works for offline also
     await Leaderboard.update(
       { ties: Sequelize.literal('ties + 1') },
       {
@@ -58,9 +65,60 @@ const addToLeaderboard = async (game) => {
     )
   }
 }
-
+//For offline games
+//TODO: make client side
 router.post('/offline/:id', validateMoveMiddleware, async (req, res) => {
   let { game } = req
+  const gameAi = new Ai()
+
+  game.moves = game.moves.concat([req.body.move])
+
+  if (checkOfflineGame(game)) {
+    game.isFinished = true
+    game.winner = game.inTurn
+    await Leaderboard.update(
+      { wins: Sequelize.literal('wins + 1') },
+      {
+        where: { userId: game.winner },
+      }
+    )
+    await game.save()
+    if (req.io) {
+      req.io.to(game.id.toString()).emit('game-state', game)
+    }
+    return res.status(200).json(game)
+  }
+
+  const aiMove = gameAi.nextMove(game)
+  game.moves = game.moves.concat([aiMove])
+
+  if (checkOfflineGame(game)) {
+    game.isFinished = true
+    await Leaderboard.update(
+      { losses: Sequelize.literal('losses + 1') },
+      {
+        where: { userId: player1 },
+      }
+    )
+    await game.save()
+    if (req.io) {
+      req.io.to(game.id.toString()).emit('game-state', game)
+    }
+    return res.status(200).json(game)
+  }
+
+  if (isLastMove(game)) {
+    game.isFinished = true
+  }
+
+  await game.save()
+
+  if (game.isFinished) {
+    await addToLeaderboard(game)
+  }
+  if (req.io) {
+    req.io.to(game.id.toString()).emit('game-state', game)
+  }
 
   res.status(200).json(game)
 })
@@ -80,7 +138,7 @@ router.post('/:id', validateMoveMiddleware, async (req, res) => {
   } else {
     game.inTurn = nextInTurn(game)
   }
-  console.log(game)
+
   try {
     const savedGame = await game.save()
     if (game.isFinished) {

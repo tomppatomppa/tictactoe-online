@@ -17,14 +17,15 @@ const useGameSocket = (id) => {
 
     setSocket(newSocket)
 
-    // Disconnect socket when the component unmounts
     return () => {
       newSocket.disconnect()
     }
   }, [id])
+
   const handleAction = (move) => {
     socket.emit('player-move', { gameId: id, move: move })
   }
+
   useEffect(() => {
     if (socket) {
       socket.on('connect', () => {
@@ -37,13 +38,13 @@ const useGameSocket = (id) => {
   useEffect(() => {
     if (socket) {
       socket.on('game-state', (game) => {
-        console.log('game state')
         setGameState(game)
       })
       socket.on('make-move', (game) => {
         setMessage(JSON.stringify(game))
       })
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket])
 

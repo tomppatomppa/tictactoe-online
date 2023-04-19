@@ -17,7 +17,7 @@ Game.init(
     },
     inTurn: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: { model: 'users', key: 'id' },
     },
     player1: {
@@ -27,6 +27,7 @@ Game.init(
     },
     player2: {
       type: DataTypes.INTEGER,
+      allowNull: true,
       references: { model: 'users', key: 'id' },
     },
     moves: {
