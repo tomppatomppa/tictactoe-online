@@ -58,6 +58,8 @@ const DataTableItem = ({ data, onClick }) => {
 }
 
 const DataTable = ({ headers, data, onClick }) => {
+  //TODO: make sure they are correctly ordered,
+  //Currently on initial creation gridSize is assigned as player1
   const result = data.map((item) => {
     const renamedObject = {}
     for (const [key, value] of Object.entries(item)) {

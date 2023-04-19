@@ -7,14 +7,8 @@ import useMakeMove from './Game/hooks/useMakeMove'
 const GameBoard = () => {
   let { id } = useParams()
   const { gameState, message } = useGameSocket(id)
-  const { sendMove, sendOfflineMove } = useMakeMove(id)
-  const handleSendMove = (move) => {
-    if (gameState.type === 'online') {
-      sendMove(move)
-    } else {
-      sendOfflineMove(move)
-    }
-  }
+  const sendMove = useMakeMove(id)
+
   if (!gameState) return <div>loading...</div>
 
   return (
@@ -26,10 +20,7 @@ const GameBoard = () => {
       <h2 className="text-blue-400">inTurn {gameState?.inTurn}</h2>
       <h2 className="text-green-400">winner {gameState?.winner}</h2>
 
-      <Grid
-        gameState={gameState}
-        handleAction={(move) => handleSendMove(move)}
-      />
+      <Grid gameState={gameState} handleAction={sendMove} />
     </div>
   )
 }

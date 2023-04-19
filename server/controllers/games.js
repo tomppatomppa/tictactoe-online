@@ -1,12 +1,6 @@
 const router = require('express').Router()
 const { Sequelize, Op } = require('sequelize')
-const {
-  checkGame,
-  nextInTurn,
-  isLastMove,
-  Ai,
-  checkOfflineGame,
-} = require('../games/tic-tac-toe')
+const { checkGame, nextInTurn, isLastMove } = require('../games/tic-tac-toe')
 const { Game, Leaderboard } = require('../models/index')
 const { userFromToken, validateMoveMiddleware } = require('../util/middleware')
 
@@ -65,63 +59,6 @@ const addToLeaderboard = async (game) => {
     )
   }
 }
-//For offline games
-//TODO: make client side
-router.post('/offline/:id', validateMoveMiddleware, async (req, res) => {
-  let { game } = req
-  const gameAi = new Ai()
-
-  game.moves = game.moves.concat([req.body.move])
-
-  if (checkOfflineGame(game)) {
-    game.isFinished = true
-    game.winner = game.inTurn
-    await Leaderboard.update(
-      { wins: Sequelize.literal('wins + 1') },
-      {
-        where: { userId: game.winner },
-      }
-    )
-    await game.save()
-    if (req.io) {
-      req.io.to(game.id.toString()).emit('game-state', game)
-    }
-    return res.status(200).json(game)
-  }
-
-  const aiMove = gameAi.nextMove(game)
-  game.moves = game.moves.concat([aiMove])
-
-  if (checkOfflineGame(game)) {
-    game.isFinished = true
-    await Leaderboard.update(
-      { losses: Sequelize.literal('losses + 1') },
-      {
-        where: { userId: player1 },
-      }
-    )
-    await game.save()
-    if (req.io) {
-      req.io.to(game.id.toString()).emit('game-state', game)
-    }
-    return res.status(200).json(game)
-  }
-
-  if (isLastMove(game)) {
-    game.isFinished = true
-  }
-
-  await game.save()
-
-  if (game.isFinished) {
-    await addToLeaderboard(game)
-  }
-  if (req.io) {
-    req.io.to(game.id.toString()).emit('game-state', game)
-  }
-
-  res.status(200).json(game)
-})
 
 router.post('/:id', validateMoveMiddleware, async (req, res) => {
   let { game } = req
@@ -178,6 +115,7 @@ router.put('/:id', async (req, res) => {
 
   res.status(200).json(updatedGame)
 })
+
 router.delete('/', async (req, res) => {
   await Game.destroy({
     where: {},

@@ -10,15 +10,8 @@ const useMakeMove = (id) => {
       console.log(err)
     }
   }
-  const sendOfflineMove = async (move) => {
-    try {
-      await gameServices.makeOfflineMove(id, move, user.token)
-    } catch (err) {
-      console.log(err)
-    }
-  }
 
-  return { sendMove, sendOfflineMove }
+  return sendMove
 }
 
 export default useMakeMove
