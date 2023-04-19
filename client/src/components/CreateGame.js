@@ -1,8 +1,10 @@
 import React from 'react'
 import gameServices from '../services/gamesService'
 import useCurrentUser from '../hooks/useCurrentUser'
+import { useNavigate } from 'react-router-dom'
 
 const CreateGame = () => {
+  const navigate = useNavigate()
   const { user } = useCurrentUser()
 
   const createNewGame = async (type) => {
@@ -21,7 +23,8 @@ const CreateGame = () => {
   }
 
   const handleCreateLocal = () => {
-    createNewGame('local')
+    navigate('/games/offline')
+    //createNewGame('local')
   }
 
   return (

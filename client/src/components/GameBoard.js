@@ -6,7 +6,6 @@ import useMakeMove from './Game/hooks/useMakeMove'
 
 const GameBoard = () => {
   let { id } = useParams()
-
   const { gameState, message } = useGameSocket(id)
   const { sendMove, sendOfflineMove } = useMakeMove(id)
   const handleSendMove = (move) => {

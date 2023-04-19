@@ -5,6 +5,7 @@ module.exports = (io, socket) => {
     const games = await Game.findAll({
       where: {
         isFinished: false,
+        type: 'online',
       },
     })
     socket.emit('initial-game-state', games)

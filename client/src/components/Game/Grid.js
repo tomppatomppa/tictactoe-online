@@ -48,7 +48,12 @@ export function Grid({ gameState, handleAction }) {
     </div>
   )
 }
-
+const getPlayer1Moves = (gameState) => {
+  return gameState.filter((coord, index) => index % 2 === 0)
+}
+const getPlayer2Moves = (gameState) => {
+  return gameState.filter((coord, index) => index % 2 !== 0)
+}
 const compareCoords = (c1, c2) => {
   const [x1, y1] = c1
   const [x2, y2] = c2
@@ -120,23 +125,15 @@ function generateWinningCombinations(size) {
   return combinations
 }
 
-const checkGame = (gameState, gridSize) => {
-  const playerMoves = getMaximizerMoves(gameState)
-  const opponentMoves = getMinimizerMoves(gameState)
+const checkGame = (gameState, inTurn) => {
+  let moves = []
+  if (inTurn === gameState.player2) {
+    moves = getPlayer2Moves(gameState.moves)
+  } else {
+    moves = getPlayer1Moves(gameState.moves)
+  }
 
-  if (checkWin(playerMoves)) {
-    console.log('player 1 won')
-    return true
-  }
-  if (checkWin(opponentMoves)) {
-    console.log('player 2 won')
-    return true
-  }
-  if (gameState.length >= gridSize * gridSize) {
-    console.log('draw')
-    return true
-  }
-  return false
+  return checkWin(moves, gameState.gridSize)
 }
 
 function checkWin(playerMoves, gridSize) {

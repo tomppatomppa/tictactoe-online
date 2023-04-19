@@ -10,6 +10,7 @@ import useCurrentUser from './hooks/useCurrentUser'
 import useLogin from './hooks/useLogin'
 import useGames from './hooks/useGames'
 import GameBoard from './components/GameBoard'
+import GameBoardOffline from './components/GameBoardOffline'
 
 function App() {
   const socket = useSocket()
@@ -27,6 +28,7 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="games" element={<Games onlineGames={onlineGames} />} />
           <Route path="games/:id" element={<GameBoard />} />
+          <Route path="games/offline/" element={<GameBoardOffline />} />
           <Route path="home" element={<Home />} />
         </Route>
       </Routes>
