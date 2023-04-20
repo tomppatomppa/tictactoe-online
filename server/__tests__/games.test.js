@@ -51,7 +51,11 @@ describe('POST /api/games/:id', () => {
   afterAll(async () => {
     await Game.destroy({
       where: {
-        [Op.or]: [{ id: gameOnline.id }, { id: gameOffline.id }],
+        [Op.or]: [
+          { id: gameOnline.id },
+          { id: gameOffline.id },
+          { userId: player1.id },
+        ],
       },
     })
     await Leaderboard.destroy({
@@ -310,7 +314,7 @@ describe('POST /api/games/:id', () => {
     })
 
     test('Player1 should have 1 win', async () => {
-      await api
+      const savedGame = await api
         .post(baseUriOffline)
         .send({
           ...offlinePlayerWins,
@@ -329,6 +333,8 @@ describe('POST /api/games/:id', () => {
       expect(player1LeaderBoard.wins).toEqual(1)
       expect(player1LeaderBoard.losses).toEqual(1)
       expect(player1LeaderBoard.ties).toEqual(1)
+
+      expect(savedGame).toBeDefined()
     })
   })
 })

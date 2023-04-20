@@ -82,7 +82,8 @@ router.post('/', async (req, res) => {
   res.status(200).json(createdGame)
 })
 
-//
+//TODO: When when user starts an offline game,
+//Save an empty in the database, and when the game ends in the frontend
 router.post('/offline', async (req, res) => {
   if (req.user.id !== req.body.player1) {
     return res.status(401).json({ error: 'Unauthorized game save' })
@@ -90,14 +91,24 @@ router.post('/offline', async (req, res) => {
   //remove "AI" from the request
   const game = req.body
   await addOfflineToLeaderboard(game)
+  const { player1, player2, inTurn, winner } = game
 
-  const result = await Leaderboard.findOne({
+  //Remove "AI" from the game
+  const savedGame = await Game.create({
+    ...game,
+    player2: null,
+    winner: winner === player1 ? player1 : null,
+    inTurn: inTurn === player1 ? player1 : null,
+  })
+
+  await Leaderboard.findOne({
     where: {
       userId: req.user.id,
     },
   })
-  res.status(200).json(result)
+  res.status(200).json(savedGame)
 })
+
 router.post('/:id', validateMoveMiddleware, async (req, res) => {
   let { game } = req
 
