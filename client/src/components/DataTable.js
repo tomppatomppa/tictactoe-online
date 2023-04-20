@@ -58,7 +58,7 @@ const DataTableItem = ({ data, onClick }) => {
 }
 
 const DataTable = ({ headers, data, onClick }) => {
-  const result = data.map((item) => {
+  const result = data?.map((item) => {
     const renamedObject = {}
     for (const key of Object.keys(headers)) {
       if (item.hasOwnProperty(key)) {
@@ -67,19 +67,20 @@ const DataTable = ({ headers, data, onClick }) => {
     }
     return renamedObject
   })
+
   const tableHeaders = Object.values(headers)
+
   if (onClick) {
     tableHeaders.push('action')
   }
-  console.log(tableHeaders)
-  console.log(result)
+
   return (
     <div className="overflow-x-auto">
       <table className="table-auto text-left">
-        <thead>
+        <thead data-testid="table-header">
           <tr>
             {tableHeaders.map((header, index) => (
-              <th key={index} className="px-4 py-2">
+              <th data-testid="header-row" key={index} className="px-4 py-2">
                 {header}
               </th>
             ))}

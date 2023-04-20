@@ -9,11 +9,7 @@ const CreateGame = () => {
 
   const createNewGame = async (type) => {
     try {
-      const game = await gameServices.create(
-        { type: type, gridSize: 4 },
-        user.token
-      )
-      console.log(game)
+      await gameServices.create({ type: type, gridSize: 4 }, user.token)
     } catch (e) {
       console.log(e)
     }
@@ -24,7 +20,6 @@ const CreateGame = () => {
 
   const handleCreateLocal = () => {
     navigate('/games/offline')
-    //createNewGame('local')
   }
 
   return (
