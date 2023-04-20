@@ -16,6 +16,9 @@ const player1LosingMoves = config.player1LosingMoves
 const gameOnline = config.gameOnline
 const gameOffline = config.gameOffline
 const defaultTieMoves = config.defaultTieMoves
+const offlineGameAiWins = config.offlineGameAiWins
+const offlineGameTie = config.offlineGameTie
+const offlinePlayerWins = config.offlinePlayerWins
 const baseUri = '/api/games'
 const baseUriOffline = '/api/games/offline'
 const player1Token = '1234'
@@ -262,6 +265,70 @@ describe('POST /api/games/:id', () => {
       expect(player1LeaderBoard.wins).toEqual(0)
       expect(player1LeaderBoard.losses).toEqual(0)
       expect(player1LeaderBoard.ties).toEqual(0)
+    })
+  })
+  describe('Save an offline game in the database', () => {
+    test('Saving offline game with invalid userId should throw 401', async () => {
+      await api
+        .post(baseUriOffline)
+        .send(offlineGameAiWins)
+        .set('Authorization', `Bearer ${player1Token}`)
+        .expect(401)
+    })
+    test('Player1 should have 1 loss', async () => {
+      await api
+        .post(baseUriOffline)
+        .send({ ...offlineGameAiWins, userId: player1.id, player1: player1.id })
+        .set('Authorization', `Bearer ${player1Token}`)
+
+      const player1LeaderBoard = await Leaderboard.findOne({
+        where: {
+          userId: player1.id,
+        },
+      })
+
+      expect(player1LeaderBoard.wins).toEqual(0)
+      expect(player1LeaderBoard.losses).toEqual(1)
+      expect(player1LeaderBoard.ties).toEqual(0)
+    })
+
+    test('Player1 should have 1 tie', async () => {
+      await api
+        .post(baseUriOffline)
+        .send({ ...offlineGameTie, userId: player1.id, player1: player1.id })
+        .set('Authorization', `Bearer ${player1Token}`)
+
+      const player1LeaderBoard = await Leaderboard.findOne({
+        where: {
+          userId: player1.id,
+        },
+      })
+
+      expect(player1LeaderBoard.wins).toEqual(0)
+      expect(player1LeaderBoard.losses).toEqual(1)
+      expect(player1LeaderBoard.ties).toEqual(1)
+    })
+
+    test('Player1 should have 1 win', async () => {
+      await api
+        .post(baseUriOffline)
+        .send({
+          ...offlinePlayerWins,
+          userId: player1.id,
+          player1: player1.id,
+          winner: player1.id,
+        })
+        .set('Authorization', `Bearer ${player1Token}`)
+
+      const player1LeaderBoard = await Leaderboard.findOne({
+        where: {
+          userId: player1.id,
+        },
+      })
+
+      expect(player1LeaderBoard.wins).toEqual(1)
+      expect(player1LeaderBoard.losses).toEqual(1)
+      expect(player1LeaderBoard.ties).toEqual(1)
     })
   })
 })

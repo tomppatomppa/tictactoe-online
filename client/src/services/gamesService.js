@@ -40,18 +40,8 @@ const makeMove = async (id, move, token) => {
   )
   return data
 }
-const makeOfflineMove = async (id, move, token) => {
-  console.log('offline')
-  const { data } = await axios.post(
-    `${baseUri}/offline/${id}`,
-    { move },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  )
-  return data
+const saveGame = async (game) => {
+  console.log('save', game)
 }
 const getLeaderboard = async () => {
   const { data } = await axios.get(`${baseUri}`)
@@ -64,7 +54,7 @@ const gameServices = {
   join,
   makeMove,
   getLeaderboard,
-  makeOfflineMove,
+  saveGame,
 }
 
 export default gameServices

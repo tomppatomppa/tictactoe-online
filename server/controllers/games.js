@@ -11,28 +11,35 @@ router.get('/', async (req, res) => {
 
 router.use(userFromToken)
 
-router.post('/', async (req, res) => {
-  const { id } = req.user
-  const createdGame = await Game.create({
-    ...req.body,
-    userId: id,
-    inTurn: id,
-    player1: id,
-    player2: null,
-  })
-  if (req.io) {
-    req.io.emit('new-created-game', createdGame)
-  }
-  res.status(200).json(createdGame)
-})
+const addOfflineToLeaderboard = async (game) => {
+  const { player1, winner } = game
 
+  if (winner !== null) {
+    await Leaderboard.update(
+      { wins: Sequelize.literal('wins + 1') },
+      {
+        where: { userId: winner === player1 ? player1 : null },
+      }
+    )
+    await Leaderboard.update(
+      { losses: Sequelize.literal('losses + 1') },
+      {
+        where: { userId: winner === player1 ? null : player1 },
+      }
+    )
+  } else {
+    await Leaderboard.update(
+      { ties: Sequelize.literal('ties + 1') },
+      {
+        where: {
+          userId: player1,
+        },
+      }
+    )
+  }
+}
 const addToLeaderboard = async (game) => {
-  const { player1, player2, winner, type } = game
-  //Set score for Offline games
-  if (type === 'local') {
-    console.log(type, 'type')
-  }
-
+  const { player1, player2, winner } = game
   //Set Score for Online Games
   if (winner !== null) {
     await Leaderboard.update(
@@ -60,6 +67,37 @@ const addToLeaderboard = async (game) => {
   }
 }
 
+router.post('/', async (req, res) => {
+  const { id } = req.user
+  const createdGame = await Game.create({
+    ...req.body,
+    userId: id,
+    inTurn: id,
+    player1: id,
+    player2: null,
+  })
+  if (req.io) {
+    req.io.emit('new-created-game', createdGame)
+  }
+  res.status(200).json(createdGame)
+})
+
+//
+router.post('/offline', async (req, res) => {
+  if (req.user.id !== req.body.player1) {
+    return res.status(401).json({ error: 'Unauthorized game save' })
+  }
+  //remove "AI" from the request
+  const game = req.body
+  await addOfflineToLeaderboard(game)
+
+  const result = await Leaderboard.findOne({
+    where: {
+      userId: req.user.id,
+    },
+  })
+  res.status(200).json(result)
+})
 router.post('/:id', validateMoveMiddleware, async (req, res) => {
   let { game } = req
 
@@ -122,4 +160,5 @@ router.delete('/', async (req, res) => {
   })
   return res.status(200).json('Deleted all games')
 })
+
 module.exports = router

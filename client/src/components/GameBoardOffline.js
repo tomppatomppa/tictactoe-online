@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Grid, checkGame } from './Game/Grid'
 
 import { Ai, isLastMove, nextInTurn } from './GameAi'
+import gameServices from '../services/gamesService'
 const initialState = {
   moves: [],
   isFinished: false,
@@ -37,7 +38,10 @@ const GameBoardOffline = () => {
     }
     setGameState(updatedState)
   }
-
+  const handleSaveGame = async () => {
+    const result = await gameServices.saveGame(gameState)
+    console.log('dispatch result')
+  }
   useEffect(() => {
     if (gameState.inTurn === gameState.player2) {
       const move = gameAi.nextMove(gameState)
@@ -47,7 +51,7 @@ const GameBoardOffline = () => {
   }, [gameState.inTurn])
 
   if (gameState.isFinished) {
-    console.log('dispatch result')
+    handleSaveGame()
   }
 
   if (!gameState) return <div>loading...</div>
