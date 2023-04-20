@@ -91,20 +91,20 @@ function generateWinningCombinations(size) {
 
   // generate winning row combinations
   for (let row = 0; row < size; row++) {
-    for (let col = 0; col <= size - 4; col++) {
+    for (let col = 0; col <= size; col++) {
       const combination = []
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < size; i++) {
         combination.push([row, col + i])
       }
       combinations.push(combination)
     }
   }
-
+  console.log(combinations)
   // generate winning column combinations
   for (let col = 0; col < size; col++) {
-    for (let row = 0; row <= size - 4; row++) {
+    for (let row = 0; row <= size; row++) {
       const combination = []
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < size; i++) {
         combination.push([row + i, col])
       }
       combinations.push(combination)
@@ -112,11 +112,11 @@ function generateWinningCombinations(size) {
   }
 
   // generate winning diagonal combinations
-  for (let row = 0; row <= size - 4; row++) {
-    for (let col = 0; col <= size - 4; col++) {
+  for (let row = 0; row <= size; row++) {
+    for (let col = 0; col <= size; col++) {
       const combination1 = []
       const combination2 = []
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < size; i++) {
         combination1.push([row + i, col + i])
         combination2.push([row + i, size - col - 1 - i])
       }
@@ -140,7 +140,7 @@ const checkGame = (gameState, inTurn) => {
 }
 
 function checkWin(playerMoves, gridSize) {
-  const winningCombinations = generateWinningCombinations(4)
+  const winningCombinations = generateWinningCombinations(gridSize)
   for (let combination of winningCombinations) {
     if (
       combination.every((coord) =>
