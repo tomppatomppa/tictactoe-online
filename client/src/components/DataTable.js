@@ -93,8 +93,8 @@ const DataTable = ({ headers, data, entity, onClick, children }) => {
   }
 
   return (
-    <div className="overflow-x-auto ">
-      <table className="table-auto text-left ">
+    <div className="overflow-x-auto overflow-y-auto max-h-96">
+      <table className="text-left">
         <thead
           data-testid="table-header"
           className="bg-black uppercase text-gray-300 divide-x-2 border-2 border-black "

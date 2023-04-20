@@ -20,7 +20,7 @@ const Navbar = () => {
 
   const loggedInMenu = () => {
     return (
-      <div className="flex gap-4">
+      <div className="flex gap-4 flex-wrap">
         <div>Current User : {user.username}</div>
         <Link to={'/games'}>Games</Link>
         <Link to={'/'}>Leaderboards</Link>

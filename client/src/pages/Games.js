@@ -7,6 +7,8 @@ import DataTable from '../components/DataTable'
 import Modal from '../components/Modal'
 import CreateGameForm from '../components/CreateGameForm'
 
+import useGame from '../hooks/useGame'
+
 const gameLobbyLabels = {
   id: 'id',
   type: 'type',
@@ -15,42 +17,17 @@ const gameLobbyLabels = {
   gridSize: 'gridSize',
 }
 
-const Games = ({ onlineGames }) => {
+const Games = ({ onlineGames, setLocalGame }) => {
   const [openModal, setOpenModal] = useState(false)
   const navigate = useNavigate()
   const { user } = useCurrentUser()
-
-  const handleJoinGame = async (action) => {
-    if (action.type === 'join') {
-      try {
-        await gameServices.join(action.gameId, user.token)
-      } catch (err) {
-        console.log(err)
-      }
-    } else if (action.type === 'start') {
-      navigate(`/games/${action.gameId}`)
-    }
-  }
-  const createNewGame = async (type = 'online') => {
-    try {
-      await gameServices.create({ type: type, gridSize: 4 }, user.token)
-    } catch (e) {
-      console.log(e)
-    }
-  }
-  const handleCreateOnline = () => {
-    createNewGame('online')
-  }
+  const { create, join } = useGame(user, setLocalGame)
 
   const handleCreateLocal = () => {
     navigate('/games/offline')
   }
   const handleSubmit = (game) => {
-    if (game.type === 'offline') {
-      console.log('offline')
-    } else {
-      console.log('online')
-    }
+    create(game)
   }
   return (
     <div className="">
@@ -59,7 +36,7 @@ const Games = ({ onlineGames }) => {
       </Modal>
       <div className="flex justify-center ">
         <DataTable
-          onClick={handleJoinGame}
+          onClick={join}
           headers={gameLobbyLabels}
           entity={user.id}
           data={onlineGames}
@@ -74,7 +51,7 @@ const Games = ({ onlineGames }) => {
             <button className="border" onClick={handleCreateLocal}>
               Offline Game
             </button>
-            <button onClick={handleCreateOnline}>Online game</button>
+            <button onClick={create}>Online game</button>
           </div>
         </DataTable>
       </div>

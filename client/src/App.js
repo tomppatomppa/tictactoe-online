@@ -11,25 +11,34 @@ import useLogin from './hooks/useLogin'
 import useGames from './hooks/useGames'
 import GameBoard from './components/GameBoard'
 import GameBoardOffline from './components/GameBoardOffline'
+import { useState } from 'react'
 
 function App() {
   const socket = useSocket()
   const { user } = useCurrentUser()
   const { onlineGames } = useGames(socket, user)
-
+  const [localGame, setLocalGame] = useState(null)
   useLogin()
 
   return (
-    <div className="App ">
+    <div className="App">
       <Navbar />
       <Routes>
         <Route path="*" element={<Leaderboard />} />
         <Route path="/" element={<Leaderboard />} />
         <Route element={<ProtectedRoute isAllowed={user} redirectPath="/" />}>
           <Route path="profile" element={<Profile />} />
-          <Route path="games" element={<Games onlineGames={onlineGames} />} />
+          <Route
+            path="games"
+            element={
+              <Games onlineGames={onlineGames} setLocalGame={setLocalGame} />
+            }
+          />
           <Route path="games/:id" element={<GameBoard />} />
-          <Route path="games/offline/" element={<GameBoardOffline />} />
+          <Route
+            path="games/offline/"
+            element={<GameBoardOffline game={localGame} />}
+          />
           <Route path="home" element={<Home />} />
         </Route>
       </Routes>

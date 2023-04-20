@@ -37,7 +37,7 @@ export function Grid({ gameState, handleAction }) {
 
   return (
     <div
-      className={`grid grid-cols-4 gap-4 ${
+      className={`grid grid-cols-4 gap-4 md:max-w-md ${
         isFinished && 'pointer-events-none'
       }`}
     >
