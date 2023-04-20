@@ -58,13 +58,11 @@ const DataTableItem = ({ data, onClick }) => {
 }
 
 const DataTable = ({ headers, data, onClick }) => {
-  //TODO: make sure they are correctly ordered,
-  //Currently on initial creation gridSize is assigned as player1
   const result = data.map((item) => {
     const renamedObject = {}
-    for (const [key, value] of Object.entries(item)) {
-      if (headers.hasOwnProperty(key)) {
-        renamedObject[key] = value
+    for (const key of Object.keys(headers)) {
+      if (item.hasOwnProperty(key)) {
+        renamedObject[headers[key]] = item[key]
       }
     }
     return renamedObject
@@ -73,6 +71,8 @@ const DataTable = ({ headers, data, onClick }) => {
   if (onClick) {
     tableHeaders.push('action')
   }
+  console.log(tableHeaders)
+  console.log(result)
   return (
     <div className="overflow-x-auto">
       <table className="table-auto text-left">
