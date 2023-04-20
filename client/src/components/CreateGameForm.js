@@ -17,7 +17,7 @@ const CreateGameForm = ({ handleSubmit }) => {
     handleSubmit(gameObject)
   }
   return (
-    <div>
+    <div className="mt-12 border bg-gray-200 shadow-md">
       <form
         onSubmit={onSubmit}
         className="flex flex-col items-center gap-4 p-2"
@@ -51,7 +51,10 @@ const CreateGameForm = ({ handleSubmit }) => {
             onChange={handleGridChange}
           />
         </div>
-        <button className={`self-end border p-1 w-24`} type="submit">
+        <button
+          className={`self-end border p-1 w-24 border-black`}
+          type="submit"
+        >
           Create
         </button>
       </form>

@@ -107,7 +107,10 @@ const DataTable = ({ headers, data, entity, onClick, children }) => {
             ))}
           </tr>
         </thead>
-        <tbody data-testid="table-body" className="border-black border-2">
+        <tbody
+          data-testid="table-body"
+          className="border-black border-2 overflow-x-auto "
+        >
           {result?.map((data, index) => (
             <DataTableItem
               onClick={onClick}
