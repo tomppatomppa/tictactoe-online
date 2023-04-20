@@ -1,8 +1,21 @@
 import React from 'react'
 import useCurrentUser from '../hooks/useCurrentUser'
 
-const DataTableItem = ({ data, onClick }) => {
-  const { user } = useCurrentUser()
+function hasOnlyKeyValuePairs(obj) {
+  const keys = Object.keys(obj)
+  const values = Object.values(obj)
+
+  return (
+    keys.every((key, index) => {
+      return (
+        typeof key === 'string' && key.length > 0 && values[index] !== undefined
+      )
+    }) && keys.length === values.length
+  )
+}
+//Specify entity as {index: 0, }
+const DataTableItem = ({ data, onClick, entity }) => {
+  // const { user } = useCurrentUser()
   const tableDataItem = Object.values(data)
 
   if (onClick) {
@@ -19,7 +32,7 @@ const DataTableItem = ({ data, onClick }) => {
         </td>
       )
     }
-    if (tableDataItem[2] !== user.id) {
+    if (tableDataItem[2] !== entity) {
       return (
         <td
           onClick={() => onClick({ type: 'join', gameId: tableDataItem[0] })}
@@ -29,7 +42,7 @@ const DataTableItem = ({ data, onClick }) => {
         </td>
       )
     }
-    if (tableDataItem[2] === user.id) {
+    if (tableDataItem[2] === entity) {
       return (
         <td
           onClick={() => onClick('Waiting for a player to join my game')}
@@ -41,7 +54,7 @@ const DataTableItem = ({ data, onClick }) => {
     }
   }
   return (
-    <tr>
+    <tr data-testid="table-body-row">
       {tableDataItem.map((item, index) => {
         if (item === 'action') {
           return <ActionButton onClick={onClick} item={item} key={index} />
@@ -57,7 +70,13 @@ const DataTableItem = ({ data, onClick }) => {
   )
 }
 
-const DataTable = ({ headers, data, onClick }) => {
+const DataTable = ({ headers, data, entity, onClick }) => {
+  if (!headers) {
+    throw new Error('DataTable* component requires a `headers` prop.')
+  }
+  if (hasOnlyKeyValuePairs(headers) === false) {
+    throw new Error('DataTable `headers` prop needs to be key value pairs')
+  }
   const result = data?.map((item) => {
     const renamedObject = {}
     for (const key of Object.keys(headers)) {
@@ -86,9 +105,14 @@ const DataTable = ({ headers, data, onClick }) => {
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody data-testid="table-body">
           {result?.map((data, index) => (
-            <DataTableItem onClick={onClick} key={index} data={data} />
+            <DataTableItem
+              onClick={onClick}
+              key={index}
+              data={data}
+              entity={entity}
+            />
           ))}
         </tbody>
       </table>

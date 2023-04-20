@@ -25,7 +25,7 @@ const Games = ({ onlineGames }) => {
       } catch (err) {
         console.log(err)
       }
-    } else {
+    } else if (action.type === 'start') {
       navigate(`/games/${action.gameId}`)
     }
   }
@@ -35,6 +35,7 @@ const Games = ({ onlineGames }) => {
       <DataTable
         onClick={handleJoinGame}
         headers={gameLobbyLabels}
+        entity={user.id}
         data={onlineGames}
       />
       <CreateGame />
