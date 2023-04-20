@@ -93,11 +93,11 @@ const DataTable = ({ headers, data, entity, onClick, children }) => {
   }
 
   return (
-    <div className="overflow-x-auto overflow-y-auto max-h-96">
+    <div className="overflow-x-auto overflow-y-auto max-h-[50vh]">
       <table className="text-left">
         <thead
           data-testid="table-header"
-          className="bg-black uppercase text-gray-300 divide-x-2 border-2 border-black "
+          className="bg-black  z-10 uppercase text-gray-300 divide-x-2 border-2 border-black "
         >
           <tr>
             {tableHeaders.map((header, index) => (
@@ -107,10 +107,7 @@ const DataTable = ({ headers, data, entity, onClick, children }) => {
             ))}
           </tr>
         </thead>
-        <tbody
-          data-testid="table-body"
-          className="border-black border-2 overflow-x-auto "
-        >
+        <tbody data-testid="table-body" className="border-black border-2 ">
           {result?.map((data, index) => (
             <DataTableItem
               onClick={onClick}

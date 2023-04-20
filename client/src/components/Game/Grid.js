@@ -1,6 +1,8 @@
 export function Grid({ gameState, handleAction }) {
   const { moves, gridSize, isFinished } = gameState
 
+  const gridTemplateColumns = `repeat(${gridSize}, minmax(0, 1fr))`
+
   const getStyle = (coords) => {
     const shouldColor = isInCoordsArray(moves, coords)
     const indexOfItem = findIndexOfCoord(moves, coords)
@@ -28,7 +30,7 @@ export function Grid({ gameState, handleAction }) {
     return (
       <button
         onClick={handleClick}
-        className={`${getStyle(coords)} p-2 border w-12 h-12`}
+        className={`${getStyle(coords)} p-2 border border-black w-12 h-12`}
       >
         {icon}
       </button>
@@ -37,7 +39,8 @@ export function Grid({ gameState, handleAction }) {
 
   return (
     <div
-      className={`grid grid-cols-4 gap-4 md:max-w-md ${
+      style={{ gridTemplateColumns }}
+      className={`grid grid-cols-${gridSize} gap-4 md:max-w-md ${
         isFinished && 'pointer-events-none'
       }`}
     >

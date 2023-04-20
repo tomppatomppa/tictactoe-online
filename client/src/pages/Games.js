@@ -30,29 +30,27 @@ const Games = ({ onlineGames, setLocalGame }) => {
     create(game)
   }
   return (
-    <div className="flex flex-col">
+    <div>
       <Modal openModal={openModal} setOpenModal={setOpenModal}>
         <CreateGameForm handleSubmit={handleSubmit} />
       </Modal>
-      <div className="flex justify-center ">
-        <DataTable
-          onClick={join}
-          headers={gameLobbyLabels}
-          entity={user.id}
-          data={onlineGames}
-        ></DataTable>
-      </div>
-      <div className="w-full flex justify-between max-w-sm mx-auto">
-        <button
-          onClick={() => setOpenModal(!openModal)}
-          className="bg-black text-gray-400"
-        >
-          Create A Game
-        </button>
-        <button className="border" onClick={handleCreateLocal}>
-          Offline Game
-        </button>
-        <button onClick={create}>Online game</button>
+      <div>
+        <div className="flex justify-center ">
+          <DataTable
+            onClick={join}
+            headers={gameLobbyLabels}
+            entity={user.id}
+            data={onlineGames}
+          ></DataTable>
+        </div>
+        <div className="flex justify-center">
+          <button
+            onClick={() => setOpenModal(!openModal)}
+            className="bg-black p-2 mt-2 text-gray-400 hover:text-white self-end"
+          >
+            Create A Game
+          </button>
+        </div>
       </div>
     </div>
   )
