@@ -55,7 +55,7 @@ describe('DataTable tests', () => {
   it('Should throw error with a undefined value', () => {
     expect(() => {
       render(<DataTable headers={invalidHeaders} />)
-    }).toThrowError('DataTable `headers` prop needs to be key value pairs')
+    }).toThrowError('DataTable* `headers` prop needs to be key value pairs')
   })
 
   it('Should not throw error with no data prop', () => {

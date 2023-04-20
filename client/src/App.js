@@ -16,10 +16,11 @@ function App() {
   const socket = useSocket()
   const { user } = useCurrentUser()
   const { onlineGames } = useGames(socket, user)
+
   useLogin()
 
   return (
-    <div className="App">
+    <div className="App ">
       <Navbar />
       <Routes>
         <Route path="*" element={<Leaderboard />} />

@@ -1,5 +1,4 @@
 import React from 'react'
-import useCurrentUser from '../hooks/useCurrentUser'
 
 function hasOnlyKeyValuePairs(obj) {
   const keys = Object.keys(obj)
@@ -13,9 +12,8 @@ function hasOnlyKeyValuePairs(obj) {
     }) && keys.length === values.length
   )
 }
-//Specify entity as {index: 0, }
+
 const DataTableItem = ({ data, onClick, entity }) => {
-  // const { user } = useCurrentUser()
   const tableDataItem = Object.values(data)
 
   if (onClick) {
@@ -46,7 +44,7 @@ const DataTableItem = ({ data, onClick, entity }) => {
       return (
         <td
           onClick={() => onClick('Waiting for a player to join my game')}
-          className="border px-4 py-2 cursor-pointer animate-pulse bg-red-200"
+          className="border px-4 py-2 animate-pulse bg-red-200"
         >
           {'waiting...'}
         </td>
@@ -70,13 +68,14 @@ const DataTableItem = ({ data, onClick, entity }) => {
   )
 }
 
-const DataTable = ({ headers, data, entity, onClick }) => {
+const DataTable = ({ headers, data, entity, onClick, children }) => {
   if (!headers) {
     throw new Error('DataTable* component requires a `headers` prop.')
   }
   if (hasOnlyKeyValuePairs(headers) === false) {
-    throw new Error('DataTable `headers` prop needs to be key value pairs')
+    throw new Error('DataTable* `headers` prop needs to be key value pairs')
   }
+
   const result = data?.map((item) => {
     const renamedObject = {}
     for (const key of Object.keys(headers)) {
@@ -94,9 +93,12 @@ const DataTable = ({ headers, data, entity, onClick }) => {
   }
 
   return (
-    <div className="overflow-x-auto">
-      <table className="table-auto text-left">
-        <thead data-testid="table-header">
+    <div className="overflow-x-auto ">
+      <table className="table-auto text-left ">
+        <thead
+          data-testid="table-header"
+          className="bg-black uppercase text-gray-300 divide-x-2 border-2 border-black "
+        >
           <tr>
             {tableHeaders.map((header, index) => (
               <th data-testid="header-row" key={index} className="px-4 py-2">
@@ -105,7 +107,7 @@ const DataTable = ({ headers, data, entity, onClick }) => {
             ))}
           </tr>
         </thead>
-        <tbody data-testid="table-body">
+        <tbody data-testid="table-body" className="border-black border-2">
           {result?.map((data, index) => (
             <DataTableItem
               onClick={onClick}
@@ -116,6 +118,7 @@ const DataTable = ({ headers, data, entity, onClick }) => {
           ))}
         </tbody>
       </table>
+      {children}
     </div>
   )
 }

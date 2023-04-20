@@ -23,7 +23,7 @@ const CreateGame = () => {
   }
 
   return (
-    <div>
+    <div className="flex-1 mx-auto justify-center bg-blue-200">
       <button onClick={handleCreateLocal}>CreateGame</button>
       <button onClick={handleCreateOnline}>create online game</button>
     </div>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import CreateGame from '../components/CreateGame'
 
@@ -6,6 +6,7 @@ import useCurrentUser from '../hooks/useCurrentUser'
 import gameServices from '../services/gamesService'
 import { useNavigate } from 'react-router-dom'
 import DataTable from '../components/DataTable'
+import Modal from '../components/Modal'
 
 const gameLobbyLabels = {
   id: 'id',
@@ -15,6 +16,7 @@ const gameLobbyLabels = {
   gridSize: 'gridSize',
 }
 const Games = ({ onlineGames }) => {
+  const [openModal, setOpenModal] = useState(false)
   const navigate = useNavigate()
   const { user } = useCurrentUser()
 
@@ -29,16 +31,47 @@ const Games = ({ onlineGames }) => {
       navigate(`/games/${action.gameId}`)
     }
   }
+  const createNewGame = async (type = 'online') => {
+    try {
+      await gameServices.create({ type: type, gridSize: 4 }, user.token)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  const handleCreateOnline = () => {
+    createNewGame('online')
+  }
+
+  const handleCreateLocal = () => {
+    navigate('/games/offline')
+  }
 
   return (
-    <div className="flex flex-col items-center">
-      <DataTable
-        onClick={handleJoinGame}
-        headers={gameLobbyLabels}
-        entity={user.id}
-        data={onlineGames}
-      />
-      <CreateGame />
+    <div className="">
+      <Modal openModal={openModal} setOpenModal={setOpenModal}>
+        <div>create a game</div>
+      </Modal>
+      <div className="flex justify-center ">
+        <DataTable
+          onClick={handleJoinGame}
+          headers={gameLobbyLabels}
+          entity={user.id}
+          data={onlineGames}
+        >
+          <div className="w-full flex justify-between">
+            <button
+              onClick={() => setOpenModal(!openModal)}
+              className="bg-black text-gray-400"
+            >
+              Create A Game
+            </button>
+            <button className="border" onClick={handleCreateLocal}>
+              Offline Game
+            </button>
+            <button onClick={handleCreateOnline}>Online game</button>
+          </div>
+        </DataTable>
+      </div>
     </div>
   )
 }

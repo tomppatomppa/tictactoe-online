@@ -12,8 +12,6 @@ const initialState = {
   inTurn: 2,
   player1: 2,
   player2: 'AI',
-  updatedAt: '2023-04-19T09:20:42.109Z',
-  createdAt: '2023-04-19T09:20:42.109Z',
   winner: null,
 }
 const GameBoardOffline = () => {
