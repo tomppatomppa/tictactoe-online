@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 
-import CreateGame from '../components/CreateGame'
-
 import useCurrentUser from '../hooks/useCurrentUser'
 import gameServices from '../services/gamesService'
 import { useNavigate } from 'react-router-dom'
