@@ -5,6 +5,7 @@ import gameServices from '../services/gamesService'
 import { useNavigate } from 'react-router-dom'
 import DataTable from '../components/DataTable'
 import Modal from '../components/Modal'
+import CreateGameForm from '../components/CreateGameForm'
 
 const gameLobbyLabels = {
   id: 'id',
@@ -13,6 +14,7 @@ const gameLobbyLabels = {
   player2: 'player2',
   gridSize: 'gridSize',
 }
+
 const Games = ({ onlineGames }) => {
   const [openModal, setOpenModal] = useState(false)
   const navigate = useNavigate()
@@ -43,11 +45,17 @@ const Games = ({ onlineGames }) => {
   const handleCreateLocal = () => {
     navigate('/games/offline')
   }
-
+  const handleSubmit = (game) => {
+    if (game.type === 'offline') {
+      console.log('offline')
+    } else {
+      console.log('online')
+    }
+  }
   return (
     <div className="">
       <Modal openModal={openModal} setOpenModal={setOpenModal}>
-        <div>create a game</div>
+        <CreateGameForm handleSubmit={handleSubmit} />
       </Modal>
       <div className="flex justify-center ">
         <DataTable
