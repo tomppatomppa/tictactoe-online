@@ -56,10 +56,14 @@ const GameBoardOffline = ({ game, setLocalGame }) => {
   if (!gameState) return <div>loading...</div>
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center text-white">
       <GameBoardInfo gameState={gameState} />
       <Grid gameState={gameState} handleAction={handleOnClick} />
-      {gameState.isFinished && <button onClick={handleRematch}>Rematch</button>}
+      {gameState.isFinished && (
+        <button className="btn-primary my-6" onClick={handleRematch}>
+          Rematch
+        </button>
+      )}
     </div>
   )
 }

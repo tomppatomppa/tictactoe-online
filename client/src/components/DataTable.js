@@ -79,7 +79,7 @@ const DataTable = ({ headers, data, entity, onClick }) => {
     throw new Error('DataTable* `headers` prop needs to be key value pairs')
   }
 
-  const result = data?.map((item) => {
+  let result = data?.map((item) => {
     const renamedObject = {}
     for (const key of Object.keys(headers)) {
       if (item.hasOwnProperty(key)) {
@@ -96,15 +96,19 @@ const DataTable = ({ headers, data, entity, onClick }) => {
   }
 
   return (
-    <div className="overflow-x-auto overflow-y-auto max-h-[70vh]  text-white">
+    <div className="overflow-x-auto overflow-y-auto max-h-[70vh] sm:text-lg text-xs text-white">
       <table className="text-left ">
         <thead
           data-testid="table-header"
-          className="bg-black z-10 uppercase  text-gray-300 border-2"
+          className="bg-black z-10 uppercase text-gray-300 border-2"
         >
           <tr>
             {tableHeaders.map((header, index) => (
-              <th data-testid="header-row" key={index} className="px-4 py-2">
+              <th
+                data-testid="header-row"
+                key={index}
+                className="sm:px-4 px-1 py-2"
+              >
                 {header}
               </th>
             ))}
@@ -112,7 +116,7 @@ const DataTable = ({ headers, data, entity, onClick }) => {
         </thead>
         <tbody
           data-testid="table-body"
-          className="border-black border-2 backdrop-blur-sm"
+          className=" border-2 backdrop-blur-sm border-white"
         >
           {result?.map((data, index) => (
             <DataTableItem

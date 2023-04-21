@@ -41,7 +41,7 @@ const makeMove = async (id, move, token) => {
   return data
 }
 const saveGame = async (game) => {
-  console.log('save', game)
+  //console.log('save', game)
 }
 const getLeaderboard = async () => {
   const { data } = await axios.get(`${baseUri}`)

@@ -7,20 +7,26 @@ import CreateGameForm from '../components/CreateGameForm'
 import useGame from '../hooks/useGame'
 import { gameLobbyHeaders } from '../utils/config'
 
-const Games = ({ onlineGames, setLocalGame }) => {
+const Games = ({ onlineGames = [], setLocalGame }) => {
   const [openModal, setOpenModal] = useState(false)
   const { user } = useCurrentUser()
   const { create, join } = useGame(user, setLocalGame)
 
   const handleSubmit = (game) => {
-    create(game)
+    try {
+      create(game)
+      setOpenModal(false)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   return (
-    <div className="mt-24">
+    <div className="mt-24 text-white">
       <Modal openModal={openModal} setOpenModal={setOpenModal}>
         <CreateGameForm handleSubmit={handleSubmit} />
       </Modal>
+
       <div>
         <div className="flex justify-center">
           <button
