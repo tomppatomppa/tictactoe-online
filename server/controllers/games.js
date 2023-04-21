@@ -40,7 +40,7 @@ const addOfflineToLeaderboard = async (game) => {
 }
 const addToLeaderboard = async (game) => {
   const { player1, player2, winner } = game
-  //Set Score for Online Games
+
   if (winner !== null) {
     await Leaderboard.update(
       { wins: Sequelize.literal('wins + 1') },

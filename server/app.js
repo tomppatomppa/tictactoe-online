@@ -39,6 +39,6 @@ app.get('*', (req, res) => {
 })
 
 //needed for localhost only
-io.listen(4000)
+//io.listen(4000)
 
 module.exports = { app, httpServer }

@@ -91,20 +91,6 @@ function checkWin(playerMoves, gridSize) {
   }
   return false
 }
-function indexToCoords(index, rowLen) {
-  const row = Math.floor(index / rowLen)
-  const col = index % rowLen
-  return [row, col]
-}
-const isInCoordsArray = (coordArray, c2) => {
-  return coordArray.some((coord) => compareCoords(coord, c2))
-}
-const compareCoords = (c1, c2) => {
-  const [x1, y1] = c1
-  const [x2, y2] = c2
-
-  return x1 === x2 && y1 === y2
-}
 
 module.exports = {
   getPlayer1Moves,

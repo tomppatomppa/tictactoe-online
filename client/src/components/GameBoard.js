@@ -6,7 +6,6 @@ import useMakeMove from './Game/hooks/useMakeMove'
 import GameBoardInfo from './GameBoardInfo'
 
 const RematchButton = ({ gameState, gameId, handleRematch }) => {
-  const navigate = useNavigate()
   const { isFinished } = gameState
   if (!isFinished) return
   return (
