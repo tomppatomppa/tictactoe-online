@@ -68,7 +68,7 @@ const DataTableItem = ({ data, onClick, entity }) => {
   )
 }
 
-const DataTable = ({ headers, data, entity, onClick, children }) => {
+const DataTable = ({ headers, data, entity, onClick }) => {
   if (!headers) {
     throw new Error('DataTable* component requires a `headers` prop.')
   }
@@ -93,11 +93,11 @@ const DataTable = ({ headers, data, entity, onClick, children }) => {
   }
 
   return (
-    <div className="overflow-x-auto overflow-y-auto max-h-[50vh]">
+    <div className="overflow-x-auto overflow-y-auto max-h-[70vh]">
       <table className="text-left">
         <thead
           data-testid="table-header"
-          className="bg-black  z-10 uppercase text-gray-300 divide-x-2 border-2 border-black "
+          className="bg-black z-10 uppercase text-gray-300 border-2 border-black "
         >
           <tr>
             {tableHeaders.map((header, index) => (
@@ -118,7 +118,6 @@ const DataTable = ({ headers, data, entity, onClick, children }) => {
           ))}
         </tbody>
       </table>
-      {children}
     </div>
   )
 }

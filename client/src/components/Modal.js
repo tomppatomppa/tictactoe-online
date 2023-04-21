@@ -6,7 +6,7 @@ const Modal = ({ openModal, setOpenModal, children }) => {
     <div className="fixed z-10 w-screen h-screen backdrop-blur-sm">
       <div className="flex justify-center">
         <button
-          className="relative -right-52 -top-16"
+          className="relative -right-56 top-12 h-5"
           onClick={() => setOpenModal(false)}
         >
           X

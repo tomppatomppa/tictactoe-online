@@ -2,17 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import leaderboardServices from '../services/leaderboardsService'
 import DataTable from '../components/DataTable'
-
-const leaderBoardLabels = {
-  ranking: 'Ranking',
-  username: 'Name',
-  wins: 'Wins',
-  losses: 'Losses',
-  ties: 'Ties',
-  winLossRatio: 'W/L',
-  winLossTieRatio: 'W/L/T',
-  totalGames: 'Total',
-}
+import { leaderBoardHeaders } from '../utils/config'
 
 const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([])
@@ -27,7 +17,7 @@ const Leaderboard = () => {
 
   return (
     <div className="flex justify-center">
-      <DataTable headers={leaderBoardLabels} data={leaderboard} />
+      <DataTable headers={leaderBoardHeaders} data={leaderboard} />
     </div>
   )
 }

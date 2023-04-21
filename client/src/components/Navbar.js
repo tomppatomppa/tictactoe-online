@@ -29,6 +29,7 @@ const Navbar = () => {
       </div>
     )
   }
+
   const logInMenu = () => {
     return (
       <div className="flex gap-4">

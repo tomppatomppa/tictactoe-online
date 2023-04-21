@@ -99,7 +99,7 @@ function generateWinningCombinations(size) {
       combinations.push(combination)
     }
   }
-  console.log(combinations)
+
   // generate winning column combinations
   for (let col = 0; col < size; col++) {
     for (let row = 0; row <= size; row++) {
