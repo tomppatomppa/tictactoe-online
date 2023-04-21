@@ -11,11 +11,9 @@ const RematchButton = ({ gameState, gameId, handleRematch }) => {
   if (!isFinished) return
   return (
     <>
-      {gameId === null ? (
-        <button onClick={handleRematch}>Rematch</button>
-      ) : (
-        <button onClick={() => navigate(`/games/${gameId}`)}>
-          Go To Rematch
+      {gameId === null && (
+        <button className="btn-primary my-6" onClick={handleRematch}>
+          Rematch
         </button>
       )}
     </>

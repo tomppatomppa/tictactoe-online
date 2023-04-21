@@ -24,7 +24,7 @@ const DataTableItem = ({ data, onClick, entity }) => {
       return (
         <td
           onClick={() => onClick({ type: 'start', gameId: tableDataItem[0] })}
-          className="btn-play"
+          className="btn-play "
         >
           {'Play'}
         </td>
