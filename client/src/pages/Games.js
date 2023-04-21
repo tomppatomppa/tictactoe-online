@@ -25,7 +25,7 @@ const Games = ({ onlineGames, setLocalGame }) => {
         <div className="flex justify-center">
           <button
             onClick={() => setOpenModal(!openModal)}
-            className="bg-black p-2 my-2 text-gray-300 hover:text-white self-end"
+            className="btn-primary my-6"
           >
             Create A Game
           </button>

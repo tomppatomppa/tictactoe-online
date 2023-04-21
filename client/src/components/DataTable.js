@@ -24,7 +24,7 @@ const DataTableItem = ({ data, onClick, entity }) => {
       return (
         <td
           onClick={() => onClick({ type: 'start', gameId: tableDataItem[0] })}
-          className="border px-4 py-2 cursor-pointer bg-green-200"
+          className="btn-play"
         >
           {'Play'}
         </td>
@@ -34,7 +34,7 @@ const DataTableItem = ({ data, onClick, entity }) => {
       return (
         <td
           onClick={() => onClick({ type: 'join', gameId: tableDataItem[0] })}
-          className="border px-4 py-2 cursor-pointer bg-blue-200"
+          className="btn-join"
         >
           {'Join'}
         </td>
@@ -44,7 +44,7 @@ const DataTableItem = ({ data, onClick, entity }) => {
       return (
         <td
           onClick={() => onClick('Waiting for a player to join my game')}
-          className="border px-4 py-2 animate-pulse bg-red-200"
+          className="btn-wait"
         >
           {'waiting...'}
         </td>
@@ -52,13 +52,16 @@ const DataTableItem = ({ data, onClick, entity }) => {
     }
   }
   return (
-    <tr data-testid="table-body-row">
+    <tr
+      data-testid="table-body-row "
+      className="hover:bg-slate-700 translate-all duration-200 "
+    >
       {tableDataItem.map((item, index) => {
         if (item === 'action') {
           return <ActionButton onClick={onClick} item={item} key={index} />
         } else {
           return (
-            <td key={index} className="border px-4 py-2">
+            <td key={index} className="px-4 py-2">
               {item}
             </td>
           )
@@ -93,11 +96,11 @@ const DataTable = ({ headers, data, entity, onClick }) => {
   }
 
   return (
-    <div className="overflow-x-auto overflow-y-auto max-h-[70vh]">
-      <table className="text-left">
+    <div className="overflow-x-auto overflow-y-auto max-h-[70vh]  text-white">
+      <table className="text-left ">
         <thead
           data-testid="table-header"
-          className="bg-black z-10 uppercase text-gray-300 border-2 border-black "
+          className="bg-black z-10 uppercase  text-gray-300 border-2"
         >
           <tr>
             {tableHeaders.map((header, index) => (
@@ -107,7 +110,10 @@ const DataTable = ({ headers, data, entity, onClick }) => {
             ))}
           </tr>
         </thead>
-        <tbody data-testid="table-body" className="border-black border-2 ">
+        <tbody
+          data-testid="table-body"
+          className="border-black border-2 backdrop-blur-sm"
+        >
           {result?.map((data, index) => (
             <DataTableItem
               onClick={onClick}

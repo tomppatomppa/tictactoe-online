@@ -17,33 +17,34 @@ const CreateGameForm = ({ handleSubmit }) => {
     handleSubmit(gameObject)
   }
   return (
-    <div className="mt-12 border bg-gray-200 shadow-md">
+    <div className="mt-12 p-2 bg-black border-2 border-white text-white shadow-md">
       <form
         onSubmit={onSubmit}
         className="flex flex-col items-center gap-4 p-2"
       >
-        <label className="">Game Type</label>
+        <strong>GAME TYPE</strong>
         <div className="flex justify-between gap-4">
           <label
             className={`${
-              type === 'online' ? 'border-blue-200' : 'border'
-            } border p-1 w-24`}
+              type === 'online' ? 'bg-green-500' : ''
+            } border btn-type w-24`}
             onClick={() => setType('online')}
           >
             Online
           </label>
           <label
             className={`${
-              type === 'local' ? 'border-blue-200' : 'border'
-            } border p-1 w-24`}
+              type === 'local' ? 'bg-green-500' : ''
+            } border btn-type w-24`}
             onClick={() => setType('local')}
           >
             Local
           </label>
         </div>
         <div className="flex flex-col self-start w-full">
-          <label>Grid Size (3-10) </label>
+          <label>GRID SIZE (3-10) </label>
           <input
+            className="input"
             min={3}
             max={10}
             type="number"
@@ -51,10 +52,7 @@ const CreateGameForm = ({ handleSubmit }) => {
             onChange={handleGridChange}
           />
         </div>
-        <button
-          className={`self-end border p-1 w-24 border-black`}
-          type="submit"
-        >
+        <button className={`btn-primary self-end`} type="submit">
           Create
         </button>
       </form>
