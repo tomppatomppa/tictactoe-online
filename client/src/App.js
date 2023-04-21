@@ -37,7 +37,9 @@ function App() {
           <Route path="games/:id" element={<GameBoard />} />
           <Route
             path="games/offline/"
-            element={<GameBoardOffline game={localGame} />}
+            element={
+              <GameBoardOffline game={localGame} setLocalGame={setLocalGame} />
+            }
           />
           <Route path="home" element={<Home />} />
         </Route>

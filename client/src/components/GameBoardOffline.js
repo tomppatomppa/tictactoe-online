@@ -4,7 +4,7 @@ import { Grid, checkGame } from './Game/Grid'
 import { Ai, isLastMove, nextInTurn } from './GameAi'
 import gameServices from '../services/gamesService'
 
-const GameBoardOffline = ({ game }) => {
+const GameBoardOffline = ({ game, setLocalGame }) => {
   const [gameState, setGameState] = useState(game)
   const gameAi = new Ai()
 
@@ -28,7 +28,6 @@ const GameBoardOffline = ({ game }) => {
   }
   const handleSaveGame = async () => {
     await gameServices.saveGame(gameState)
-    console.log('save result')
   }
 
   useEffect(() => {
@@ -41,6 +40,15 @@ const GameBoardOffline = ({ game }) => {
 
   if (gameState.isFinished) {
     handleSaveGame()
+  }
+  const handleRematch = () => {
+    setGameState({
+      ...gameState,
+      inTurn: gameState.player1,
+      isFinished: false,
+      moves: [],
+      winner: null,
+    })
   }
 
   if (!gameState) return <div>loading...</div>
@@ -59,6 +67,7 @@ const GameBoardOffline = ({ game }) => {
         <h2 className="text-green-400">winner {gameState?.winner}</h2>
       </div>
       <Grid gameState={gameState} handleAction={handleOnClick} />
+      {gameState.isFinished && <button onClick={handleRematch}>Rematch</button>}
     </div>
   )
 }
