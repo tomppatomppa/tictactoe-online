@@ -20,26 +20,31 @@ const Navbar = () => {
 
   const loggedInMenu = () => {
     return (
-      <div className="flex gap-4 flex-wrap">
-        <div>Current User : {user.username}</div>
+      <div className="flex gap-4 flex-wrap uppercase font-semibold items-center text-white">
         <Link to={'/games'}>Games</Link>
         <Link to={'/'}>Leaderboards</Link>
         <Link to={'/profile'}>Profile</Link>
-        <Link onClick={handleLogout}>logout</Link>
+        <Link className="btn-primary" onClick={handleLogout}>
+          logout
+        </Link>
       </div>
     )
   }
 
   const logInMenu = () => {
     return (
-      <div className="flex gap-4">
-        <Link onClick={handleLogin}>Login Tomi</Link>
-        <Link onClick={handleLoginSecond}>Login Kalle</Link>
+      <div className="flex gap-4 ">
+        <Link className="btn-primary" onClick={handleLogin}>
+          Login Tomi
+        </Link>
+        <Link className="btn-primary" onClick={handleLoginSecond}>
+          Login Kalle
+        </Link>
       </div>
     )
   }
   return (
-    <nav className="w-full bg-blue-200 flex justify-end p-4">
+    <nav className="w-full  bg-black flex justify-end p-4">
       {user ? loggedInMenu() : logInMenu()}
     </nav>
   )

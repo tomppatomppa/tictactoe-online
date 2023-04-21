@@ -21,7 +21,7 @@ function App() {
   useLogin()
 
   return (
-    <div className="App">
+    <div className="App bg-blue-200 h-screen">
       <Navbar />
       <Routes>
         <Route path="*" element={<Leaderboard />} />

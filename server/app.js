@@ -17,11 +17,6 @@ const gamesRouter = require('./controllers/games')
 const sessionsRouter = require('./controllers/sessions')
 const leaderboardsRouter = require('./controllers/leaderboards')
 
-app.use((req, res, next) => {
-  res.set('Cache-Control', 'no-cache')
-  next()
-})
-
 app.use(cors())
 app.use(express.json())
 app.use(express.static(path.join(__dirname, './build')))

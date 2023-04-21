@@ -15,9 +15,9 @@ const Games = ({ onlineGames, setLocalGame }) => {
   const handleSubmit = (game) => {
     create(game)
   }
-  console.log(onlineGames)
+
   return (
-    <div>
+    <div className="mt-24">
       <Modal openModal={openModal} setOpenModal={setOpenModal}>
         <CreateGameForm handleSubmit={handleSubmit} />
       </Modal>
@@ -25,7 +25,7 @@ const Games = ({ onlineGames, setLocalGame }) => {
         <div className="flex justify-center">
           <button
             onClick={() => setOpenModal(!openModal)}
-            className="bg-black p-2 my-2 text-gray-400 hover:text-white self-end"
+            className="bg-black p-2 my-2 text-gray-300 hover:text-white self-end"
           >
             Create A Game
           </button>
