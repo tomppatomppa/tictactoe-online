@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import useGameSocket from './Game/hooks/useGameSocket'
 import { Grid } from './Game/Grid'
@@ -22,9 +22,16 @@ const RematchButton = ({ gameState, gameId, handleRematch }) => {
   )
 }
 const GameBoard = () => {
+  const navigate = useNavigate()
   let { id } = useParams()
   const { gameState, handleRematch, rematchGameId } = useGameSocket(id)
   const sendMove = useMakeMove(id)
+
+  useEffect(() => {
+    if (rematchGameId) {
+      navigate(`/games/${rematchGameId}`)
+    }
+  }, [rematchGameId, navigate])
 
   if (!gameState || !id) return <div>loading...</div>
 

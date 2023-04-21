@@ -10,13 +10,13 @@ const useGameSocket = (id) => {
   const [rematchGameId, setRematchGameId] = useState(null)
 
   useEffect(() => {
+    setRematchGameId(null)
     const newSocket = io(URL, {
       query: {
         gameId: id,
       },
     })
     setSocket(newSocket)
-    setRematchGameId(null)
 
     return () => {
       newSocket.disconnect()
@@ -53,9 +53,7 @@ const useGameSocket = (id) => {
         callback(userResponse ? 'ok' : 'cancel')
       })
       socket.on('new:game', (gameId) => {
-        if (gameId) {
-          setRematchGameId(gameId)
-        }
+        setRematchGameId(gameId)
       })
       //setRematchGameId(rematchGameId)
     }

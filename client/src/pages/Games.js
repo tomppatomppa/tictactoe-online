@@ -15,7 +15,7 @@ const Games = ({ onlineGames, setLocalGame }) => {
   const handleSubmit = (game) => {
     create(game)
   }
-
+  console.log(onlineGames)
   return (
     <div>
       <Modal openModal={openModal} setOpenModal={setOpenModal}>
