@@ -73,4 +73,5 @@ describe('/api/leaderboards', () => {
       expect(player1leaderboard.ties).toEqual(defaultLeaderboardScore.ties)
     })
   })
+  //TODO: When leaderboard is empty, shouldnt throw division by zero error
 })

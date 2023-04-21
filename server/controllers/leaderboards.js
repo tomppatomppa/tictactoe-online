@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
     attributes: [
       [
         Sequelize.literal(
-          'ROW_NUMBER() OVER (ORDER BY (wins * 1.0) / (wins + losses) DESC)'
+          'ROW_NUMBER() OVER (ORDER BY (wins * 1.0) / NULLIF(wins + losses, 0) DESC)'
         ),
         'ranking',
       ],
@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
       ],
       [
         Sequelize.literal(
-          'CAST(ROUND(CASE WHEN (wins + losses + ties) > 0 THEN (wins * 1.0) / (wins + losses + ties) ELSE 0 END, 2) AS FLOAT)'
+          'CAST(ROUND(CASE WHEN (wins + losses + ties) > 0 THEN (wins * 1.0) /(wins + losses + ties) ELSE 0 END, 2) AS FLOAT)'
         ),
         'winLossTieRatio',
       ],
