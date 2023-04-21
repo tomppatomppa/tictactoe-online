@@ -37,8 +37,11 @@ const useGame = (user, setLocalGame) => {
       }
     }
   }
+  const rematch = async (gameId) => {
+    navigate(`/games/${gameId}`)
+  }
 
-  return { join, create }
+  return { join, create, rematch }
 }
 
 export default useGame

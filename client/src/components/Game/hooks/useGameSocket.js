@@ -7,6 +7,7 @@ const useGameSocket = (id) => {
   const [gameState, setGameState] = useState(null)
   const [message, setMessage] = useState('')
   const [socket, setSocket] = useState(null)
+  const [rematchId, setRematchId] = useState(null)
 
   useEffect(() => {
     const newSocket = io(URL, {
@@ -14,9 +15,8 @@ const useGameSocket = (id) => {
         gameId: id,
       },
     })
-
     setSocket(newSocket)
-
+    setRematchId(null)
     return () => {
       newSocket.disconnect()
     }
@@ -24,6 +24,9 @@ const useGameSocket = (id) => {
 
   const handleAction = (move) => {
     socket.emit('player-move', { gameId: id, move: move })
+  }
+  const handleRematch = () => {
+    socket.emit('game:rematch', gameState)
   }
 
   useEffect(() => {
@@ -43,12 +46,15 @@ const useGameSocket = (id) => {
       socket.on('make-move', (game) => {
         setMessage(JSON.stringify(game))
       })
+      socket.on('start:rematch', (rematchId) => {
+        setRematchId(rematchId)
+      })
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket])
 
-  return { socket, handleAction, gameState, message }
+  return { socket, handleAction, gameState, message, handleRematch, rematchId }
 }
 
 export default useGameSocket

@@ -3,6 +3,7 @@ import { Grid, checkGame } from './Game/Grid'
 
 import { Ai, isLastMove, nextInTurn } from './GameAi'
 import gameServices from '../services/gamesService'
+import GameBoardInfo from './GameBoardInfo'
 
 const GameBoardOffline = ({ game, setLocalGame }) => {
   const [gameState, setGameState] = useState(game)
@@ -41,6 +42,7 @@ const GameBoardOffline = ({ game, setLocalGame }) => {
   if (gameState.isFinished) {
     handleSaveGame()
   }
+
   const handleRematch = () => {
     setGameState({
       ...gameState,
@@ -55,17 +57,7 @@ const GameBoardOffline = ({ game, setLocalGame }) => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="self-start">
-        <h2>Game ID {gameState.id}</h2>
-        <h2>Game type {gameState.type}</h2>
-        <h2>Game winner {gameState.winner}</h2>
-        <h2>
-          Is Finished:
-          {gameState.isFinished ? 'true' : 'false'}
-        </h2>
-        <h2 className="text-blue-400">inTurn {gameState?.inTurn}</h2>
-        <h2 className="text-green-400">winner {gameState?.winner}</h2>
-      </div>
+      <GameBoardInfo gameState={gameState} />
       <Grid gameState={gameState} handleAction={handleOnClick} />
       {gameState.isFinished && <button onClick={handleRematch}>Rematch</button>}
     </div>

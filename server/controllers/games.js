@@ -55,7 +55,6 @@ const addToLeaderboard = async (game) => {
       }
     )
   } else {
-    //Works for offline also
     await Leaderboard.update(
       { ties: Sequelize.literal('ties + 1') },
       {

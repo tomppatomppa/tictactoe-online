@@ -27,9 +27,22 @@ module.exports = (io, socket) => {
   const makeMove = async ({ gameId, move }) => {
     io.to(gameId).emit('make-move', move)
   }
+  const rematch = async (game) => {
+    const { player1, player2, gridSize, type } = game
+    const rematchGame = await Game.create({
+      type: type,
+      userId: player1,
+      gridSize: gridSize,
+      player1: player1,
+      player2: player2,
+      inTurn: player1,
+    })
+    io.to(game.id.toString()).emit('start:rematch', rematchGame.id)
+  }
 
   socket.on('join-game-room', joinGameRoom)
   socket.on('get-initial-games', initialGame)
   socket.on('get-game-state', getGameState)
   socket.on('player-move', makeMove)
+  socket.on('game:rematch', rematch)
 }
