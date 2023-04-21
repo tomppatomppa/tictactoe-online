@@ -13,7 +13,15 @@ const socketMiddleware = (io) => {
   }
 
   io.on('connection', onConnection)
-
+  io.on('error', (error) => {
+    if (error.code === 'ERR_ROOM_ID_REQUIRED') {
+      // handle the error
+      console.error('Room ID is required')
+    } else {
+      // handle other errors
+      console.error('An error occurred:', error.message)
+    }
+  })
   return (req, res, next) => {
     req.io = io
     next()
