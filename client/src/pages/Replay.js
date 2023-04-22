@@ -8,7 +8,7 @@ import useReplay from '../hooks/useReplay'
 
 const Replay = () => {
   const [games, setGames] = useState([])
-  const { game, handleSetGame, advance } = useReplay()
+  const { game, handleSetGame, advance, back } = useReplay()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,7 +44,7 @@ const Replay = () => {
           </button>
           <Grid gameState={game} />
           <div className="flex justify-between">
-            <button className="btn-primary" onClick={handleBacktrace}>
+            <button className="btn-primary" onClick={back}>
               move back
             </button>
             <button className="btn-primary" onClick={advance}>

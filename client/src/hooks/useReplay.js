@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const useReplay = () => {
   const [originalMoves, setOriginalMoves] = useState(null)
@@ -19,7 +19,7 @@ const useReplay = () => {
     })
   }
   const advance = () => {
-    console.log(index)
+    if (index >= originalMoves.length) return
     setIndex(index + 1)
     const moves = originalMoves.slice(0, index + 1)
     setGame({
@@ -27,9 +27,17 @@ const useReplay = () => {
       moves: moves,
     })
   }
+  const back = () => {
+    if (index <= 0) return
+    setIndex(index - 1)
+    const moves = originalMoves.slice(0, index - 1)
+    setGame({
+      ...game,
+      moves: moves,
+    })
+  }
 
-  console.log(originalMoves)
-  return { game, handleSetGame, advance }
+  return { game, handleSetGame, advance, back }
 }
 
 export default useReplay
