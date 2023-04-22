@@ -20,7 +20,7 @@ const Navbar = () => {
 
   const loggedInMenu = () => {
     return (
-      <div className="flex gap-4 flex-wrap uppercase font-semibold items-center text-white">
+      <div className="flex gap-4 flex-wrap-reverse uppercase font-semibold items-center text-white">
         <Link to={'/games'}>Games</Link>
         <Link to={'/'}>Leaderboards</Link>
         <Link to={'/profile'}>Profile</Link>

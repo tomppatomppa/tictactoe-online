@@ -22,12 +22,7 @@ const Replay = () => {
     const game = findGame(games, action.gameId)
     handleSetGame(game)
   }
-  const handleAdvance = () => {
-    console.log('advance')
-  }
-  const handleBacktrace = () => {
-    console.log('go back')
-  }
+
   return (
     <div className="flex justify-center mt-24">
       {!game && (
@@ -38,17 +33,23 @@ const Replay = () => {
         />
       )}
       {game && (
-        <div className="flex-col">
-          <button className="btn-primary" onClick={() => handleSetGame(null)}>
-            return
-          </button>
-          <Grid gameState={game} />
-          <div className="flex justify-between">
-            <button className="btn-primary" onClick={back}>
-              move back
+        <div className="flex-col text-white">
+          <div className="mb-6 flex justify-center">
+            <button
+              onClick={() => handleSetGame(null)}
+              className="uppercase bg-red-600 p-2 animate-pulse"
+            >
+              <p>exit</p>
+              replay mode
             </button>
-            <button className="btn-primary" onClick={advance}>
-              advance
+          </div>
+          <Grid gameState={game} />
+          <div className="flex justify-between mt-2">
+            <button className="btn-primary w-24" onClick={back}>
+              back
+            </button>
+            <button className="btn-primary w-24" onClick={advance}>
+              forward
             </button>
           </div>
         </div>

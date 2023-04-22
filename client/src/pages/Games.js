@@ -29,7 +29,7 @@ const Games = ({ onlineGames = [], setLocalGame }) => {
         <CreateGameForm handleSubmit={handleSubmit} />
       </Modal>
       <div>
-        <div className="flex justify-center">
+        <div className="flex justify-center gap-2">
           <button
             onClick={() => setOpenModal(!openModal)}
             className="btn-primary my-6"
