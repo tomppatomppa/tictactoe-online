@@ -27,4 +27,17 @@ const leaderBoardHeaders = {
   winLossTieRatio: 'W/L/T',
   totalGames: 'Total',
 }
-export { baseUri, initialLocalGameState, gameLobbyHeaders, leaderBoardHeaders }
+const replayLobbyHeaders = {
+  id: 'id',
+  type: 'type',
+  player1: 'player1',
+  player2: 'player2',
+  winner: 'winner',
+}
+export {
+  baseUri,
+  initialLocalGameState,
+  gameLobbyHeaders,
+  leaderBoardHeaders,
+  replayLobbyHeaders,
+}

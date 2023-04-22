@@ -12,6 +12,7 @@ import useGames from './hooks/useGames'
 import GameBoard from './components/GameBoard'
 import GameBoardOffline from './components/GameBoardOffline'
 import { useState } from 'react'
+import Replay from './pages/Replay'
 
 function App() {
   const socket = useSocket()
@@ -42,6 +43,7 @@ function App() {
             }
           />
           <Route path="home" element={<Home />} />
+          <Route path="/replay" element={<Replay />} />
         </Route>
       </Routes>
     </div>

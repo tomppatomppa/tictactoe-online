@@ -5,7 +5,11 @@ const { Game, Leaderboard } = require('../models/index')
 const { userFromToken, validateMoveMiddleware } = require('../util/middleware')
 
 router.get('/', async (req, res) => {
-  const allGames = await Game.findAll()
+  const allGames = await Game.findAll({
+    where: {
+      isFinished: true,
+    },
+  })
   res.status(200).json(allGames)
 })
 

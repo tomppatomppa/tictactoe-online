@@ -5,7 +5,7 @@ const { socketMiddleware, errorHandler } = require('./util/middleware')
 const http = require('http')
 const path = require('path')
 const app = express()
-const httpServer = http.createServer(app)
+const httpServer = http.createServer()
 
 const io = require('./socket')(httpServer)
 
@@ -17,6 +17,8 @@ const gamesRouter = require('./controllers/games')
 const sessionsRouter = require('./controllers/sessions')
 const leaderboardsRouter = require('./controllers/leaderboards')
 
+httpServer.on('request', app)
+//TODO: refactor all but app into index.js
 app.use(cors())
 app.use(express.json())
 app.use(express.static(path.join(__dirname, './build')))
@@ -39,6 +41,6 @@ app.get('*', (req, res) => {
 })
 
 //needed for localhost only
-//io.listen(4000)
+io.listen(4000)
 
 module.exports = { app, httpServer }

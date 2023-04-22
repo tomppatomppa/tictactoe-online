@@ -43,18 +43,19 @@ const makeMove = async (id, move, token) => {
 const saveGame = async (game) => {
   //console.log('save', game)
 }
-const getLeaderboard = async () => {
+
+const replay = async () => {
   const { data } = await axios.get(`${baseUri}`)
   return data
 }
-
 const gameServices = {
   getAll,
   create,
   join,
   makeMove,
-  getLeaderboard,
+
   saveGame,
+  replay,
 }
 
 export default gameServices

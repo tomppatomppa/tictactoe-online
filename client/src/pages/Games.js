@@ -6,8 +6,10 @@ import CreateGameForm from '../components/CreateGameForm'
 
 import useGame from '../hooks/useGame'
 import { gameLobbyHeaders } from '../utils/config'
+import { useNavigate } from 'react-router-dom'
 
 const Games = ({ onlineGames = [], setLocalGame }) => {
+  const navigate = useNavigate()
   const [openModal, setOpenModal] = useState(false)
   const { user } = useCurrentUser()
   const { create, join } = useGame(user, setLocalGame)
@@ -26,7 +28,6 @@ const Games = ({ onlineGames = [], setLocalGame }) => {
       <Modal openModal={openModal} setOpenModal={setOpenModal}>
         <CreateGameForm handleSubmit={handleSubmit} />
       </Modal>
-
       <div>
         <div className="flex justify-center">
           <button
@@ -34,6 +35,12 @@ const Games = ({ onlineGames = [], setLocalGame }) => {
             className="btn-primary my-6"
           >
             Create A Game
+          </button>
+          <button
+            onClick={() => navigate('/replay')}
+            className="btn-primary my-6"
+          >
+            Replay Mode
           </button>
         </div>
         <div className="flex justify-center">
