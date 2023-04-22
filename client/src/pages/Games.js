@@ -5,9 +5,42 @@ import Modal from '../components/Modal'
 import CreateGameForm from '../components/CreateGameForm'
 
 import useGame from '../hooks/useGame'
-import { gameLobbyHeaders } from '../utils/config'
+import { buttonStyle, buttonStyleWait, gameLobbyHeaders } from '../utils/config'
 import { useNavigate } from 'react-router-dom'
-
+const templateEntity = [
+  {
+    target: ['player1', 'player2'], //target fields
+    match: [1, null], //match target fields
+    text: 'waiting', // button text
+    dispatch: ['player1', 'id'], //What to include in the onClick data field
+    action: 'wait', // what action to dispatch in the onClick
+    style: buttonStyleWait, // button color
+  },
+  {
+    target: ['player1'], //target fields
+    match: [1], //match target fields
+    text: 'Play', // button text
+    dispatch: ['player1', 'id'], //What to include in the onClick data field
+    action: 'play', // what action to dispatch in the onClick
+    style: buttonStyle, // button color
+  },
+  {
+    target: ['player2'], //target fields
+    match: [1], //match target fields
+    text: 'Play', // button text
+    dispatch: ['player1', 'id'], //What to include in the onClick data field
+    action: 'play', // what action to dispatch in the onClick
+    style: buttonStyle, // button color
+  },
+  {
+    target: ['player2'], //target fields
+    match: [null], //match target fields
+    text: 'Join', // button text
+    dispatch: ['id'], //What to include in the onClick data field
+    action: 'join', // what action to dispatch in the onClick
+    style: { ...buttonStyle, backgroundColor: 'blue' }, // button color
+  },
+]
 const Games = ({ onlineGames = [], setLocalGame }) => {
   const navigate = useNavigate()
   const [openModal, setOpenModal] = useState(false)
@@ -22,7 +55,9 @@ const Games = ({ onlineGames = [], setLocalGame }) => {
       console.log(e)
     }
   }
-
+  const onClickHandler = (data) => {
+    console.log(data)
+  }
   return (
     <div className="mt-24 text-white">
       <Modal openModal={openModal} setOpenModal={setOpenModal}>
@@ -45,13 +80,11 @@ const Games = ({ onlineGames = [], setLocalGame }) => {
         </div>
         <div className="flex justify-center">
           <DataTable
-            onClick={join}
+            onClick={onClickHandler}
             headers={gameLobbyHeaders}
-            entity={user.id}
+            entity={templateEntity}
             data={onlineGames}
-          >
-            <button className="btn-join">hello</button>
-          </DataTable>
+          />
         </div>
       </div>
     </div>

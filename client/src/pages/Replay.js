@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import DataTable from '../components/DataTable'
 import gameServices from '../services/gamesService'
-import { replayLobbyHeaders } from '../utils/config'
+import { buttonStyle, replayLobbyHeaders } from '../utils/config'
 import { findGame } from '../utils/helpers'
 
 import useReplay from '../hooks/useReplay'
 import { Grid } from '../components/Grid'
+
+const templateEntity = [
+  {
+    target: ['type'], //target fields
+    match: ['online'], //match target fields
+    text: 'Replay', // button text
+    dispatch: ['id'], //What to include in the onClick data field
+    action: 'replay', // what action to dispatch in the onClick
+    style: buttonStyle, // button color
+  },
+]
 
 const Replay = () => {
   const [games, setGames] = useState([])
@@ -20,7 +31,7 @@ const Replay = () => {
   }, [])
 
   const handleSelectGame = (action) => {
-    const game = findGame(games, action.gameId)
+    const game = findGame(games, action.data.id)
     handleSetGame(game)
   }
 
@@ -31,6 +42,7 @@ const Replay = () => {
           headers={replayLobbyHeaders}
           data={games}
           onClick={handleSelectGame}
+          entity={templateEntity}
         />
       )}
       {game && (

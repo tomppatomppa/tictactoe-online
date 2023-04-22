@@ -13,49 +13,54 @@ function hasOnlyKeyValuePairs(obj) {
   )
 }
 
-const DataTableItem = ({ data, onClick, entity }) => {
+const Item = ({ data, onClick, entity }) => {
   const tableDataItem = Object.values(data)
 
-  const ActionButton = ({ onClick, item }) => {
-    if (tableDataItem[3] !== null) {
-      return (
-        <td
-          onClick={() => onClick({ type: 'start', gameId: tableDataItem[0] })}
-          className="btn-play "
-        >
-          {'Play'}
-        </td>
-      )
+  const getDispatchFields = (filteredKeys) => {
+    const filteredObj = {}
+    filteredKeys.forEach((key) => {
+      filteredObj[key] = data[key]
+    })
+    return filteredObj
+  }
+  const matchFields = (entity, target) => {
+    let isValid = true
+    for (let i = 0; i < entity?.match.length; i++) {
+      if (entity.match[i] !== target[entity.target[i]]) {
+        isValid = false
+      }
     }
-    if (tableDataItem[2] !== entity) {
-      return (
-        <td
-          onClick={() => onClick({ type: 'join', gameId: tableDataItem[0] })}
-          className="btn-join"
-        >
-          {'Join'}
-        </td>
-      )
-    }
-    if (tableDataItem[2] === entity) {
-      return (
-        <td
-          onClick={() => onClick('Waiting for a player to join my game')}
-          className="btn-wait"
-        >
-          {'waiting...'}
-        </td>
-      )
+    return isValid
+  }
+
+  const ActionButton = () => {
+    for (let i = 0; i < entity?.length; i++) {
+      if (matchFields(entity[i], data)) {
+        return (
+          <button
+            style={entity[i].style}
+            onClick={() =>
+              onClick({
+                action: entity[i].action,
+                data: getDispatchFields(entity[i].dispatch),
+              })
+            }
+          >
+            {entity[i].text}
+          </button>
+        )
+      }
     }
   }
+
   return (
     <tr
       data-testid="table-body-row "
       className="hover:bg-slate-700 translate-all duration-200 "
     >
-      {tableDataItem.map((item, index) => {
+      {tableDataItem?.map((item, index) => {
         if (item === 'action') {
-          return <ActionButton onClick={onClick} item={item} key={index} />
+          return <ActionButton />
         } else {
           return (
             <td key={index} className="px-4 py-2">
@@ -67,7 +72,6 @@ const DataTableItem = ({ data, onClick, entity }) => {
     </tr>
   )
 }
-
 const DataTable = ({ headers, data, entity, onClick }) => {
   if (!headers) {
     throw new Error('DataTable* component requires a `headers` prop.')
@@ -117,15 +121,10 @@ const DataTable = ({ headers, data, entity, onClick }) => {
         </thead>
         <tbody
           data-testid="table-body"
-          className=" border-2 backdrop-blur-sm border-white"
+          className="border-2 backdrop-blur-sm border-white"
         >
           {result?.map((data, index) => (
-            <DataTableItem
-              onClick={onClick}
-              key={index}
-              data={data}
-              entity={entity}
-            ></DataTableItem>
+            <Item onClick={onClick} key={index} data={data} entity={entity} />
           ))}
         </tbody>
       </table>

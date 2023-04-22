@@ -36,6 +36,42 @@ const replayLobbyHeaders = {
   player2: 'player2',
   winner: 'winner',
 }
+const buttonStyleWait = {
+  width: '100%',
+  height: '100%',
+  backgroundColor: 'red',
+  color: '#FFFFFF',
+  fontWeight: '600',
+  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
+  cursor: 'pointer',
+  animation: 'pulse 2s infinite',
+  ':hover': {
+    backgroundColor: '#1F2937',
+  },
+  ':focus': {
+    outline: 'none',
+    boxShadow: '0 0 0 2px #DBEAFE',
+    backgroundColor: '#1F2937',
+  },
+}
+const buttonStyle = {
+  width: '100%',
+  height: '100%',
+  backgroundColor: 'green',
+  color: '#FFFFFF',
+  fontWeight: '600',
+  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
+  cursor: 'pointer',
+
+  ':hover': {
+    backgroundColor: '#1F2937',
+  },
+  ':focus': {
+    outline: 'none',
+    boxShadow: '0 0 0 2px #DBEAFE',
+    backgroundColor: '#1F2937',
+  },
+}
 export {
   baseUri,
   initialLocalGameState,
@@ -43,4 +79,6 @@ export {
   leaderBoardHeaders,
   replayLobbyHeaders,
   SOCKET_URL,
+  buttonStyleWait,
+  buttonStyle,
 }
