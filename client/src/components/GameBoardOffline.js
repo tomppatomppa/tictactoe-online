@@ -5,7 +5,7 @@ import GameBoardInfo from './GameBoardInfo'
 import { Ai, checkGame, isLastMove, nextInTurn } from '../utils/tictactoe'
 import { Grid } from './Grid'
 
-const GameBoardOffline = ({ game, setLocalGame }) => {
+const GameBoardOffline = ({ game }) => {
   const [gameState, setGameState] = useState(game)
   const gameAi = new Ai()
 

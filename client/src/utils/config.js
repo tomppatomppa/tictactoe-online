@@ -1,4 +1,6 @@
 const baseUri = '/api/games'
+const SOCKET_URL =
+  process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:4000'
 
 const initialLocalGameState = {
   moves: [],
@@ -40,4 +42,5 @@ export {
   gameLobbyHeaders,
   leaderBoardHeaders,
   replayLobbyHeaders,
+  SOCKET_URL,
 }

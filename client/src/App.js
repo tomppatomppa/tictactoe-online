@@ -1,5 +1,5 @@
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
-import Home from './pages/Home'
+
 import Games from './pages/Games'
 import Navbar from './components/Navbar'
 import Leaderboard from './pages/Leaderboard'
@@ -9,10 +9,11 @@ import useSocket from './hooks/useSocket'
 import useCurrentUser from './hooks/useCurrentUser'
 import useLogin from './hooks/useLogin'
 import useGames from './hooks/useGames'
-import GameBoard from './components/GameBoard'
+
 import GameBoardOffline from './components/GameBoardOffline'
 import { useState } from 'react'
 import Replay from './pages/Replay'
+import GameBoardOnline from './components/GameBoardOnline'
 
 function App() {
   const socket = useSocket()
@@ -35,14 +36,11 @@ function App() {
               <Games onlineGames={onlineGames} setLocalGame={setLocalGame} />
             }
           />
-          <Route path="games/:id" element={<GameBoard />} />
+          <Route path="games/:id" element={<GameBoardOnline />} />
           <Route
             path="games/offline/"
-            element={
-              <GameBoardOffline game={localGame} setLocalGame={setLocalGame} />
-            }
+            element={<GameBoardOffline game={localGame} />}
           />
-          <Route path="home" element={<Home />} />
           <Route path="/replay" element={<Replay />} />
         </Route>
       </Routes>

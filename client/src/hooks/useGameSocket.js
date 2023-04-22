@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { io } from 'socket.io-client'
-const URL =
-  process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:4000'
+import { SOCKET_URL } from '../utils/config'
 
 const useGameSocket = (id) => {
   const [gameState, setGameState] = useState(null)
@@ -11,7 +10,7 @@ const useGameSocket = (id) => {
 
   useEffect(() => {
     setRematchGameId(null)
-    const newSocket = io(URL, {
+    const newSocket = io(SOCKET_URL, {
       query: {
         gameId: id,
       },
@@ -55,7 +54,6 @@ const useGameSocket = (id) => {
       socket.on('new:game', (gameId) => {
         setRematchGameId(gameId)
       })
-      //setRematchGameId(rematchGameId)
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

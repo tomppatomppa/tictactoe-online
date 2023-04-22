@@ -16,9 +16,6 @@ function hasOnlyKeyValuePairs(obj) {
 const DataTableItem = ({ data, onClick, entity }) => {
   const tableDataItem = Object.values(data)
 
-  if (onClick) {
-    tableDataItem.push('action')
-  }
   const ActionButton = ({ onClick, item }) => {
     if (tableDataItem[3] !== null) {
       return (
@@ -93,6 +90,10 @@ const DataTable = ({ headers, data, entity, onClick }) => {
 
   if (onClick) {
     tableHeaders.push('action')
+    result = result.map((element) => {
+      const updatedElement = { ...element, action: 'action' }
+      return updatedElement
+    })
   }
 
   return (
@@ -124,7 +125,7 @@ const DataTable = ({ headers, data, entity, onClick }) => {
               key={index}
               data={data}
               entity={entity}
-            />
+            ></DataTableItem>
           ))}
         </tbody>
       </table>

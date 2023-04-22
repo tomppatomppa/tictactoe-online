@@ -8,7 +8,9 @@ import useGameSocket from '../hooks/useGameSocket'
 
 const RematchButton = ({ gameState, gameId, handleRematch }) => {
   const { isFinished } = gameState
+
   if (!isFinished) return
+
   return (
     <>
       {gameId === null && (
@@ -19,7 +21,8 @@ const RematchButton = ({ gameState, gameId, handleRematch }) => {
     </>
   )
 }
-const GameBoard = () => {
+
+const GameBoardOnline = () => {
   const navigate = useNavigate()
   let { id } = useParams()
   const { gameState, handleRematch, rematchGameId } = useGameSocket(id)
@@ -46,4 +49,4 @@ const GameBoard = () => {
   )
 }
 
-export default GameBoard
+export default GameBoardOnline

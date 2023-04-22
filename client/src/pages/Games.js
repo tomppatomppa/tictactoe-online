@@ -49,7 +49,9 @@ const Games = ({ onlineGames = [], setLocalGame }) => {
             headers={gameLobbyHeaders}
             entity={user.id}
             data={onlineGames}
-          />
+          >
+            <button className="btn-join">hello</button>
+          </DataTable>
         </div>
       </div>
     </div>
