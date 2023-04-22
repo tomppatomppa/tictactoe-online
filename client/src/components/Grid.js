@@ -2,9 +2,9 @@ import {
   findIndexOfCoord,
   indexToCoords,
   isInCoordsArray,
-} from '../../utils/tictactoe'
+} from '../utils/tictactoe'
 
-export function Grid({ gameState, handleAction }) {
+export const Grid = ({ gameState, handleAction }) => {
   const { moves, gridSize, isFinished } = gameState
 
   const gridTemplateColumns = `repeat(${gridSize}, minmax(0, 1fr))`

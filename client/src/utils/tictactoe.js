@@ -99,6 +99,7 @@ const nextInTurn = (gameState) => {
 const isLastMove = (gameState) => {
   return gameState.moves.length >= gameState.gridSize ** 2
 }
+
 class Ai {
   nextMove(gameState) {
     const available = this.successors(gameState)

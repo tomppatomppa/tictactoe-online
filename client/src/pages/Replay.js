@@ -3,8 +3,9 @@ import DataTable from '../components/DataTable'
 import gameServices from '../services/gamesService'
 import { replayLobbyHeaders } from '../utils/config'
 import { findGame } from '../utils/helpers'
-import { Grid } from '../components/Game/Grid'
+
 import useReplay from '../hooks/useReplay'
+import { Grid } from '../components/Grid'
 
 const Replay = () => {
   const [games, setGames] = useState([])

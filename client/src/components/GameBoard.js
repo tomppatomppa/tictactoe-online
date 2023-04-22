@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import useGameSocket from './Game/hooks/useGameSocket'
-import { Grid } from './Game/Grid'
-import useMakeMove from './Game/hooks/useMakeMove'
+
+import useMakeMove from '../hooks/useMakeMove'
 import GameBoardInfo from './GameBoardInfo'
+import { Grid } from './Grid'
+import useGameSocket from '../hooks/useGameSocket'
 
 const RematchButton = ({ gameState, gameId, handleRematch }) => {
   const { isFinished } = gameState

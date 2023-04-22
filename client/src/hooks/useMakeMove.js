@@ -1,5 +1,5 @@
-import useCurrentUser from '../../../hooks/useCurrentUser'
-import gameServices from '../../../services/gamesService'
+import useCurrentUser from './useCurrentUser'
+import gameServices from '../services/gamesService'
 
 const useMakeMove = (id) => {
   const { user } = useCurrentUser()

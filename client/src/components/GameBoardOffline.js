@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Grid } from './Game/Grid'
 
 import gameServices from '../services/gamesService'
 import GameBoardInfo from './GameBoardInfo'
 import { Ai, checkGame, isLastMove, nextInTurn } from '../utils/tictactoe'
+import { Grid } from './Grid'
 
 const GameBoardOffline = ({ game, setLocalGame }) => {
   const [gameState, setGameState] = useState(game)
