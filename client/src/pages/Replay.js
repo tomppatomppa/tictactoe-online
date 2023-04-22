@@ -4,10 +4,11 @@ import gameServices from '../services/gamesService'
 import { replayLobbyHeaders } from '../utils/config'
 import { findGame } from '../utils/helpers'
 import { Grid } from '../components/Game/Grid'
+import useReplay from '../hooks/useReplay'
 
 const Replay = () => {
   const [games, setGames] = useState([])
-  const [selectedGame, setSelectedGame] = useState(null)
+  const { game, handleSetGame, advance } = useReplay()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,39 +18,36 @@ const Replay = () => {
     fetchData()
   }, [])
 
-  const handleOnClick = (action) => {
+  const handleSelectGame = (action) => {
     const game = findGame(games, action.gameId)
-    setSelectedGame(game)
+    handleSetGame(game)
   }
-  const handleGridItem = (move) => {
-    console.log(move)
+  const handleAdvance = () => {
+    console.log('advance')
+  }
+  const handleBacktrace = () => {
+    console.log('go back')
   }
   return (
     <div className="flex justify-center mt-24">
-      {!selectedGame && (
+      {!game && (
         <DataTable
           headers={replayLobbyHeaders}
           data={games}
-          onClick={handleOnClick}
+          onClick={handleSelectGame}
         />
       )}
-      {selectedGame && (
+      {game && (
         <div className="flex-col">
-          <button className="btn-primary" onClick={() => setSelectedGame(null)}>
+          <button className="btn-primary" onClick={() => handleSetGame(null)}>
             return
           </button>
-          <Grid gameState={selectedGame} handleAction={handleGridItem} />
+          <Grid gameState={game} />
           <div className="flex justify-between">
-            <button
-              className="btn-primary"
-              onClick={() => setSelectedGame(null)}
-            >
+            <button className="btn-primary" onClick={handleBacktrace}>
               move back
             </button>
-            <button
-              className="btn-primary"
-              onClick={() => setSelectedGame(null)}
-            >
+            <button className="btn-primary" onClick={advance}>
               advance
             </button>
           </div>
