@@ -32,6 +32,7 @@ const validateGridProps = (gameState) => {
   }
   return true
 }
+
 export const Grid = ({ gameState, handleAction }) => {
   if (!validateGridProps(gameState)) return
 
@@ -39,38 +40,15 @@ export const Grid = ({ gameState, handleAction }) => {
 
   const gridTemplateColumns = `repeat(${gridSize}, minmax(0, 1fr))`
 
-  const getStyle = (coords) => {
-    const shouldColor = isInCoordsArray(moves, coords)
-    const indexOfItem = findIndexOfCoord(moves, coords)
-    const style = shouldColor
-      ? indexOfItem % 2 === 0
-        ? 'bg-lime-600'
-        : 'bg-indigo-600'
-      : 'bg-transparent'
-
-    return style
-  }
-
-  const getIcon = (coords) => {
-    const shouldColor = isInCoordsArray(moves, coords)
-    const indexOfItem = findIndexOfCoord(moves, coords)
-    const icon = shouldColor ? (indexOfItem % 2 === 0 ? 'O' : 'X') : ''
-
-    return icon
-  }
-  const GridItem = ({ coords }) => {
-    const icon = getIcon(coords)
-
+  const GridItem = ({ coords, exists, icon, style }) => {
     const handleClick = () => {
-      if (!icon) handleAction(coords)
+      if (!exists) handleAction(coords)
     }
-
     return (
       <button
         onClick={handleClick}
-        className={`${getStyle(
-          coords
-        )} border-2 border-gray-400 hover:border-gray-300 w-16 h-16`}
+        style={style}
+        className={`border-2 border-gray-400 hover:border-gray-300 w-16 h-16`}
       >
         {icon}
       </button>
@@ -85,7 +63,24 @@ export const Grid = ({ gameState, handleAction }) => {
     >
       {[...Array(gridSize ** 2)].map((_, index) => {
         const coords = indexToCoords(index, gridSize)
-        return <GridItem key={index} coords={coords} />
+        const exists = isInCoordsArray(moves, coords)
+        const indexOfItem = findIndexOfCoord(moves, coords) //player1 or player2
+        const icon = exists ? (indexOfItem % 2 === 0 ? 'O' : 'X') : null
+        const style = exists
+          ? indexOfItem % 2 === 0
+            ? '#c0ca33'
+            : '#3949ab'
+          : null
+
+        return (
+          <GridItem
+            key={index}
+            coords={coords}
+            exists={exists}
+            icon={icon}
+            style={{ backgroundColor: style }}
+          />
+        )
       })}
     </div>
   )
