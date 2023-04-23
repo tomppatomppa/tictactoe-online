@@ -14,6 +14,7 @@ import GameBoardOffline from './components/GameBoardOffline'
 import { useState } from 'react'
 import Replay from './pages/Replay'
 import GameBoardOnline from './components/GameBoardOnline'
+import { Grid } from './components/Grid'
 
 function App() {
   const socket = useSocket()
@@ -25,6 +26,7 @@ function App() {
   return (
     <div className="App bg-background-pattern bg-cover bg-center h-full ">
       <Navbar />
+
       <Routes>
         <Route path="*" element={<Leaderboard />} />
         <Route path="/" element={<Leaderboard />} />

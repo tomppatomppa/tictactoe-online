@@ -28,7 +28,11 @@ const GameBoardOffline = ({ game }) => {
     setGameState(updatedState)
   }
   const handleSaveGame = async () => {
-    await gameServices.saveGame(gameState)
+    try {
+      await gameServices.saveGame(gameState)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   useEffect(() => {
