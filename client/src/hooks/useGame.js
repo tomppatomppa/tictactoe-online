@@ -5,17 +5,6 @@ import { initialLocalGameState } from '../utils/config'
 const useGame = (user, setLocalGame) => {
   const navigate = useNavigate()
 
-  const join = async (action) => {
-    if (action.type === 'join') {
-      try {
-        await gameServices.join(action.gameId, user.token)
-      } catch (err) {
-        console.log(err)
-      }
-    } else if (action.type === 'start') {
-      navigate(`/games/${action.gameId}`)
-    }
-  }
   const create = async ({ type, gridSize }) => {
     if (type === 'local') {
       setLocalGame({
@@ -40,8 +29,28 @@ const useGame = (user, setLocalGame) => {
   const rematch = async (gameId) => {
     navigate(`/games/${gameId}`)
   }
+  const actionHandler = async (action) => {
+    const { type, data } = action
 
-  return { join, create, rematch }
+    if (type === 'play') {
+      console.log('go play')
+      navigate(`/games/${data.id}`)
+    }
+
+    if (type === 'join') {
+      try {
+        await gameServices.join(data.id, user.token)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    if (type === 'wait') {
+      console.log('Still waiting for a player')
+    }
+  }
+
+  return { create, rematch, actionHandler }
 }
 
 export default useGame

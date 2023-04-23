@@ -23,7 +23,7 @@ function App() {
   useLogin()
 
   return (
-    <div className="App bg-background-pattern bg-cover bg-center h-screen ">
+    <div className="App bg-background-pattern bg-cover bg-center h-full ">
       <Navbar />
       <Routes>
         <Route path="*" element={<Leaderboard />} />

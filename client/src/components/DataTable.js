@@ -23,31 +23,32 @@ const Item = ({ data, onClick, entity }) => {
     })
     return filteredObj
   }
+
   const matchFields = (entity, target) => {
-    let isValid = true
+    let isMatch = true
     for (let i = 0; i < entity?.match.length; i++) {
       if (entity.match[i] !== target[entity.target[i]]) {
-        isValid = false
+        isMatch = false
       }
     }
-    return isValid
+    return isMatch
   }
 
   const ActionButton = () => {
     for (let i = 0; i < entity?.length; i++) {
       if (matchFields(entity[i], data)) {
         return (
-          <button
+          <td
             style={entity[i].style}
             onClick={() =>
               onClick({
-                action: entity[i].action,
+                type: entity[i].type,
                 data: getDispatchFields(entity[i].dispatch),
               })
             }
           >
             {entity[i].text}
-          </button>
+          </td>
         )
       }
     }
@@ -60,7 +61,7 @@ const Item = ({ data, onClick, entity }) => {
     >
       {tableDataItem?.map((item, index) => {
         if (item === 'action') {
-          return <ActionButton />
+          return <ActionButton key={index} />
         } else {
           return (
             <td key={index} className="px-4 py-2">

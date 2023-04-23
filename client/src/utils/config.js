@@ -41,6 +41,7 @@ const buttonStyleWait = {
   height: '100%',
   backgroundColor: 'red',
   color: '#FFFFFF',
+  textAlign: 'center',
   fontWeight: '600',
   boxShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
   cursor: 'pointer',
@@ -57,12 +58,12 @@ const buttonStyleWait = {
 const buttonStyle = {
   width: '100%',
   height: '100%',
+  textAlign: 'center',
   backgroundColor: 'green',
   color: '#FFFFFF',
   fontWeight: '600',
   boxShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
   cursor: 'pointer',
-
   ':hover': {
     backgroundColor: '#1F2937',
   },
