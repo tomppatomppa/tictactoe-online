@@ -39,6 +39,7 @@ const Item = ({ data, onClick, entity }) => {
       if (matchFields(entity[i], data)) {
         return (
           <td
+            data-testid="action-button"
             style={entity[i].style}
             onClick={() =>
               onClick({

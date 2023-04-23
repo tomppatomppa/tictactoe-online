@@ -1,7 +1,8 @@
-import { render, screen, within } from '@testing-library/react'
+import { prettyDOM, render, screen, within } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import React from 'react'
 import DataTable from '../components/DataTable'
+import { buttonStyleWait } from '../utils/config'
 
 const headers = {
   header1: 'header1',
@@ -26,7 +27,16 @@ const invalidHeaders = {
   header4: 'header4',
   header5: 'header5',
 }
-
+const templateEntity = [
+  {
+    target: ['header1'], //target header fields
+    match: ['value1'], //match target fields
+    text: 'waiting', // button text
+    dispatch: ['id'], //What to include in the onClick data field
+    type: 'wait', // what action to dispatch in the onClick
+    style: { ...buttonStyleWait }, // button color
+  },
+]
 describe('DataTable tests', () => {
   it('should contain the headers in correct order', () => {
     render(<DataTable headers={headers} />)
@@ -65,6 +75,48 @@ describe('DataTable tests', () => {
     const values = Object.values(data[0])
     row.forEach((cell, index) => {
       expect(cell).toHaveTextContent(values[index])
+    })
+  })
+
+  describe('Text Action button', () => {
+    it('Header should not contain action label', () => {
+      render(<DataTable headers={headers} data={data} />)
+      const headersItems = screen.queryByTestId('table-header')
+      expect(headersItems).not.toHaveTextContent('action')
+    })
+    it('Header should contain action label when onClick prop is passed', () => {
+      const onClick = jest.fn()
+      render(<DataTable headers={headers} data={data} onClick={onClick} />)
+      const headersItems = screen.queryByTestId('table-header')
+      expect(headersItems).toHaveTextContent('action')
+    })
+    it('Action button should render', () => {
+      const onClick = jest.fn()
+      render(
+        <DataTable
+          headers={headers}
+          data={data}
+          onClick={onClick}
+          entity={templateEntity}
+        />
+      )
+      const actionbutton = screen.queryByTestId('action-button')
+
+      expect(actionbutton).toBeTruthy()
+    })
+    it('Action button should have correct text', () => {
+      const onClick = jest.fn()
+      render(
+        <DataTable
+          headers={headers}
+          data={data}
+          onClick={onClick}
+          entity={templateEntity}
+        />
+      )
+      const actionbutton = screen.queryByTestId('action-button')
+      console.log(prettyDOM(actionbutton))
+      expect(actionbutton).toHaveTextContent('waiting')
     })
   })
 })
