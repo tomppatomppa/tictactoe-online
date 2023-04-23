@@ -46,6 +46,7 @@ export const Grid = ({ gameState, handleAction }) => {
     }
     return (
       <button
+        data-testid="grid-item"
         onClick={handleClick}
         style={style}
         className={`border-2 border-gray-400 hover:border-gray-300 w-16 h-16`}
@@ -56,6 +57,7 @@ export const Grid = ({ gameState, handleAction }) => {
   }
   return (
     <div
+      data-testid="grid-body"
       style={{ gridTemplateColumns }}
       className={`grid grid-cols-${gridSize} gap-4 md:max-w-md  ${
         isFinished && 'pointer-events-none'
