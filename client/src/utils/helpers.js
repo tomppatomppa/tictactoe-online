@@ -17,4 +17,5 @@ const isPlayerGame = (game, user) => {
 const findGame = (games, id) => {
   return games.find((game) => game.id === id)
 }
+
 export { isMyGame, isPlayerGame, findGame }

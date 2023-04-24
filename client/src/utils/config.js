@@ -78,28 +78,28 @@ const buttonStyle = {
  * Custom Buttons
  */
 const waitButton = {
-  target: ['player1', 'player2'], //target fields
-  match: [null, null], //match target fields
-  text: 'waiting', // button text
-  dispatch: ['player1', 'id'], //What to include in the onClick data field
-  type: 'wait', // what action to dispatch in the onClick
-  style: { ...buttonStyleWait }, // button color
+  target: ['player1', 'player2'],
+  match: [null, null],
+  text: 'waiting',
+  dispatch: ['player1', 'id'],
+  type: 'wait',
+  style: { ...buttonStyleWait },
 }
 const playButton = {
-  target: ['player1'], //target fields
-  match: [null], //match target fields
-  text: 'Play', // button text
-  dispatch: ['id'], //What to include in the onClick data field
-  type: 'play', // what action to dispatch in the onClick
-  style: buttonStyle, // button color
+  target: ['player1'],
+  match: [null],
+  text: 'Play',
+  dispatch: ['id'],
+  type: 'play',
+  style: buttonStyle,
 }
 const joinButton = {
-  target: ['player2'], //target fields
-  match: [null], //match target fields
-  text: 'Join', // button text
-  dispatch: ['id'], //What to include in the onClick data field
-  type: 'join', // what action to dispatch in the onClick
-  style: { ...buttonStyle, backgroundColor: 'blue' }, // button color
+  target: ['player2'],
+  match: [null],
+  text: 'Join',
+  dispatch: ['id'],
+  type: 'join',
+  style: { ...buttonStyle, backgroundColor: 'blue' },
 }
 export {
   baseUri,

@@ -38,6 +38,9 @@ const useGames = (socket, user) => {
           removeGame(joinedGame)
         }
       })
+      socket.on('delete:game', (deletedGame) => {
+        removeGame(deletedGame)
+      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket])

@@ -168,11 +168,28 @@ router.put('/:id', async (req, res) => {
   res.status(200).json(updatedGame)
 })
 
-router.delete('/', async (req, res) => {
-  await Game.destroy({
-    where: {},
-  })
-  return res.status(200).json('Deleted all games')
+router.delete('/:id', async (req, res) => {
+  const game = await Game.findByPk(req.params.id)
+
+  if (!game) {
+    return res.status(404).json({ error: 'Game not found' })
+  }
+
+  if (game.userId !== req.user.id) {
+    return res.status(401).json({ error: 'Unauthorized delete' })
+  }
+
+  if (game.player2 !== null) {
+    return res.status(403).json({ error: 'Cannot delete when game is active' })
+  }
+
+  await game.destroy()
+
+  if (req.io) {
+    req.io.emit('delete:game', game)
+  }
+
+  return res.status(200).json(`Deleted game ${req.params.id}`)
 })
 
 module.exports = router
