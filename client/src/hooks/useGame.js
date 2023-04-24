@@ -55,9 +55,6 @@ const useGame = (user, setLocalGame) => {
         console.log(err)
       }
     }
-    if (type === 'wait') {
-      console.log('Still waiting for a player')
-    }
   }
   const sendMove = async ({ id, move }) => {
     try {

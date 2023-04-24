@@ -1,4 +1,4 @@
-const { compareCoords } = require('../games/tic-tac-toe')
+const { isInCoordsArray } = require('../games/tic-tac-toe')
 const { User, Session, Game } = require('../models')
 
 const registerGameHandlers = require('./socketHandlers.js/gameHandler')
@@ -94,12 +94,8 @@ const validateMoveMiddleware = async (req, res, next) => {
   if (game.isFinished) {
     return res.status(400).json({ error: 'Game has finished' })
   }
-  const { type, player1, player2 } = game
 
-  if (type === 'local') {
-    req.game = game
-    return next()
-  }
+  const { player1, player2 } = game
 
   if (user.id !== player1 && user.id !== player2) {
     return res.status(400).json({ error: 'Permission to play denied' })
@@ -108,7 +104,11 @@ const validateMoveMiddleware = async (req, res, next) => {
   if (game.inTurn !== user.id) {
     return res.status(400).json({ error: 'Not your turn' })
   }
-  //TODO:check for duplicate coords
+
+  if (isInCoordsArray(game.moves, req.body.move)) {
+    return res.status(400).json({ error: 'This is not a valid move' })
+  }
+
   req.game = game
 
   next()
