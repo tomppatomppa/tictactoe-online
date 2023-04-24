@@ -47,7 +47,7 @@ export const Grid = ({ gameState, handleAction }) => {
         data-testid="grid-item"
         onClick={handleClick}
         style={style}
-        className={`border-2 border-gray-400 hover:border-gray-300 w-12 h-12 sm:w-16 sm:h-16`}
+        className={`border border-gray-400 hover:border-gray-300 w-12 h-12 `}
       >
         {icon}
       </button>
@@ -60,7 +60,7 @@ export const Grid = ({ gameState, handleAction }) => {
       style={{
         gridTemplateColumns: `repeat(${gridSize}, minmax(auto, 0))`,
       }}
-      className={`overflow-auto h-[400px] md:h-[auto] w-full justify-center grid ${
+      className={`overflow-auto border h-[auto] sm:h-[auto] max-w-full mx-auto grid ${
         isFinished && 'pointer-events-none'
       }`}
     >

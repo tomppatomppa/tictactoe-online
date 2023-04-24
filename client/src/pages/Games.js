@@ -26,7 +26,7 @@ const Games = ({ onlineGames = [], setLocalGame }) => {
   }
 
   return (
-    <div className="mt-24 text-white">
+    <div className="mb-24 text-white">
       <Modal openModal={openModal} setOpenModal={setOpenModal}>
         <CreateGameForm handleSubmit={handleCreateGame} />
       </Modal>
