@@ -2,8 +2,8 @@ import { prettyDOM, render, screen, within } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import React from 'react'
 import DataTable from '../components/DataTable'
-import { buttonStyleWait } from '../utils/config'
-
+import { gameLobbyHeaders } from '../utils/config'
+import { gameData } from './config'
 const headers = {
   header1: 'header1',
   header2: 'header2',
@@ -20,6 +20,7 @@ const data = [
     header5: 'value5',
   },
 ]
+
 const invalidHeaders = {
   header1: 'header1',
   header2: undefined,
@@ -27,16 +28,7 @@ const invalidHeaders = {
   header4: 'header4',
   header5: 'header5',
 }
-const templateEntity = [
-  {
-    target: ['header1'], //target header fields
-    match: ['value1'], //match target fields
-    text: 'waiting', // button text
-    dispatch: ['id'], //What to include in the onClick data field
-    type: 'wait', // what action to dispatch in the onClick
-    style: { ...buttonStyleWait }, // button color
-  },
-]
+
 describe('DataTable tests', () => {
   it('should contain the headers in correct order', () => {
     render(<DataTable headers={headers} />)
@@ -50,21 +42,23 @@ describe('DataTable tests', () => {
     })
   })
 
-  it('Should throw error when no header prop is passed', () => {
-    expect(() => {
-      render(<DataTable />)
-    }).toThrowError('DataTable* component requires a `headers` prop.')
-  })
+  describe('Component error messages', () => {
+    it('Should throw error when no header prop is passed', () => {
+      expect(() => {
+        render(<DataTable />)
+      }).toThrowError('DataTable* component requires a `headers` prop.')
+    })
 
-  it('Should throw error with a undefined value', () => {
-    expect(() => {
-      render(<DataTable headers={invalidHeaders} />)
-    }).toThrowError('DataTable* `headers` prop needs to be key value pairs')
-  })
+    it('Should throw error with a undefined value', () => {
+      expect(() => {
+        render(<DataTable headers={invalidHeaders} />)
+      }).toThrowError('DataTable* `headers` prop needs to be key value pairs')
+    })
 
-  it('Should not throw error with no data prop', () => {
-    const { container } = render(<DataTable headers={headers} />)
-    expect(container).toBeInTheDocument()
+    it('Should not throw error with no data prop', () => {
+      const { container } = render(<DataTable headers={headers} />)
+      expect(container).toBeInTheDocument()
+    })
   })
 
   it('Renders Data prop', () => {
@@ -79,44 +73,164 @@ describe('DataTable tests', () => {
   })
 
   describe('Text Action button', () => {
-    it('Header should not contain action label', () => {
+    it('Header section should not contain action label', () => {
       render(<DataTable headers={headers} data={data} />)
       const headersItems = screen.queryByTestId('table-header')
       expect(headersItems).not.toHaveTextContent('action')
     })
+
     it('Header should contain action label when onClick prop is passed', () => {
       const onClick = jest.fn()
       render(<DataTable headers={headers} data={data} onClick={onClick} />)
       const headersItems = screen.queryByTestId('table-header')
       expect(headersItems).toHaveTextContent('action')
     })
-    it('Action button should render', () => {
-      const onClick = jest.fn()
-      render(
-        <DataTable
-          headers={headers}
-          data={data}
-          onClick={onClick}
-          entity={templateEntity}
-        />
-      )
-      const actionbutton = screen.queryByTestId('action-button')
 
-      expect(actionbutton).toBeTruthy()
-    })
-    it('Action button should have correct text', () => {
+    it('Action button should not render because the no player1 has id 3', () => {
       const onClick = jest.fn()
       render(
         <DataTable
-          headers={headers}
-          data={data}
+          headers={gameLobbyHeaders}
+          data={gameData}
           onClick={onClick}
-          entity={templateEntity}
+          entity={[
+            {
+              target: ['player1'],
+              match: [3],
+              text: 'button1',
+              dispatch: ['id'],
+              type: 'customType',
+            },
+          ]}
         />
       )
       const actionbutton = screen.queryByTestId('action-button')
-      console.log(prettyDOM(actionbutton))
+      expect(actionbutton).toBeFalsy()
+    })
+
+    /**
+     * A Wait Button
+     * A Game that is owned by the user, and doesnt have a player2:
+     * We want to render a button that has text "waiting", and backgroundColor red
+     */
+    it('Wait button should render with two matching fields', () => {
+      const onClick = jest.fn()
+      const userId = 1
+      render(
+        <DataTable
+          headers={gameLobbyHeaders}
+          data={gameData}
+          onClick={onClick}
+          entity={[
+            {
+              target: ['player1', 'player2'],
+              match: [userId, null],
+              text: 'waiting',
+              dispatch: ['id'],
+              type: 'wait',
+              style: { backgroundColor: 'red' },
+            },
+          ]}
+        />
+      )
+      const actionbutton = screen.queryByTestId('action-button')
+      expect(actionbutton).toBeTruthy()
       expect(actionbutton).toHaveTextContent('waiting')
+      expect(actionbutton).toHaveStyle('background-color: red;')
+    })
+    /**
+     * A Join Game Button
+     * A Game that is not owned by the user, and doesnt have a player2:
+     * We want to render a button that has text "join", and backgroundColor blue
+     */
+    it('Join button should render', () => {
+      const onClick = jest.fn()
+
+      render(
+        <DataTable
+          headers={gameLobbyHeaders}
+          data={gameData}
+          onClick={onClick}
+          entity={[
+            {
+              target: ['player2'],
+              match: [null],
+              text: 'Join',
+              dispatch: ['id'],
+              type: 'join',
+              style: { backgroundColor: 'blue' },
+            },
+          ]}
+        />
+      )
+      const actionbutton = screen.getAllByTestId('action-button')
+      expect(actionbutton).toBeTruthy()
+      expect(actionbutton[0]).toHaveTextContent('Join')
+      expect(actionbutton[0]).toHaveStyle('background-color: blue;')
+      expect(actionbutton[1]).toHaveTextContent('Join')
+      expect(actionbutton[1]).toHaveStyle('background-color: blue;')
+    })
+    /**
+     * A Play Game Button
+     * A Game that the user is player1
+     * TODO: Lacks the ability to specify if player2 !== null
+     * We want to render a button that has text "Play", and backgroundColor: green
+     */
+    it('Play button should render when user is player1', () => {
+      const onClick = jest.fn()
+      const userId = 1
+      render(
+        <DataTable
+          headers={gameLobbyHeaders}
+          data={gameData}
+          onClick={onClick}
+          entity={[
+            {
+              target: ['player1'],
+              match: [userId],
+              text: 'Play',
+              dispatch: ['id'],
+              type: 'play',
+              style: { backgroundColor: 'green' },
+            },
+          ]}
+        />
+      )
+      const actionbutton = screen.getAllByTestId('action-button')
+      expect(actionbutton).toBeTruthy()
+      expect(actionbutton[0]).toHaveTextContent('Play')
+      expect(actionbutton[0]).toHaveStyle('background-color: green;')
+    })
+    /**
+     * A Play Game Button
+     * A Game that the user is player2
+     * TODO: Lacks the ability to specify if player1 !== null
+     * We want to render a button that has text "Play", and backgroundColor: green
+     */
+    it('Play button should render when user is player2', () => {
+      const onClick = jest.fn()
+      const userId = 1
+      render(
+        <DataTable
+          headers={gameLobbyHeaders}
+          data={gameData}
+          onClick={onClick}
+          entity={[
+            {
+              target: ['player2'],
+              match: [userId],
+              text: 'Play',
+              dispatch: ['id'],
+              type: 'play',
+              style: { backgroundColor: 'green' },
+            },
+          ]}
+        />
+      )
+      const actionbutton = screen.getAllByTestId('action-button')
+      expect(actionbutton).toBeTruthy()
+      expect(actionbutton[0]).toHaveTextContent('Play')
+      expect(actionbutton[0]).toHaveStyle('background-color: green;')
     })
   })
 })

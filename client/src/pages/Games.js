@@ -5,43 +5,14 @@ import Modal from '../components/Modal'
 import CreateGameForm from '../components/CreateGameForm'
 
 import useGame from '../hooks/useGame'
-import { buttonStyle, buttonStyleWait, gameLobbyHeaders } from '../utils/config'
+import {
+  gameLobbyHeaders,
+  joinButton,
+  playButton,
+  waitButton,
+} from '../utils/config'
 import { useNavigate } from 'react-router-dom'
-const userId = 1
-const templateEntity = [
-  {
-    target: ['player1', 'player2'], //target fields
-    match: [userId, null], //match target fields
-    text: 'waiting', // button text
-    dispatch: ['player1', 'id'], //What to include in the onClick data field
-    type: 'wait', // what action to dispatch in the onClick
-    style: { ...buttonStyleWait }, // button color
-  },
-  {
-    target: ['player1'], //target fields
-    match: [userId], //match target fields
-    text: 'Play', // button text
-    dispatch: ['id'], //What to include in the onClick data field
-    type: 'play', // what action to dispatch in the onClick
-    style: buttonStyle, // button color
-  },
-  {
-    target: ['player2'], //target fields
-    match: [userId], //match target fields
-    text: 'Play', // button text
-    dispatch: ['id'], //What to include in the onClick data field
-    type: 'play', // what action to dispatch in the onClick
-    style: buttonStyle, // button color
-  },
-  {
-    target: ['player2'], //target fields
-    match: [null], //match target fields
-    text: 'Join', // button text
-    dispatch: ['id'], //What to include in the onClick data field
-    type: 'join', // what action to dispatch in the onClick
-    style: { ...buttonStyle, backgroundColor: 'blue' }, // button color
-  },
-]
+
 const Games = ({ onlineGames = [], setLocalGame }) => {
   const navigate = useNavigate()
   const [openModal, setOpenModal] = useState(false)
@@ -77,7 +48,12 @@ const Games = ({ onlineGames = [], setLocalGame }) => {
           <DataTable
             onClick={actionHandler}
             headers={gameLobbyHeaders}
-            entity={templateEntity}
+            entity={[
+              { ...waitButton, match: [user.id, null] },
+              { ...playButton, match: [user.id] },
+              { ...playButton, target: ['player2'], match: [user.id] },
+              { ...joinButton },
+            ]}
             data={onlineGames}
           />
         </div>

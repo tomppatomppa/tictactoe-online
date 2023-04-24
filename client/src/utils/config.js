@@ -73,6 +73,34 @@ const buttonStyle = {
     backgroundColor: '#1F2937',
   },
 }
+
+/**
+ * Custom Buttons
+ */
+const waitButton = {
+  target: ['player1', 'player2'], //target fields
+  match: [null, null], //match target fields
+  text: 'waiting', // button text
+  dispatch: ['player1', 'id'], //What to include in the onClick data field
+  type: 'wait', // what action to dispatch in the onClick
+  style: { ...buttonStyleWait }, // button color
+}
+const playButton = {
+  target: ['player1'], //target fields
+  match: [null], //match target fields
+  text: 'Play', // button text
+  dispatch: ['id'], //What to include in the onClick data field
+  type: 'play', // what action to dispatch in the onClick
+  style: buttonStyle, // button color
+}
+const joinButton = {
+  target: ['player2'], //target fields
+  match: [null], //match target fields
+  text: 'Join', // button text
+  dispatch: ['id'], //What to include in the onClick data field
+  type: 'join', // what action to dispatch in the onClick
+  style: { ...buttonStyle, backgroundColor: 'blue' }, // button color
+}
 export {
   baseUri,
   initialLocalGameState,
@@ -82,4 +110,7 @@ export {
   SOCKET_URL,
   buttonStyleWait,
   buttonStyle,
+  waitButton,
+  playButton,
+  joinButton,
 }

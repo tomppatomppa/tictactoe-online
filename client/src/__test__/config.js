@@ -1,0 +1,48 @@
+const gameData = [
+  {
+    id: 10,
+    type: 'online',
+    gridSize: 4,
+    inTurn: 1,
+    player1: 1,
+    player2: null,
+    isFinished: false,
+    moves: [],
+    winner: null,
+  },
+  {
+    id: 11,
+    type: 'online',
+    gridSize: 4,
+    inTurn: 1,
+    player1: 1,
+    player2: 2,
+    isFinished: false,
+    moves: [],
+    winner: null,
+  },
+  {
+    id: 12,
+    type: 'online',
+    gridSize: 4,
+    inTurn: 2,
+    player1: 2,
+    player2: null,
+    isFinished: false,
+    moves: [],
+    winner: null,
+  },
+  {
+    id: 13,
+    type: 'online',
+    gridSize: 4,
+    inTurn: 2,
+    player1: 2,
+    player2: 1,
+    isFinished: false,
+    moves: [],
+    winner: null,
+  },
+]
+
+export { gameData }
