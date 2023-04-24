@@ -3,6 +3,7 @@ import userService from '../services/userService'
 import DataTable from '../components/DataTable'
 import { buttonStyle } from '../utils/config'
 import useGame from '../hooks/useGame'
+
 const headers = {
   id: 'id',
   gridSize: 'gridSize',

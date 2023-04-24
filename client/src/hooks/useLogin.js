@@ -15,10 +15,9 @@ const useLogin = () => {
       console.log(e)
     }
   }
-  const loginSecond = async (userCredentials) => {
+  const register = async (userCredentials) => {
     try {
-      const user = await loginServices.login(userCredentials)
-      setCurrentUser(user)
+      await loginServices.register(userCredentials)
     } catch (e) {
       console.log(e)
     }
@@ -35,7 +34,7 @@ const useLogin = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return { login, loginSecond }
+  return { login, register }
 }
 
 export default useLogin

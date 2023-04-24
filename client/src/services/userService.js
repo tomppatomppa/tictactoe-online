@@ -9,6 +9,7 @@ const me = async (token) => {
   })
   return data
 }
+
 const userService = { me }
 
 export default userService

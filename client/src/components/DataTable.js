@@ -121,7 +121,7 @@ const DataTable = ({ headers, data, entity, onClick }) => {
             ))}
           </tr>
         </thead>
-        <tbody data-testid="table-body" className="backdrop-blur-sm ">
+        <tbody data-testid="table-body" className="backdrop-blur-sm">
           {result?.map((data, index) => (
             <Item onClick={onClick} key={index} data={data} entity={entity} />
           ))}

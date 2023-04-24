@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const { Leaderboard, User } = require('../models/index')
-const { Sequelize } = require('sequelize')
+const { Sequelize, Op } = require('sequelize')
 
 router.get('/', async (req, res) => {
   const leaderboard = await Leaderboard.findAll({
@@ -35,6 +35,13 @@ router.get('/', async (req, res) => {
         attributes: [],
       },
     ],
+    where: {
+      [Op.or]: [
+        { wins: { [Op.gt]: 0 } },
+        { losses: { [Op.gt]: 0 } },
+        { ties: { [Op.gt]: 0 } },
+      ],
+    },
     raw: true,
   })
   res.status(200).json(leaderboard)
