@@ -23,6 +23,9 @@
   .btn-wait {
     @apply py-2 px-4 bg-orange-700 text-white font-semibold shadow-md cursor-wait;
   }
+  .btn-danger {
+    @apply py-2 px-4 bg-orange-700 text-white font-semibold shadow-md;
+  }
   .btn-type {
     @apply py-2 px-4 bg-slate-700 text-white text-center font-semibold shadow-md cursor-pointer;
   }

@@ -45,6 +45,7 @@ const Navbar = () => {
               <Link className="btn-primary" onClick={handleLogout}>
                 logout
               </Link>
+              <Link className="btn-danger">delete</Link>
             </div>
           </DropdownMenu>
         </div>
