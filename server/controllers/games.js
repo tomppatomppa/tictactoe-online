@@ -7,7 +7,7 @@ const { userFromToken, validateMoveMiddleware } = require('../util/middleware')
 router.get('/', async (req, res) => {
   const allGames = await Game.findAll({
     where: {
-      isFinished: false,
+      isFinished: true,
     },
 
     raw: true,
