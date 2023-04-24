@@ -1,32 +1,21 @@
 import React, { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import useMakeMove from '../hooks/useMakeMove'
 import GameBoardInfo from './GameBoardInfo'
 import { Grid } from './Grid'
 import useGameSocket from '../hooks/useGameSocket'
-
-const RematchButton = ({ gameState, gameId, handleRematch }) => {
-  const { isFinished } = gameState
-
-  if (!isFinished) return
-
-  return (
-    <>
-      {gameId === null && (
-        <button className="btn-primary my-6" onClick={handleRematch}>
-          Rematch
-        </button>
-      )}
-    </>
-  )
-}
+import RematchButton from './RematchButton'
+import useGame from '../hooks/useGame'
+import useCurrentUser from '../hooks/useCurrentUser'
+import GameBoardWarning from './GameBoardWarning'
 
 const GameBoardOnline = () => {
+  const { user } = useCurrentUser()
   const navigate = useNavigate()
   let { id } = useParams()
   const { gameState, handleRematch, rematchGameId } = useGameSocket(id)
-  const sendMove = useMakeMove(id)
+
+  const { sendMove, message } = useGame(user)
 
   useEffect(() => {
     if (rematchGameId) {
@@ -37,9 +26,13 @@ const GameBoardOnline = () => {
   if (!gameState || !id) return <div>loading...</div>
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center gap-2">
       <GameBoardInfo gameState={gameState} />
-      <Grid gameState={gameState} handleAction={sendMove} />
+      <GameBoardWarning message={message} />
+      <Grid
+        gameState={gameState}
+        handleAction={(move) => sendMove({ id, move })}
+      />
       <RematchButton
         gameState={gameState}
         gameId={rematchGameId}
