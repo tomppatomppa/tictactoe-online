@@ -25,6 +25,13 @@ const Games = ({ onlineGames = [], setLocalGame }) => {
     setOpenModal(false)
   }
 
+  const filteredGames = onlineGames.filter((game) => {
+    if (game.player2 !== null) {
+      return game.player1 === user.id || game.player2 === user.id
+    }
+    return true
+  })
+
   return (
     <div className="mb-24 text-white">
       <Modal openModal={openModal} setOpenModal={setOpenModal}>
@@ -55,7 +62,7 @@ const Games = ({ onlineGames = [], setLocalGame }) => {
               { ...playButton, target: ['player2'], match: [user.id] },
               { ...joinButton },
             ]}
-            data={onlineGames}
+            data={filteredGames}
           />
         </div>
       </div>
