@@ -31,7 +31,7 @@ function App() {
         <Route path="*" element={<Leaderboard />} />
         <Route path="/" element={<Leaderboard />} />
         <Route element={<ProtectedRoute isAllowed={user} redirectPath="/" />}>
-          <Route path="profile" element={<Profile />} />
+          <Route path="profile" element={<Profile user={user} />} />
           <Route
             path="games"
             element={

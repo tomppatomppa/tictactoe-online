@@ -1,8 +1,24 @@
 const bcrypt = require('bcrypt')
 const router = require('express').Router()
 
-const { User, Leaderboard } = require('../models/index')
+const { User, Leaderboard, Game } = require('../models/index')
+const { userFromToken } = require('../util/middleware')
 
+router.get('/me', userFromToken, async (req, res) => {
+  const leaderboard = await Leaderboard.findAll({
+    where: {
+      userId: req.user.id,
+    },
+  })
+  const games = await Game.findAll({
+    where: {
+      userId: req.user.id,
+      player2: null,
+    },
+    attributes: ['id', 'gridSize'],
+  })
+  res.status(200).json({ leaderboard: leaderboard, myGames: games })
+})
 router.get('/', async (req, res) => {
   const allUsers = await User.findAll()
   req.io.emit('get-all-users', 'someone fetched all users')

@@ -63,8 +63,16 @@ const useGame = (user, setLocalGame) => {
       handleSetMessage(err.response.data.error)
     }
   }
+  const deleteGame = async (id) => {
+    try {
+      const result = await gameServices.deleteOne(id, user.token)
+      return result
+    } catch (err) {
+      setMessage(err.response.data.error)
+    }
+  }
 
-  return { create, rematch, actionHandler, sendMove, message }
+  return { create, rematch, actionHandler, sendMove, message, deleteGame }
 }
 
 export default useGame

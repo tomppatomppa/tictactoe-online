@@ -1,15 +1,18 @@
 const router = require('express').Router()
 const { Sequelize, Op } = require('sequelize')
 const { checkGame, nextInTurn, isLastMove } = require('../games/tic-tac-toe')
-const { Game, Leaderboard } = require('../models/index')
+const { Game, Leaderboard, User } = require('../models/index')
 const { userFromToken, validateMoveMiddleware } = require('../util/middleware')
 
 router.get('/', async (req, res) => {
   const allGames = await Game.findAll({
     where: {
-      isFinished: true,
+      isFinished: false,
     },
+
+    raw: true,
   })
+
   res.status(200).json(allGames)
 })
 
@@ -42,6 +45,7 @@ const addOfflineToLeaderboard = async (game) => {
     )
   }
 }
+
 const addToLeaderboard = async (game) => {
   const { player1, player2, winner } = game
 
@@ -175,12 +179,8 @@ router.delete('/:id', async (req, res) => {
     return res.status(404).json({ error: 'Game not found' })
   }
 
-  if (game.userId !== req.user.id) {
+  if (game.userId !== req.user.id || game.player2 !== null) {
     return res.status(401).json({ error: 'Unauthorized delete' })
-  }
-
-  if (game.player2 !== null) {
-    return res.status(403).json({ error: 'Cannot delete when game is active' })
   }
 
   await game.destroy()

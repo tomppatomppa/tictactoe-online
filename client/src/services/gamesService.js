@@ -43,6 +43,14 @@ const makeMove = async (id, move, token) => {
 const saveGame = async (game) => {
   //console.log('save', game)
 }
+const deleteOne = async (id, token) => {
+  const { data } = await axios.delete(`${baseUri}/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  return data
+}
 
 const replay = async () => {
   const { data } = await axios.get(`${baseUri}`)
@@ -53,7 +61,7 @@ const gameServices = {
   create,
   join,
   makeMove,
-
+  deleteOne,
   saveGame,
   replay,
 }

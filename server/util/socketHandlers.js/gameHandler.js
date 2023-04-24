@@ -1,4 +1,4 @@
-const { Game } = require('../../models/index')
+const { Game, User } = require('../../models/index')
 
 module.exports = (io, socket) => {
   const initialGame = async () => {
