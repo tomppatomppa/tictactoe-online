@@ -13,7 +13,6 @@ router.get('/me', userFromToken, async (req, res) => {
   const games = await Game.findAll({
     where: {
       userId: req.user.id,
-      player2: null,
     },
     attributes: ['id', 'gridSize'],
   })

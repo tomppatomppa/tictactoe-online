@@ -179,7 +179,7 @@ router.delete('/:id', async (req, res) => {
     return res.status(404).json({ error: 'Game not found' })
   }
 
-  if (game.userId !== req.user.id || game.player2 !== null) {
+  if (game.userId !== req.user.id) {
     return res.status(401).json({ error: 'Unauthorized delete' })
   }
 
