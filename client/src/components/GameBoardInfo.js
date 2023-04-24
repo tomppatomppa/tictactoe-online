@@ -3,7 +3,7 @@ import React from 'react'
 const GameBoardInfo = ({ gameState }) => {
   const { id, inTurn, type, winner, isFinished } = gameState
   return (
-    <div className="self-start text-white">
+    <div className="md:self-start m-2 text-white">
       <h2>Game ID {id}</h2>
       <h2>Game type {type}</h2>
       <h2>Game winner {winner}</h2>

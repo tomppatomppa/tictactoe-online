@@ -38,8 +38,6 @@ export const Grid = ({ gameState, handleAction }) => {
 
   const { moves, gridSize, isFinished } = gameState
 
-  const gridTemplateColumns = `repeat(${gridSize}, minmax(0, 1fr))`
-
   const GridItem = ({ coords, exists, icon, style }) => {
     const handleClick = () => {
       if (!exists) handleAction(coords)
@@ -49,17 +47,20 @@ export const Grid = ({ gameState, handleAction }) => {
         data-testid="grid-item"
         onClick={handleClick}
         style={style}
-        className={`border-2 border-gray-400 hover:border-gray-300 w-16 h-16`}
+        className={`border-2 border-gray-400 hover:border-gray-300 w-12 h-12 sm:w-16 sm:h-16`}
       >
         {icon}
       </button>
     )
   }
+
   return (
     <div
       data-testid="grid-body"
-      style={{ gridTemplateColumns }}
-      className={`grid grid-cols-${gridSize} gap-4 md:max-w-md  ${
+      style={{
+        gridTemplateColumns: `repeat(${gridSize}, minmax(auto, 0))`,
+      }}
+      className={`overflow-auto h-[400px] md:h-[auto] w-full justify-center grid ${
         isFinished && 'pointer-events-none'
       }`}
     >

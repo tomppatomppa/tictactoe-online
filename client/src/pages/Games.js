@@ -11,6 +11,7 @@ import {
   playButton,
   waitButton,
 } from '../utils/config'
+
 import { useNavigate } from 'react-router-dom'
 
 const Games = ({ onlineGames = [], setLocalGame }) => {
