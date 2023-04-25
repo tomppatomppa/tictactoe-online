@@ -33,8 +33,8 @@ const useGame = (user, setLocalGame) => {
           user.token
         )
         navigate(`/games`)
-      } catch (e) {
-        console.log(e)
+      } catch (err) {
+        handleSetMessage(err.response.data.error)
       }
     }
   }
@@ -52,7 +52,7 @@ const useGame = (user, setLocalGame) => {
       try {
         await gameServices.join(data.id, user.token)
       } catch (err) {
-        console.log(err)
+        handleSetMessage(err.response.data.error)
       }
     }
   }

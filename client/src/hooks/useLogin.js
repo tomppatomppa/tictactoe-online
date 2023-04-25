@@ -18,6 +18,7 @@ const useLogin = () => {
   const register = async (userCredentials) => {
     try {
       await loginServices.register(userCredentials)
+      await login(userCredentials)
     } catch (e) {
       console.log(e)
     }

@@ -67,24 +67,27 @@ const Games = ({ onlineGames = [], setLocalGame }) => {
             data={filteredGames}
           />
         </div>
-        <div className="flex justify-center">
-          <InfoLable
-            description="Play as either Player 1 or Player 2 in this game."
-            buttonText="Play"
-            color={'green'}
-          />
+        <div className="flex justify-center flex-col items-center">
+          <label className="text-sm">What do the buttons mean?</label>
+          <div className="flex flex-row">
+            <InfoLable
+              description="Play as either Player 1 or Player 2 in this game."
+              buttonText="Play"
+              color={'green'}
+            />
 
-          <InfoLable
-            description="Join games as Player 2 and challenge other players."
-            buttonText="Join"
-            color={'blue'}
-          />
+            <InfoLable
+              description="Join games as Player 2 and challenge other players."
+              buttonText="Join"
+              color={'blue'}
+            />
 
-          <InfoLable
-            description="Waiting for another player to join your game. Get ready to play!"
-            buttonText="Waiting"
-            color={'red'}
-          />
+            <InfoLable
+              description="Waiting for another player to join your game. Get ready to play!"
+              buttonText="Waiting"
+              color={'red'}
+            />
+          </div>
         </div>
       </div>
     </div>

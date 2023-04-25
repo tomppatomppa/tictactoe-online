@@ -3,21 +3,28 @@ const router = require('express').Router()
 
 const { User, Leaderboard, Game } = require('../models/index')
 const { userFromToken } = require('../util/middleware')
+const { Op } = require('sequelize')
 
 router.get('/me', userFromToken, async (req, res) => {
+  const games = await Game.findAll({
+    where: {
+      userId: req.user.id,
+    },
+  })
   const leaderboard = await Leaderboard.findAll({
     where: {
       userId: req.user.id,
     },
   })
-  const games = await Game.findAll({
+  const myActiveGames = await Game.findAll({
     where: {
-      userId: req.user.id,
+      [Op.or]: [{ player1: req.user.id }, { player2: req.user.id }],
+      [Op.not]: [{ player2: null }],
     },
-    attributes: ['id', 'gridSize'],
   })
-  res.status(200).json({ leaderboard: leaderboard, myGames: games })
+  res.status(200).json({ leaderboard, myGames: games, myActiveGames })
 })
+
 router.get('/', async (req, res) => {
   const allUsers = await User.findAll()
   req.io.emit('get-all-users', 'someone fetched all users')
@@ -44,9 +51,14 @@ router.post('/', async (req, res) => {
   return res.status(200).json(createdUser)
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/me/:id', async (req, res) => {
   try {
     await Leaderboard.destroy({
+      where: {
+        userId: req.params.id,
+      },
+    })
+    await Game.destroy({
       where: {
         userId: req.params.id,
       },

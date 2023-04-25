@@ -6,7 +6,7 @@ const InfoLable = ({ description, buttonText, color }) => {
       <div className="border p-1 w-16" style={{ backgroundColor: color }}>
         {buttonText}
       </div>
-      <div className="absolute w-24 p-2 text-sm bg-black invisible group-hover:visible">
+      <div className="absolute w-28 p-2 text-sm bg-black invisible group-hover:visible">
         {description}
       </div>
     </div>

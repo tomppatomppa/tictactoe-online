@@ -48,7 +48,7 @@ const Item = ({ data, onClick, entity }) => {
               })
             }
           >
-            {entity[i].text}
+            {entity[i].text.toString()}
           </td>
         )
       }
@@ -103,11 +103,11 @@ const DataTable = ({ headers, data, entity, onClick }) => {
   }
 
   return (
-    <div className="overflow-x-auto border border-white overflow-y-auto max-h-[70vh] sm:text-lg text-xs text-white">
+    <div className="overflow-x-auto border  border-white overflow-y-auto max-h-[70vh]  sm:text-lg text-white">
       <table className="text-left ">
         <thead
           data-testid="table-header"
-          className="bg-black z-10 uppercase text-gray-300"
+          className="bg-black z-10 uppercase text-gray-300 "
         >
           <tr>
             {tableHeaders.map((header, index) => (
@@ -121,7 +121,7 @@ const DataTable = ({ headers, data, entity, onClick }) => {
             ))}
           </tr>
         </thead>
-        <tbody data-testid="table-body" className="backdrop-blur-sm">
+        <tbody data-testid="table-body" className="backdrop-blur-sm ">
           {result?.map((data, index) => (
             <Item onClick={onClick} key={index} data={data} entity={entity} />
           ))}

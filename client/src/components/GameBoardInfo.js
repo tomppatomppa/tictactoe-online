@@ -8,7 +8,6 @@ const GameBoardInfo = ({ gameState }) => {
       <h2>
         GAME TYPE: <span className="text-amber-600 uppercase">{type}</span>
       </h2>
-
       <h2>
         IS FINISHED:{' '}
         <span
