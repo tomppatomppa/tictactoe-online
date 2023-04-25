@@ -30,7 +30,7 @@ const LoginForm = ({ onSubmit, onRegister }) => {
       <input
         className="w-24 text-black p-1 my-2"
         {...passwordProps}
-        type="text"
+        type="password"
         placeholder="password"
         required
       ></input>

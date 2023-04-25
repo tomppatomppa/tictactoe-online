@@ -50,7 +50,6 @@ module.exports = (io, socket) => {
         } else {
           // User didn't click OK, do nothing
           console.log('user doesnt want new game')
-          // io.to(game.id.toString()).emit('new:game', null)
         }
       })
   }

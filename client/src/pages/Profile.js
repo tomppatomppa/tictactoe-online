@@ -61,6 +61,7 @@ const Profile = ({ user }) => {
       }
     }
     fetchData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (!myGames) return <div>loading...</div>

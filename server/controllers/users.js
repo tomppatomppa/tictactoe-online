@@ -5,32 +5,6 @@ const { User, Leaderboard, Game } = require('../models/index')
 const { userFromToken } = require('../util/middleware')
 const { Op } = require('sequelize')
 
-router.get('/me', userFromToken, async (req, res) => {
-  const games = await Game.findAll({
-    where: {
-      userId: req.user.id,
-    },
-  })
-  const leaderboard = await Leaderboard.findAll({
-    where: {
-      userId: req.user.id,
-    },
-  })
-  const myActiveGames = await Game.findAll({
-    where: {
-      [Op.or]: [{ player1: req.user.id }, { player2: req.user.id }],
-      [Op.not]: [{ player2: null }],
-    },
-  })
-  res.status(200).json({ leaderboard, myGames: games, myActiveGames })
-})
-
-router.get('/', async (req, res) => {
-  const allUsers = await User.findAll()
-  req.io.emit('get-all-users', 'someone fetched all users')
-  res.status(200).json(allUsers)
-})
-
 router.post('/', async (req, res) => {
   const { username, password } = req.body
 
@@ -49,6 +23,26 @@ router.post('/', async (req, res) => {
   await Leaderboard.create({ userId: createdUser.id })
 
   return res.status(200).json(createdUser)
+})
+
+router.get('/me', userFromToken, async (req, res) => {
+  const games = await Game.findAll({
+    where: {
+      userId: req.user.id,
+    },
+  })
+  const leaderboard = await Leaderboard.findAll({
+    where: {
+      userId: req.user.id,
+    },
+  })
+  const myActiveGames = await Game.findAll({
+    where: {
+      [Op.or]: [{ player1: req.user.id }, { player2: req.user.id }],
+      [Op.not]: [{ player2: null }],
+    },
+  })
+  res.status(200).json({ leaderboard, myGames: games, myActiveGames })
 })
 
 router.delete('/me/:id', async (req, res) => {
