@@ -4,11 +4,11 @@ const nextInTurn = (gameState) => {
     : gameState.player1
 }
 
-const getPlayer1Moves = (gameState) => {
-  return gameState.filter((coord, index) => index % 2 === 0)
+const getPlayer1Moves = (moves) => {
+  return moves.filter((coord, index) => index % 2 === 0)
 }
-const getPlayer2Moves = (gameState) => {
-  return gameState.filter((coord, index) => index % 2 !== 0)
+const getPlayer2Moves = (moves) => {
+  return moves.filter((coord, index) => index % 2 !== 0)
 }
 
 const isLastMove = (gameState) => {
@@ -20,9 +20,9 @@ function generateWinningCombinations(size) {
 
   // generate winning row combinations
   for (let row = 0; row < size; row++) {
-    for (let col = 0; col <= size - 4; col++) {
+    for (let col = 0; col <= size - size; col++) {
       const combination = []
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < size; i++) {
         combination.push([row, col + i])
       }
       combinations.push(combination)
@@ -31,9 +31,9 @@ function generateWinningCombinations(size) {
 
   // generate winning column combinations
   for (let col = 0; col < size; col++) {
-    for (let row = 0; row <= size - 4; row++) {
+    for (let row = 0; row <= size - size; row++) {
       const combination = []
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < size; i++) {
         combination.push([row + i, col])
       }
       combinations.push(combination)
@@ -41,11 +41,11 @@ function generateWinningCombinations(size) {
   }
 
   // generate winning diagonal combinations
-  for (let row = 0; row <= size - 4; row++) {
-    for (let col = 0; col <= size - 4; col++) {
+  for (let row = 0; row <= size - size; row++) {
+    for (let col = 0; col <= size - size; col++) {
       const combination1 = []
       const combination2 = []
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < size; i++) {
         combination1.push([row + i, col + i])
         combination2.push([row + i, size - col - 1 - i])
       }
@@ -78,6 +78,7 @@ const checkOfflineGame = (gameState) => {
 
   return checkWin(moves, gameState.gridSize)
 }
+
 function checkWin(playerMoves, gridSize) {
   const winningCombinations = generateWinningCombinations(gridSize)
   for (let combination of winningCombinations) {
@@ -112,4 +113,5 @@ module.exports = {
   isLastMove,
   checkOfflineGame,
   isInCoordsArray,
+  compareCoords,
 }
