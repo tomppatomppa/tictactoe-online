@@ -30,7 +30,7 @@ const Profile = ({ user }) => {
       }
     }
     fetchData()
-  }, [user, deleteGame])
+  }, [])
 
   if (!profile) return <div>loading...</div>
 

@@ -86,8 +86,8 @@ describe('POST /api/games/:id', () => {
     })
   })
 
-  describe('Player1 can create a game and player2 can join', () => {
-    test('Player1 be able to create a game', async () => {
+  describe('Player1 can create a game and player2 can join it', () => {
+    test('Player1 is able to create a game', async () => {
       const { body } = await api
         .post(baseUri)
         .send(gameOnline)
@@ -95,7 +95,7 @@ describe('POST /api/games/:id', () => {
       expect(body.id).toEqual(gameOnline.id)
       expect(body.player1).toEqual(player1.id)
     })
-    test('Player2 should be able to join game', async () => {
+    test('Player2 should be able to join the game created by player1', async () => {
       const { body } = await api
         .put(`${baseUri}/${gameOnline.id}`)
         .set('Authorization', `Bearer ${player2Token}`)
@@ -117,8 +117,8 @@ describe('POST /api/games/:id', () => {
           .send({ move: player2Moves[i] })
           .set('Authorization', `Bearer ${player2Token}`)
       }
-      const gameMoves = await Game.findByPk(gameOnline.id)
 
+      const gameMoves = await Game.findByPk(gameOnline.id)
       expect(gameMoves.winner).toEqual(player1.id)
     })
     test('leaderboard after game1', async () => {

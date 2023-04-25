@@ -13,6 +13,7 @@ import {
 } from '../utils/config'
 
 import { useNavigate } from 'react-router-dom'
+import InfoLable from '../components/InfoLable'
 
 const Games = ({ onlineGames = [], setLocalGame }) => {
   const navigate = useNavigate()
@@ -52,6 +53,7 @@ const Games = ({ onlineGames = [], setLocalGame }) => {
             Replay Mode
           </button>
         </div>
+
         <div className="flex justify-center">
           <DataTable
             onClick={actionHandler}
@@ -63,6 +65,25 @@ const Games = ({ onlineGames = [], setLocalGame }) => {
               { ...joinButton },
             ]}
             data={filteredGames}
+          />
+        </div>
+        <div className="flex justify-center">
+          <InfoLable
+            description="Play as either Player 1 or Player 2 in this game."
+            buttonText="Play"
+            color={'green'}
+          />
+
+          <InfoLable
+            description="Join games as Player 2 and challenge other players."
+            buttonText="Join"
+            color={'blue'}
+          />
+
+          <InfoLable
+            description="Waiting for another player to join your game. Get ready to play!"
+            buttonText="Waiting"
+            color={'red'}
           />
         </div>
       </div>

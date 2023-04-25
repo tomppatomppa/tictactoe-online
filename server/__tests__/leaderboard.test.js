@@ -46,7 +46,7 @@ describe('/api/leaderboards', () => {
       },
     })
   })
-  describe('add a leader board with wins, losses and ties', () => {
+  describe('find player1 leaderboard with wins, losses and ties', () => {
     test('Leaderboard exists', async () => {
       const result = await Leaderboard.findOne({
         where: {
@@ -73,5 +73,4 @@ describe('/api/leaderboards', () => {
       expect(player1leaderboard.ties).toEqual(defaultLeaderboardScore.ties)
     })
   })
-  //TODO: When leaderboard is empty, shouldnt throw division by zero error
 })
