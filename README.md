@@ -33,7 +33,6 @@
 - Custom DataDrid component
 - Custom Grid Component
 
-
 ## limitations
 
 - Offline games are not saved
@@ -41,9 +40,9 @@
 - No indication if a player is waiting in a gameRoom.
 - Generally there are no indications if any players are online
 - Lacks proper handling of errors
-- 
-## How To Use
+-
 
+## How To Use
 
 > **Note**
 > For Windows only
@@ -58,14 +57,13 @@ $ git clone https://github.com/tomppatomppa/tictactoe-online.git
 
 ## Description
 
-This repository aims to help me familiarize myself with the basics of WebSocket technologies, such as sockets.io. To achieve this, I implemented a real-time gaming functionality in a tic-tac-toe game. 
+This repository aims to help me familiarize myself with the basics of WebSocket technologies, such as sockets.io. To achieve this, I implemented a real-time gaming functionality in a tic-tac-toe game.
 
 The client features custom React components that can be reused throughout the app.
 
-
-
 ## DataGrid Component
-My goal was to create some kind of "gamelobby" that receives updates in realtime, and has an "action" button that can be customized based on the data that exists in the grid. 
+
+My goal was to create some kind of "gamelobby" that receives updates in realtime, and has an "action" button that can be customized based on the data that exists in the grid.
 
 Lets say we received an array of game items:
 
@@ -86,12 +84,12 @@ Expected output:
 | 1|      1|      2|
 
 ```
-<div ></div>
-Lets say i want to add a button "MyGame" for all games where player1 == 1. 
+
+Lets say i want to add a button "MyGame" for all games where player1 == 1.
 
 I would have to pass two extra props, entity and onClick.
 
-```
+```ruby
 const playButton = {
   target: ['player1'], //Target a field in the headers
   match: [1],          //Specify what value is a valid match
@@ -112,14 +110,8 @@ Expected output:
 
 
 ```
+
 OnClick would dispatch {type: "mygame", data: {id:1} as specified in the playButton object.
-
-
-
-
-
-
-
 
 ## Features to be implemented
 
@@ -127,8 +119,6 @@ OnClick would dispatch {type: "mygame", data: {id:1} as specified in the playBut
 - Show online players
 - Improve DataGrid with filtering, challenge users etc..
 - 3D GridTiles
-
-
 
 ## Credits
 
@@ -139,6 +129,7 @@ This software uses the following open source packages:
 - [Express](https://expressjs.com/)
 - [Socket.io](https://socket.io/)
 - [Tailwind](https://tailwindcss.com/)
+
 ## Live Website
 
 [tic-tac-toe-online](https://tictactoe-online.fly.dev/) - A Working Version Hosted On Fly.io
