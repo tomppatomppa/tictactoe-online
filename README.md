@@ -40,7 +40,6 @@
 - No indication if a player is waiting in a gameRoom.
 - Generally there are no indications if any players are online
 - Lacks proper handling of errors
--
 
 ## How To Use
 
@@ -91,12 +90,12 @@ I would have to pass two extra props, entity and onClick.
 
 ```ruby
 const playButton = {
-  target: ['player1'], //Target a field in the headers
-  match: [1],          //Specify what value is a valid match
+  target: ['player1'], //target a field in the headers
+  match: [1],          //specify what value is a valid match
   text: 'MyGame',      //button text
   dispatch: ['id'],    //what value to dispatch when clicked
   type: 'mygame',      //specify a type, can be whatever
-  style: buttonStyle,  // custom style for button
+  style: buttonStyle,  //custom style for button
 }
 //add button to array
 const mybuttons = [playButton, ...]
