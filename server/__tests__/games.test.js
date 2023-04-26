@@ -1,12 +1,11 @@
 const supertest = require('supertest')
 
 const { app } = require('../app')
-const { User, Session, Leaderboard, Game } = require('../models')
-const { Op } = require('sequelize')
+const { User, Leaderboard, Game } = require('../models')
+
 const config = require('./config')
 const api = supertest(app)
-
-const bcrypt = require('bcrypt')
+const { initGamesTests, cleanupGamesTest } = require('./setup')
 
 const player1 = config.player1
 const player2 = config.player2
@@ -14,65 +13,18 @@ const player1Moves = config.player1Moves
 const player2Moves = config.player2Moves
 const player1LosingMoves = config.player1LosingMoves
 const gameOnline = config.gameOnline
-const gameOffline = config.gameOffline
 const defaultTieMoves = config.defaultTieMoves
-const offlineGameAiWins = config.offlineGameAiWins
-const offlineGameTie = config.offlineGameTie
-const offlinePlayerWins = config.offlinePlayerWins
 const baseUri = '/api/games'
-const baseUriOffline = '/api/games/offline'
 const player1Token = '1234'
 const player2Token = '4321'
 
 describe('POST /api/games/:id', () => {
   beforeAll(async () => {
-    const saltRounds = 10
-
-    const passwordHash1 = await bcrypt.hash(player1.password, saltRounds)
-    const passwordHash2 = await bcrypt.hash(player2.password, saltRounds)
-
-    await User.create({
-      id: player1.id,
-      username: player1.username,
-      passwordHash: passwordHash1,
-    })
-    await User.create({
-      id: player2.id,
-      username: player2.username,
-      passwordHash: passwordHash2,
-    })
-    await Leaderboard.create({ userId: player1.id })
-    await Leaderboard.create({ userId: player2.id })
-
-    await Session.create({ token: player1Token, userId: player1.id })
-    await Session.create({ token: player2Token, userId: player2.id })
+    await initGamesTests()
   })
 
   afterAll(async () => {
-    await Game.destroy({
-      where: {
-        [Op.or]: [
-          { id: gameOnline.id },
-          { id: gameOffline.id },
-          { userId: player1.id },
-        ],
-      },
-    })
-    await Leaderboard.destroy({
-      where: {
-        [Op.or]: [{ userId: player1.id }, { userId: player2.id }],
-      },
-    })
-    await Session.destroy({
-      where: {
-        [Op.or]: [{ userId: player1.id }, { userId: player2.id }],
-      },
-    })
-    await User.destroy({
-      where: {
-        [Op.or]: [{ id: player1.id }, { id: player2.id }],
-      },
-    })
+    await cleanupGamesTest()
   })
 
   describe('Player1 and player2 exists in the database', () => {
@@ -269,72 +221,6 @@ describe('POST /api/games/:id', () => {
       expect(player1LeaderBoard.wins).toEqual(0)
       expect(player1LeaderBoard.losses).toEqual(0)
       expect(player1LeaderBoard.ties).toEqual(0)
-    })
-  })
-  describe('Save an offline game in the database', () => {
-    test('Saving offline game with invalid userId should throw 401', async () => {
-      await api
-        .post(baseUriOffline)
-        .send(offlineGameAiWins)
-        .set('Authorization', `Bearer ${player1Token}`)
-        .expect(401)
-    })
-    test('Player1 should have 1 loss', async () => {
-      await api
-        .post(baseUriOffline)
-        .send({ ...offlineGameAiWins, userId: player1.id, player1: player1.id })
-        .set('Authorization', `Bearer ${player1Token}`)
-
-      const player1LeaderBoard = await Leaderboard.findOne({
-        where: {
-          userId: player1.id,
-        },
-      })
-
-      expect(player1LeaderBoard.wins).toEqual(0)
-      expect(player1LeaderBoard.losses).toEqual(1)
-      expect(player1LeaderBoard.ties).toEqual(0)
-    })
-
-    test('Player1 should have 1 tie', async () => {
-      await api
-        .post(baseUriOffline)
-        .send({ ...offlineGameTie, userId: player1.id, player1: player1.id })
-        .set('Authorization', `Bearer ${player1Token}`)
-
-      const player1LeaderBoard = await Leaderboard.findOne({
-        where: {
-          userId: player1.id,
-        },
-      })
-
-      expect(player1LeaderBoard.wins).toEqual(0)
-      expect(player1LeaderBoard.losses).toEqual(1)
-      expect(player1LeaderBoard.ties).toEqual(1)
-    })
-
-    test('Player1 should have 1 win', async () => {
-      const savedGame = await api
-        .post(baseUriOffline)
-        .send({
-          ...offlinePlayerWins,
-          userId: player1.id,
-          player1: player1.id,
-          winner: player1.id,
-        })
-        .set('Authorization', `Bearer ${player1Token}`)
-
-      const player1LeaderBoard = await Leaderboard.findOne({
-        where: {
-          userId: player1.id,
-        },
-      })
-
-      expect(player1LeaderBoard.wins).toEqual(1)
-      expect(player1LeaderBoard.losses).toEqual(1)
-      expect(player1LeaderBoard.ties).toEqual(1)
-
-      expect(savedGame).toBeDefined()
     })
   })
 })

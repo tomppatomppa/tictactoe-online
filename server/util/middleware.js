@@ -1,5 +1,5 @@
 const { isInCoordsArray } = require('../games/tic-tac-toe')
-const { User, Session, Game } = require('../models')
+const { User, Session, Game, Leaderboard } = require('../models')
 
 const registerSocketHandlers = require('../socket/socketHandler')
 
@@ -103,6 +103,7 @@ const validateMoveMiddleware = async (req, res, next) => {
 
   next()
 }
+
 module.exports = {
   socketMiddleware,
   errorHandler,

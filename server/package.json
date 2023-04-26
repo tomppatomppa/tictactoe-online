@@ -24,7 +24,8 @@
     "nodemon": "^2.0.22",
     "pg": "^8.10.0",
     "sequelize": "^6.31.0",
-    "socket.io": "^4.6.1"
+    "socket.io": "^4.6.1",
+    "socket.io-client": "^4.6.1"
   },
   "devDependencies": {
     "jest": "^29.5.0",
@@ -35,7 +36,8 @@
     "globalTeardown": "./teardown.js",
     "modulePathIgnorePatterns": [
       "data",
-      "config.js"
+      "config.js",
+      "setup.js"
     ]
   }
 }

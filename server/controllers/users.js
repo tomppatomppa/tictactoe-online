@@ -67,4 +67,5 @@ router.delete('/me/:id', async (req, res) => {
     return res.json({ error: err })
   }
 })
+
 module.exports = router

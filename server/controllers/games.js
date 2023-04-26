@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const { Sequelize, Op } = require('sequelize')
 const { checkGame, nextInTurn, isLastMove } = require('../games/tic-tac-toe')
-const { Game, Leaderboard, User } = require('../models/index')
+const { Game, Leaderboard } = require('../models/index')
 const { userFromToken, validateMoveMiddleware } = require('../util/middleware')
 
 router.get('/', async (req, res) => {
@@ -9,46 +9,16 @@ router.get('/', async (req, res) => {
     where: {
       isFinished: true,
     },
-
     raw: true,
   })
-
+  req.io.emit('test:game', 'testing games')
   res.status(200).json(allGames)
 })
 
 router.use(userFromToken)
 
-const addOfflineToLeaderboard = async (game) => {
-  const { player1, winner } = game
-
-  if (winner !== null) {
-    await Leaderboard.update(
-      { wins: Sequelize.literal('wins + 1') },
-      {
-        where: { userId: winner === player1 ? player1 : null },
-      }
-    )
-    await Leaderboard.update(
-      { losses: Sequelize.literal('losses + 1') },
-      {
-        where: { userId: winner === player1 ? null : player1 },
-      }
-    )
-  } else {
-    await Leaderboard.update(
-      { ties: Sequelize.literal('ties + 1') },
-      {
-        where: {
-          userId: player1,
-        },
-      }
-    )
-  }
-}
-
 const addToLeaderboard = async (game) => {
   const { player1, player2, winner } = game
-
   if (winner !== null) {
     await Leaderboard.update(
       { wins: Sequelize.literal('wins + 1') },
@@ -83,37 +53,12 @@ router.post('/', async (req, res) => {
     player1: id,
     player2: null,
   })
+
   if (req.io) {
     req.io.emit('new-created-game', createdGame)
   }
+
   res.status(200).json(createdGame)
-})
-
-//TODO: When when user starts an offline game,
-//Save an empty in the database, and when the game ends in the frontend
-router.post('/offline', async (req, res) => {
-  if (req.user.id !== req.body.player1) {
-    return res.status(401).json({ error: 'Unauthorized game save' })
-  }
-  //remove "AI" from the request
-  const game = req.body
-  await addOfflineToLeaderboard(game)
-  const { player1, player2, inTurn, winner } = game
-
-  //Remove "AI" from the game
-  const savedGame = await Game.create({
-    ...game,
-    player2: null,
-    winner: winner === player1 ? player1 : null,
-    inTurn: inTurn === player1 ? player1 : null,
-  })
-
-  await Leaderboard.findOne({
-    where: {
-      userId: req.user.id,
-    },
-  })
-  res.status(200).json(savedGame)
 })
 
 router.post('/:id', validateMoveMiddleware, async (req, res) => {

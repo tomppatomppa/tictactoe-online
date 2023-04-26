@@ -67,6 +67,7 @@ const checkGame = (gameState, inTurn) => {
 
   return checkWin(moves, gameState.gridSize)
 }
+
 const checkOfflineGame = (gameState) => {
   let moves = []
 
