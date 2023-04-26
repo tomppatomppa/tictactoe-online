@@ -24,6 +24,7 @@
 
 - Online Multiplayer Support
 - Realtime updates and gameplay
+- Display number connected players in a game
 - Play offline agains "Ai"
 - Leaderboard
 - Customizable gridsize
@@ -37,8 +38,6 @@
 
 - Offline games are not saved
 - There might be some bugs with the socket connections, and lacks any manual refresh functionality
-- No indication if a player is waiting in a gameRoom.
-- Generally there are no indications if any players are online
 - Lacks proper handling of errors
 
 ## How To Use
@@ -89,6 +88,13 @@ Lets say i want to add a button "MyGame" for all games where player1 == 1.
 I would have to pass two extra props, entity and onClick.
 
 ```ruby
+
+const headers= {
+    id: "id",
+    player1: "player1"
+    player2: "player2"
+}
+
 const playButton = {
   target: ['player1'], //target a field in the headers
   match: [1],          //specify what value is a valid match
@@ -97,7 +103,7 @@ const playButton = {
   type: 'mygame',      //specify a type, can be whatever
   style: buttonStyle,  //custom style for button
 }
-//add button to array
+
 const mybuttons = [playButton, ...]
 
 <DataGrid headers={headers}, data={gameArray} entity={myButtons} onClick={onClickFunction} />
@@ -115,7 +121,7 @@ OnClick would dispatch {type: "mygame", data: {id:1} as specified in the playBut
 ## Features to be implemented
 
 - Support for different games
-- Show online players
+- Show online players outside of a gameRoom
 - Improve DataGrid with filtering, challenge users etc..
 - 3D GridTiles
 
