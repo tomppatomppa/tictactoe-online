@@ -1,4 +1,4 @@
-const { Game, User } = require('../../models/index')
+const { Game } = require('../models/index')
 
 module.exports = (io, socket) => {
   const initialGame = async () => {
@@ -27,6 +27,7 @@ module.exports = (io, socket) => {
   const makeMove = async ({ gameId, move }) => {
     io.to(gameId).emit('make-move', move)
   }
+
   const rematch = async (game) => {
     io.timeout(10000)
       .to(game.id.toString())
@@ -42,7 +43,6 @@ module.exports = (io, socket) => {
               player2: player2,
               inTurn: player1,
             })
-            console.log('create a new game')
             io.to(game.id.toString()).emit('new:game', rematchGame.id)
           } catch (e) {
             console.log(e)

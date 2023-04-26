@@ -1,27 +1,17 @@
 const { isInCoordsArray } = require('../games/tic-tac-toe')
 const { User, Session, Game } = require('../models')
 
-const registerGameHandlers = require('./socketHandlers.js/gameHandler')
+const registerSocketHandlers = require('../socket/socketHandler')
 
 const socketMiddleware = (io) => {
   const onConnection = (socket) => {
-    registerGameHandlers(io, socket)
-
+    registerSocketHandlers(io, socket)
     socket.on('disconnect', () => {
       console.log('user disconnected')
     })
   }
-
   io.on('connection', onConnection)
-  io.on('error', (error) => {
-    if (error.code === 'ERR_ROOM_ID_REQUIRED') {
-      // handle the error
-      console.error('Room ID is required')
-    } else {
-      // handle other errors
-      console.error('An error occurred:', error.message)
-    }
-  })
+
   return (req, res, next) => {
     req.io = io
     next()

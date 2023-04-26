@@ -7,7 +7,7 @@ const path = require('path')
 const app = express()
 const httpServer = http.createServer(app)
 
-const io = require('./socket')(httpServer)
+const io = require('./socket/socket')(httpServer)
 
 const cors = require('cors')
 require('dotenv').config()
@@ -18,7 +18,7 @@ const sessionsRouter = require('./controllers/sessions')
 const leaderboardsRouter = require('./controllers/leaderboards')
 
 // httpServer.on('request', app)
-//TODO: refactor all but app into index.js
+
 app.use(cors())
 app.use(express.json())
 app.use(express.static(path.join(__dirname, './build')))

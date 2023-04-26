@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:single": "NODE_ENV=test jest --runInBand --silent --testPathPattern=tic-tac-toe.test.js",
+    "test:single": "NODE_ENV=test jest --runInBand --silent --testPathPattern=socket.test.js",
     "test": "NODE_ENV=test jest --runInBand --silent",
     "dev": "nodemon index.js",
     "build:prod": "cd ../client && npm install && npm run build && xcopy /s /y /i build ..\\server\\build && rmdir /s /q build && cd ../server",
