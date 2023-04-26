@@ -3,21 +3,27 @@ import React, { useEffect, useState } from 'react'
 import leaderboardServices from '../services/leaderboardsService'
 import DataTable from '../components/DataTable'
 import { leaderBoardHeaders } from '../utils/config'
+import { useQuery } from 'react-query'
+import Spinner from '../components/Spinner'
+import ErrorMessage from '../components/ErrorMessage'
 
 const Leaderboard = () => {
-  const [leaderboard, setLeaderboard] = useState([])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const leaderboardData = await leaderboardServices.getLeaderboard()
-      setLeaderboard(leaderboardData)
-    }
-    fetchData()
-  }, [])
-
+  const { isLoading, isError, data, error } = useQuery(['leaderboard'], () =>
+    leaderboardServices.getLeaderboard()
+  )
+  if (isError)
+    return (
+      <ErrorMessage
+        isError={isError}
+        error={error}
+        message="Something went wrong loading leaderboard"
+      />
+    )
+  console.log(data, isError)
   return (
     <div className="flex justify-center mt-24">
-      <DataTable headers={leaderBoardHeaders} data={leaderboard} />
+      <Spinner show={isLoading} delay={400} description="loading leaderboard" />
+      {data && <DataTable headers={leaderBoardHeaders} data={data} />}
     </div>
   )
 }
