@@ -22,6 +22,7 @@ const useReplay = () => {
     if (index >= originalMoves.length) return
     setIndex(index + 1)
     const moves = originalMoves.slice(0, index + 1)
+
     setGame({
       ...game,
       moves: moves,
@@ -31,6 +32,7 @@ const useReplay = () => {
     if (index <= 0) return
     setIndex(index - 1)
     const moves = originalMoves.slice(0, index - 1)
+
     setGame({
       ...game,
       moves: moves,

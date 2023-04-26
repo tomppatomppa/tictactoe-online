@@ -7,6 +7,7 @@ import CreateGameForm from '../components/CreateGameForm'
 import useGame from '../hooks/useGame'
 import {
   gameLobbyHeaders,
+  initialLocalGameState,
   joinButton,
   playButton,
   waitButton,
@@ -22,6 +23,16 @@ const Games = ({ onlineGames = [], setLocalGame }) => {
   const { create, actionHandler } = useGame(user, setLocalGame)
 
   const handleCreateGame = (game) => {
+    if (game.type !== 'online') {
+      setLocalGame({
+        ...initialLocalGameState,
+        gridSize: game.gridSize,
+        inTurn: user.id,
+        player1: user.id,
+      })
+      navigate('/games/offline')
+      return
+    }
     create(game)
     setOpenModal(false)
   }

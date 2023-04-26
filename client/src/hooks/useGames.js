@@ -3,7 +3,6 @@ import { isMyGame, isPlayerGame } from '../utils/helpers'
 
 const useGames = (socket, user) => {
   const [onlineGames, setOnlineGames] = useState([])
-  const [activeGames, setActiveGames] = useState([])
 
   const updateGame = (updatedGame) => {
     setOnlineGames((prevGames) => {
@@ -17,6 +16,7 @@ const useGames = (socket, user) => {
       return updatedGames
     })
   }
+
   const removeGame = (updatedGame) => {
     const { id } = updatedGame
     setOnlineGames((prevGames) => {
@@ -24,6 +24,7 @@ const useGames = (socket, user) => {
       return filteredGames
     })
   }
+
   useEffect(() => {
     if (socket) {
       socket.on('games:all', (allGames) => {
@@ -42,14 +43,11 @@ const useGames = (socket, user) => {
       socket.on('games:delete', (deletedGame) => {
         removeGame(deletedGame)
       })
-      socket.on('games:active', (allRooms) => {
-        setActiveGames(allRooms)
-      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket])
 
-  return { onlineGames, setOnlineGames, updateGame, activeGames }
+  return { onlineGames, setOnlineGames, updateGame }
 }
 
 export default useGames
