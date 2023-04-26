@@ -146,12 +146,12 @@ const headers= {
 }
 
 const playButton = {
-  target: ['player1'], //target a field in the headers
-  match: [1],          //specify what value is a valid match
-  text: 'MyGame',      //button text
-  dispatch: ['id'],    //what value to dispatch when clicked
-  type: 'mygame',      //specify a type, can be whatever
-  style: buttonStyle,  //custom style for button
+  target: ['player1'], #target a field in the headers
+  match: [1],          #specify what value is a valid match
+  text: 'MyGame',      #button text
+  dispatch: ['id'],    #what value to dispatch when clicked
+  type: 'mygame',      #specify a type, can be whatever
+  style: buttonStyle,  #custom style for button
 }
 
 const mybuttons = [playButton, ...]
