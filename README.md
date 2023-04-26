@@ -46,10 +46,60 @@
 > For Windows only
 
 ```bash
-To be updated
 
 # Clone this repository
 $ git clone https://github.com/tomppatomppa/tictactoe-online.git
+
+# Go to server folder
+$ cd tictactoe-online/server
+
+# Connect a database
+# Create a .env file in the server folder with the following contents
+# Tested with https://api.elephantsql.com/ and https://www.postgresql.org/
+$ DATABASE_URL="connectionstring"
+$ SECRET=secret
+
+# Install dependencies
+$ npm install
+
+# Create a client build and start server on port 3001
+# Or run the client seperately by going to /client folder and run npm start
+$ npm run build:dev
+
+# Open browser
+$ http://localhost:3001/
+```
+
+## Run Server Tests
+
+> **Note**
+> For Windows only
+
+```bash
+# Go to server folder
+$ cd ./server
+
+# Disable io.listen(4000) in the app.js
+# Otherwise it will throw EADDRINUSE error
+$ //io.listen(4000)
+
+# Run Server test
+# On a free Database plan you might get "SequelizeConnectionError: too many connections for role xxxxx" error
+$ npm run test
+
+```
+
+## Run Client Tests
+
+> **Note**
+> For Windows only
+
+```bash
+# Go to client folder
+$ cd ./client
+
+# Run client tests
+$ npm test
 
 ```
 
