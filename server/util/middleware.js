@@ -4,14 +4,21 @@ const { User, Session, Game, Leaderboard } = require('../models')
 const registerSocketHandlers = require('../socket/socketHandler')
 
 const socketMiddleware = (io) => {
+  const rooms = io.sockets.adapter.rooms
+
   const onConnection = (socket) => {
     registerSocketHandlers(io, socket)
     socket.on('disconnect', () => {
       console.log('user disconnected')
     })
-  }
-  io.on('connection', onConnection)
 
+    socket.emit(
+      'games:active',
+      Array.from(rooms.keys()).filter((key) => /^\d+$/.test(key))
+    )
+  }
+
+  io.on('connection', onConnection)
   return (req, res, next) => {
     req.io = io
     next()

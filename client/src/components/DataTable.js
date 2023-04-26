@@ -58,14 +58,14 @@ const Item = ({ data, onClick, entity }) => {
   return (
     <tr
       data-testid="table-body-row "
-      className="hover:bg-slate-700 translate-all duration-200 "
+      className={`hover:bg-slate-700 translate-all duration-200 `}
     >
       {tableDataItem?.map((item, index) => {
         if (item === 'action') {
           return <ActionButton key={index} />
         } else {
           return (
-            <td key={index} className="px-4 py-2">
+            <td key={index} className={`px-4 py-2`}>
               {item}
             </td>
           )
@@ -121,7 +121,7 @@ const DataTable = ({ headers, data, entity, onClick }) => {
             ))}
           </tr>
         </thead>
-        <tbody data-testid="table-body" className="backdrop-blur-sm ">
+        <tbody data-testid="table-body" className={`backdrop-blur-sm`}>
           {result?.map((data, index) => (
             <Item onClick={onClick} key={index} data={data} entity={entity} />
           ))}
