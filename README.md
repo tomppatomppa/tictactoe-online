@@ -4,7 +4,7 @@
   <br>
 </h1>
 
-<h4 align="center">This project features both online and offline gameplay options, allowing you to play against friends or the computer. The game is built using modern web technologies and is fully responsive, making it easy to play on any device. <a href="https://nodejs.org/en" target="_blank">Node.js</a>, <a href="https://react.dev/" target="_blank">React</a> <a href="https://socket.io/" target="_blank">Socket.io</a> and <a href="https://tailwindcss.com/" target="_blank">Tailwind</a>.</h4>
+<h4 align="center">This project features both online and offline gameplay options, allowing you to play against friends or the computer. The game is built using modern web technologies and is fully responsive, making it easy to play on any device. <a href="https://nodejs.org/en" target="_blank">Node.js</a>, <a href="https://react.dev/" target="_blank">React</a>, <a href="https://socket.io/" target="_blank">Socket.io</a>, <a href="https://tanstack.com/" target="_blank">React Query</a> and <a href="https://tailwindcss.com/" target="_blank">Tailwind</a>.</h4>
 
 <p align="center">
   <a href="#key-features">Key Features</a> •
@@ -33,12 +33,12 @@
 - Replay Old Games
 - Custom DataDrid component
 - Custom Grid Component
+- Error Messages
 
 ## limitations
 
 - Offline games are not saved
 - There might be some bugs with the socket connections, and lacks any manual refresh functionality
-- Lacks proper handling of errors
 
 ## How To Use
 
@@ -183,6 +183,7 @@ This software uses the following open source packages:
 - [React](https://react.dev/)
 - [Express](https://expressjs.com/)
 - [Socket.io](https://socket.io/)
+- [ReactQuery](https://tanstack.com/)
 - [Tailwind](https://tailwindcss.com/)
 
 ## Live Website

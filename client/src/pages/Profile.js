@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import userService from '../services/userService'
 import DataTable from '../components/DataTable'
 import { buttonStyle, playButton } from '../utils/config'
