@@ -2,27 +2,19 @@ import useCurrentUser from './useCurrentUser'
 import loginServices from '../services/loginService'
 import { useLocalStorage } from './useLocalStorage'
 import { useEffect } from 'react'
+import { useMutation } from 'react-query'
 
 const useLogin = () => {
   const authstorage = useLocalStorage()
   const { setCurrentUser, setUser } = useCurrentUser()
 
-  const login = async (userCredentials) => {
-    try {
-      const user = await loginServices.login(userCredentials)
+  const { mutate } = useMutation({
+    mutationFn: (userCredentials) => loginServices.login(userCredentials),
+    onSuccess: (user) => {
       setCurrentUser(user)
-    } catch (e) {
-      console.log(e)
-    }
-  }
-  const register = async (userCredentials) => {
-    try {
-      await loginServices.register(userCredentials)
-      await login(userCredentials)
-    } catch (e) {
-      console.log(e)
-    }
-  }
+    },
+  })
+
   const setUserLogin = () => {
     const user = authstorage.getAccessToken()
     if (user) {
@@ -35,7 +27,7 @@ const useLogin = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return { login, register }
+  return { login: mutate }
 }
 
 export default useLogin

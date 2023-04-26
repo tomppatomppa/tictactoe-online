@@ -7,9 +7,12 @@ import DropdownMenu from './DropdownMenu'
 import LoginForm from './LoginForm'
 import useDeleteAccount from '../hooks/useDeleteAccount'
 
+import useRegister from '../hooks/useRegister'
+
 const Navbar = () => {
   const { user, resetCurrentUser } = useCurrentUser()
-  const { login, register } = useLogin()
+  const { login } = useLogin()
+  const { register } = useRegister()
   const deleteAccount = useDeleteAccount()
   const handleLogout = () => {
     resetCurrentUser()

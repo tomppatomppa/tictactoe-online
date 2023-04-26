@@ -12,7 +12,8 @@ import { BrowserRouter } from 'react-router-dom'
 import LocalStorageContext from './contexts/LocalStorageContext'
 import LocalStorage from './utils/localStorage'
 import { CurrentUserProvider } from './contexts/CurrentUserContext'
-
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
 const authstorage = new LocalStorage()
@@ -27,7 +28,7 @@ const queryClient = new QueryClient({
   }),
   mutationCache: new MutationCache({
     onError: (error) => {
-      console.log('mutation error')
+      if (error.message) toast.error(JSON.stringify(error.response.data.error))
     },
   }),
 })
@@ -39,6 +40,18 @@ root.render(
         <LocalStorageContext.Provider value={authstorage}>
           <CurrentUserProvider>
             <App />
+            <ToastContainer
+              position="top-center"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
           </CurrentUserProvider>
         </LocalStorageContext.Provider>
       </QueryClientProvider>

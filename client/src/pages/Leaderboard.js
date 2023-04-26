@@ -11,6 +11,7 @@ const Leaderboard = () => {
   const { isLoading, isError, data, error } = useQuery(['leaderboard'], () =>
     leaderboardServices.getLeaderboard()
   )
+
   if (isError)
     return (
       <ErrorMessage
@@ -19,7 +20,7 @@ const Leaderboard = () => {
         message="Something went wrong loading leaderboard"
       />
     )
-  console.log(data, isError)
+
   return (
     <div className="flex justify-center mt-24">
       <Spinner show={isLoading} delay={400} description="loading leaderboard" />
