@@ -8,15 +8,18 @@ import {
   QueryCache,
   MutationCache,
 } from 'react-query'
+
 import { BrowserRouter } from 'react-router-dom'
 import LocalStorageContext from './contexts/LocalStorageContext'
 import LocalStorage from './utils/localStorage'
 import { CurrentUserProvider } from './contexts/CurrentUserContext'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
 const authstorage = new LocalStorage()
+
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: (error, query) => {

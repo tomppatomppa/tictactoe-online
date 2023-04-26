@@ -2,9 +2,11 @@ const { isInCoordsArray } = require('../games/tic-tac-toe')
 const { User, Session, Game, Leaderboard } = require('../models')
 
 const registerSocketHandlers = require('../socket/socketHandler')
+const registerInitialHandlers = require('../socket/initialHandler')
 
 const socketMiddleware = (io) => {
   const onConnection = (socket) => {
+    registerInitialHandlers(io, socket)
     registerSocketHandlers(io, socket)
     socket.on('disconnect', () => {
       console.log('user disconnected')
