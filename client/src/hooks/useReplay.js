@@ -28,6 +28,7 @@ const useReplay = () => {
       moves: moves,
     })
   }
+
   const back = () => {
     if (index <= 0) return
     setIndex(index - 1)

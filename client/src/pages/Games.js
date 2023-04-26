@@ -15,7 +15,6 @@ import {
 
 import { useNavigate } from 'react-router-dom'
 import InfoLable from '../components/InfoLable'
-import Spinner from '../components/Spinner'
 
 const Games = ({ onlineGames = [], setLocalGame }) => {
   const navigate = useNavigate()
