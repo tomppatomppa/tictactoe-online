@@ -15,12 +15,13 @@ import {
 
 import { useNavigate } from 'react-router-dom'
 import InfoLable from '../components/InfoLable'
+import Spinner from '../components/Spinner'
 
 const Games = ({ onlineGames = [], setLocalGame }) => {
   const navigate = useNavigate()
   const [openModal, setOpenModal] = useState(false)
   const { user } = useCurrentUser()
-  const { create, actionHandler } = useGame(user, setLocalGame)
+  const { create, actionHandler } = useGame(user)
 
   const handleCreateGame = (game) => {
     if (game.type !== 'online') {
@@ -64,7 +65,6 @@ const Games = ({ onlineGames = [], setLocalGame }) => {
             Replay Mode
           </button>
         </div>
-
         <div className="flex justify-center">
           <DataTable
             onClick={actionHandler}

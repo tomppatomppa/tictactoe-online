@@ -1,12 +1,13 @@
 import gameServices from '../services/gamesService'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import { toast } from 'react-toastify'
 
 let timeoutId = null
 
 const useGame = (user) => {
+  const queryClient = useQueryClient()
   const [message, setMessage] = useState('')
   const navigate = useNavigate()
 
@@ -45,6 +46,7 @@ const useGame = (user) => {
   const { mutate: deleteGame } = useMutation({
     mutationFn: (id) => gameServices.deleteOne(id, user.token),
     onSuccess: (data) => {
+      queryClient.invalidateQueries('profile')
       toast.success(JSON.stringify(data))
     },
     onError: (err) => {

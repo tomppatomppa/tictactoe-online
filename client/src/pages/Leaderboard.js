@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import leaderboardServices from '../services/leaderboardsService'
 import DataTable from '../components/DataTable'
