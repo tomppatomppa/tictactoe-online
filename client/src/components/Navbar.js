@@ -7,13 +7,21 @@ import DropdownMenu from './DropdownMenu'
 import LoginForm from './LoginForm'
 import useDeleteAccount from '../hooks/useDeleteAccount'
 
-import useRegister from '../hooks/useRegister'
+import { useMutation } from 'react-query'
+import loginServices from '../services/loginService'
 
 const Navbar = () => {
   const { user, resetCurrentUser } = useCurrentUser()
   const { login } = useLogin()
-  const { register } = useRegister()
+  const { mutate } = useMutation({
+    mutationFn: (userCredentials) => loginServices.register(userCredentials),
+    onSuccess: (data, variables, context) => {
+      login(variables)
+    },
+  })
+
   const deleteAccount = useDeleteAccount()
+
   const handleLogout = () => {
     resetCurrentUser()
   }
@@ -54,7 +62,7 @@ const Navbar = () => {
     return (
       <div className={`relative flex gap-4 `}>
         <DropdownMenu title={'Login'} options={[]}>
-          <LoginForm onSubmit={login} onRegister={register} />
+          <LoginForm onSubmit={login} onRegister={mutate} />
         </DropdownMenu>
       </div>
     )
