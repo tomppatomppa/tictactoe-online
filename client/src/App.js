@@ -19,7 +19,7 @@ import Background from './components/Background'
 function App() {
   const socket = useSocket()
   const { user } = useCurrentUser()
-  const { onlineGames, activeGames } = useGames(socket, user)
+  const { onlineGames } = useGames(socket, user)
   const [localGame, setLocalGame] = useState(null)
   useLogin()
 
@@ -35,11 +35,7 @@ function App() {
           <Route
             path="games"
             element={
-              <Games
-                onlineGames={onlineGames}
-                setLocalGame={setLocalGame}
-                activeGames={activeGames}
-              />
+              <Games onlineGames={onlineGames} setLocalGame={setLocalGame} />
             }
           />
           <Route path="games/:id" element={<GameBoardOnline />} />

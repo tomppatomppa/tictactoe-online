@@ -14,9 +14,8 @@ import {
 
 import { useNavigate } from 'react-router-dom'
 import InfoLable from '../components/InfoLable'
-import ActiveGamesList from '../hooks/ActiveGamesList'
 
-const Games = ({ onlineGames = [], setLocalGame, activeGames }) => {
+const Games = ({ onlineGames = [], setLocalGame }) => {
   const navigate = useNavigate()
   const [openModal, setOpenModal] = useState(false)
   const { user } = useCurrentUser()
@@ -90,7 +89,6 @@ const Games = ({ onlineGames = [], setLocalGame, activeGames }) => {
             />
           </div>
         </div>
-        <ActiveGamesList activeGames={activeGames} />
       </div>
     </div>
   )
