@@ -79,8 +79,10 @@ describe('API endpoints', () => {
             return
           }
         })
-        client.on('games:user-joined-room', (message) => {
-          expect(message).toEqual(`User joined game room id ${gameOnline.id}`)
+        client.on('games:user-joined-room', (data) => {
+          expect(data.message).toEqual(
+            `User joined game room id ${gameOnline.id}`
+          )
           resolve()
         })
       })

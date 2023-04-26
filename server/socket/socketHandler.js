@@ -13,10 +13,14 @@ module.exports = (io, socket) => {
 
   const joinGameRoom = (gameId) => {
     socket.join(gameId)
-    io.to(gameId).emit(
-      'games:user-joined-room',
-      `User joined game room id ${gameId}`
-    )
+    const roomSize = io.sockets.adapter.rooms.get(gameId).size
+    io.to(gameId).emit('games:user-joined-room', {
+      message: `User joined game room id ${gameId}`,
+      userCount: roomSize,
+    })
+  }
+  const leaveRoom = (gameId) => {
+    io.to(gameId).emit('games:user-left-room')
   }
 
   const getGameState = async (gameId) => {
@@ -52,6 +56,8 @@ module.exports = (io, socket) => {
 
   socket.on('games:get-all', initialGames)
   socket.on('games:join-room', joinGameRoom)
+  socket.on('games:leave-room', leaveRoom)
+
   socket.on('games:get-game', getGameState)
   socket.on('game:rematch', rematch)
 }

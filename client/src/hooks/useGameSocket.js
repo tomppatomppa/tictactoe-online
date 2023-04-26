@@ -3,6 +3,7 @@ import { io } from 'socket.io-client'
 import { SOCKET_URL } from '../utils/config'
 
 const useGameSocket = (id) => {
+  const [userCount, setUserCount] = useState(0)
   const [gameState, setGameState] = useState(null)
   const [socket, setSocket] = useState(null)
   const [rematchGameId, setRematchGameId] = useState(null)
@@ -17,6 +18,7 @@ const useGameSocket = (id) => {
     setSocket(newSocket)
 
     return () => {
+      newSocket.emit('games:leave-room', id)
       newSocket.disconnect()
     }
   }, [id])
@@ -46,6 +48,12 @@ const useGameSocket = (id) => {
       socket.on('games:new-game', (gameId) => {
         setRematchGameId(gameId)
       })
+      socket.on('games:user-joined-room', (data) => {
+        setUserCount(data.userCount)
+      })
+      socket.on('games:user-left-room', () => {
+        setUserCount((prev) => prev - 1)
+      })
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -54,9 +62,9 @@ const useGameSocket = (id) => {
   return {
     socket,
     gameState,
-
     handleRematch,
     rematchGameId,
+    userCount,
   }
 }
 

@@ -13,7 +13,8 @@ const GameBoardOnline = () => {
   const { user } = useCurrentUser()
   const navigate = useNavigate()
   let { id } = useParams()
-  const { gameState, handleRematch, rematchGameId } = useGameSocket(id)
+  const { gameState, handleRematch, rematchGameId, userCount } =
+    useGameSocket(id)
 
   const { sendMove, message } = useGame(user)
 
@@ -27,7 +28,7 @@ const GameBoardOnline = () => {
 
   return (
     <div className="flex flex-col items-center gap-2">
-      <GameBoardInfo gameState={gameState} />
+      <GameBoardInfo gameState={gameState} userCount={userCount} />
       <GameBoardWarning message={message} />
       <Grid
         gameState={gameState}

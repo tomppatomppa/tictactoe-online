@@ -1,10 +1,11 @@
 import React from 'react'
 
-const GameBoardInfo = ({ gameState }) => {
+const GameBoardInfo = ({ gameState, userCount = null }) => {
   const { id, inTurn, type, winner, isFinished } = gameState
   return (
     <div className="md:self-start m-2 font-semibold divide-y-2 text-white border border-white p-2">
       <h2>GAME ID: {id}</h2>
+      {userCount && <h2>PLAYERS ONLINE: {userCount}</h2>}
       <h2>
         GAME TYPE: <span className="text-amber-600 uppercase">{type}</span>
       </h2>
