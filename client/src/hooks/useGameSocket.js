@@ -4,7 +4,6 @@ import { SOCKET_URL } from '../utils/config'
 
 const useGameSocket = (id) => {
   const [gameState, setGameState] = useState(null)
-  const [message, setMessage] = useState('')
   const [socket, setSocket] = useState(null)
   const [rematchGameId, setRematchGameId] = useState(null)
 
@@ -22,9 +21,6 @@ const useGameSocket = (id) => {
     }
   }, [id])
 
-  const handleAction = (move) => {
-    socket.emit('player-move', { gameId: id, move: move })
-  }
   const handleRematch = () => {
     socket.emit('game:rematch', gameState)
   }
@@ -32,26 +28,22 @@ const useGameSocket = (id) => {
   useEffect(() => {
     if (socket) {
       socket.on('connect', () => {
-        socket.emit('join-game-room', id)
-        socket.emit('get-game-state', id)
+        socket.emit('games:join-room', id)
+        socket.emit('games:get-game', id)
       })
     }
   }, [socket, id])
 
   useEffect(() => {
     if (socket) {
-      socket.on('game-state', (game) => {
+      socket.on('games:game-state', (game) => {
         setGameState(game)
       })
-      socket.on('make-move', (game) => {
-        setMessage(JSON.stringify(game))
-      })
-
-      socket.on('start:rematch', (callback) => {
+      socket.on('games:start-rematch', (callback) => {
         const userResponse = window.confirm('Do you want to rematch?')
         callback(userResponse ? 'ok' : 'cancel')
       })
-      socket.on('new:game', (gameId) => {
+      socket.on('games:new-game', (gameId) => {
         setRematchGameId(gameId)
       })
     }
@@ -61,9 +53,8 @@ const useGameSocket = (id) => {
 
   return {
     socket,
-    handleAction,
     gameState,
-    message,
+
     handleRematch,
     rematchGameId,
   }

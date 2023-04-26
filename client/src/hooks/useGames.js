@@ -25,20 +25,20 @@ const useGames = (socket, user) => {
   }
   useEffect(() => {
     if (socket) {
-      socket.on('initial-game-state', (allGames) => {
+      socket.on('games:all', (allGames) => {
         setOnlineGames(allGames)
       })
-      socket.on('new-created-game', (createdGame) => {
+      socket.on('games:new-game', (createdGame) => {
         setOnlineGames((prevGames) => [...prevGames, createdGame])
       })
-      socket.on('player-joined-game', (joinedGame) => {
+      socket.on('games:player-joined-game', (joinedGame) => {
         if (isMyGame(joinedGame, user) || isPlayerGame(joinedGame, user)) {
           updateGame(joinedGame)
         } else {
           removeGame(joinedGame)
         }
       })
-      socket.on('delete:game', (deletedGame) => {
+      socket.on('games:delete', (deletedGame) => {
         removeGame(deletedGame)
       })
     }

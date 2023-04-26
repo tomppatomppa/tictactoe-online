@@ -17,7 +17,7 @@ const useSocket = () => {
 
   useEffect(() => {
     if (socket) {
-      socket.emit('get-initial-games')
+      socket.emit('games:get-all')
     }
   }, [socket])
 

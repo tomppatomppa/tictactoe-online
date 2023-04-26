@@ -11,7 +11,6 @@ router.get('/', async (req, res) => {
     },
     raw: true,
   })
-  req.io.emit('test:game', 'testing games')
   res.status(200).json(allGames)
 })
 
@@ -55,7 +54,7 @@ router.post('/', async (req, res) => {
   })
 
   if (req.io) {
-    req.io.emit('new-created-game', createdGame)
+    req.io.emit('games:new-game', createdGame)
   }
 
   res.status(200).json(createdGame)
@@ -83,7 +82,7 @@ router.post('/:id', validateMoveMiddleware, async (req, res) => {
       await addToLeaderboard(game)
     }
     if (req.io) {
-      req.io.to(game.id.toString()).emit('game-state', savedGame)
+      req.io.to(game.id.toString()).emit('games:game-state', savedGame)
     }
     res.status(200).json(savedGame)
   } catch (error) {
@@ -111,7 +110,7 @@ router.put('/:id', async (req, res) => {
   const updatedGame = result[1][0]
 
   if (req.io) {
-    req.io.emit('player-joined-game', updatedGame)
+    req.io.emit('games:player-joined-game', updatedGame)
   }
 
   res.status(200).json(updatedGame)
@@ -131,7 +130,7 @@ router.delete('/:id', async (req, res) => {
   await game.destroy()
 
   if (req.io) {
-    req.io.emit('delete:game', game)
+    req.io.emit('games:delete', game)
   }
 
   return res.status(200).json(`Deleted game ${req.params.id}`)

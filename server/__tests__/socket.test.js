@@ -33,20 +33,6 @@ describe('API endpoints', () => {
     })
   })
 
-  test('should emit a "test" event on /api/games', () => {
-    return new Promise((resolve, reject) => {
-      client.on('test:game', (data) => {
-        expect(data).toEqual('testing games')
-        resolve()
-      })
-      request(app)
-        .get(baseUri)
-        .expect(200)
-        .end((err) => {
-          if (err) reject(err)
-        })
-    })
-  })
   describe('test game emit', () => {
     beforeAll(async () => {
       await initGamesTests()
@@ -57,7 +43,7 @@ describe('API endpoints', () => {
 
     test('Emits created game object', () => {
       return new Promise((resolve, reject) => {
-        client.on('new-created-game', (game) => {
+        client.on('games:new-game', (game) => {
           expect(game.id).toEqual(gameOnline.id)
           expect(game.userId).toEqual(player1.id)
           resolve()
@@ -73,7 +59,7 @@ describe('API endpoints', () => {
     })
     test('Emits player joined event', () => {
       return new Promise((resolve, reject) => {
-        client.on('player-joined-game', (game) => {
+        client.on('games:player-joined-game', (game) => {
           expect(game.player2).toEqual(player2.id)
           resolve()
         })
@@ -87,25 +73,25 @@ describe('API endpoints', () => {
     })
     test('join game room', () => {
       return new Promise((resolve, reject) => {
-        client.emit('join-game-room', gameOnline.id, (error) => {
+        client.emit('games:join-room', gameOnline.id, (error) => {
           if (error) {
             done(error)
             return
           }
         })
-        client.on('user-joined', (message) => {
+        client.on('games:user-joined-room', (message) => {
           expect(message).toEqual(`User joined game room id ${gameOnline.id}`)
           resolve()
         })
       })
     })
     test('Emits updated game to the gameroom', () => {
-      client.emit('join-game-room', gameOnline.id, (error) => {
+      client.emit('games:join-room', gameOnline.id, (error) => {
         if (error) {
           done(error)
           return
         }
-        client.on('game-state', (game) => {
+        client.on('games:game-state', (game) => {
           expect(game.id).toEqual(gameOnline.id)
           expect(game.moves.length).toEqual(1)
           resolve()
