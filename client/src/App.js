@@ -21,6 +21,7 @@ function App() {
   const { user } = useCurrentUser()
   const { onlineGames } = useGames(socket, user)
   const [localGame, setLocalGame] = useState(null)
+
   useLogin()
 
   return (

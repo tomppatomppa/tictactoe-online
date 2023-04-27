@@ -50,7 +50,7 @@ const CreateGameForm = ({ handleSubmit }) => {
             min={3}
             max={10}
             type="number"
-            value={gridSize}
+            value={gridSize || ''}
             onChange={handleGridChange}
             aria-label="grid-size-input"
           />

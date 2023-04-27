@@ -13,6 +13,7 @@ const GameBoardOnline = () => {
   const { user } = useCurrentUser()
   const navigate = useNavigate()
   let { id } = useParams()
+
   const { gameState, handleRematch, rematchGameId, userCount } =
     useGameSocket(id)
 

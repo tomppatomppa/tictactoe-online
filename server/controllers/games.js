@@ -49,6 +49,7 @@ const addToLeaderboard = async (game) => {
 
 router.post('/', async (req, res) => {
   const { id } = req.user
+
   const createdGame = await Game.create({
     ...req.body,
     userId: id,

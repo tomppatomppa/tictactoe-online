@@ -1,4 +1,4 @@
-import { prettyDOM, render, screen, within } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import React from 'react'
 import DataTable from '../components/DataTable'

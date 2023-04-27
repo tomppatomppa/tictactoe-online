@@ -35,6 +35,10 @@ Game.init(
     gridSize: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      validate: {
+        min: 3,
+        max: 10,
+      },
     },
     isFinished: {
       type: DataTypes.BOOLEAN,
