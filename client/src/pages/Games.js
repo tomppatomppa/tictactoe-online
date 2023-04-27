@@ -81,19 +81,19 @@ const Games = ({ onlineGames = [], setLocalGame }) => {
           <label className="text-sm">What do the buttons mean?</label>
           <div className="flex flex-row">
             <InfoLable
-              description="Play as either Player 1 or Player 2 in this game."
+              description="Playable game where you are either Player 1 or Player 2"
               buttonText="Play"
               color={'green'}
             />
 
             <InfoLable
-              description="Join games as Player 2 and challenge other players."
+              description="Join a game and challenge other players."
               buttonText="Join"
               color={'blue'}
             />
 
             <InfoLable
-              description="Waiting for another player to join your game. Get ready to play!"
+              description="Waiting for another player to join your game."
               buttonText="Waiting"
               color={'red'}
             />
