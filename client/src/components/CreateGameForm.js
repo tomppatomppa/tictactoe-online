@@ -25,6 +25,7 @@ const CreateGameForm = ({ handleSubmit }) => {
         <strong>GAME TYPE</strong>
         <div className="flex justify-between gap-4">
           <label
+            id="select-online-button"
             className={`${
               type === 'online' ? 'bg-green-500' : ''
             } border btn-type w-24`}
@@ -33,6 +34,7 @@ const CreateGameForm = ({ handleSubmit }) => {
             Online
           </label>
           <label
+            id="select-offline-button"
             className={`${
               type === 'local' ? 'bg-green-500' : ''
             } border btn-type w-24`}
@@ -50,6 +52,7 @@ const CreateGameForm = ({ handleSubmit }) => {
             type="number"
             value={gridSize}
             onChange={handleGridChange}
+            aria-label="grid-size-input"
           />
         </div>
         <button className={`btn-primary self-end`} type="submit">

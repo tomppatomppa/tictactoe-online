@@ -17,8 +17,6 @@ const gamesRouter = require('./controllers/games')
 const sessionsRouter = require('./controllers/sessions')
 const leaderboardsRouter = require('./controllers/leaderboards')
 
-// httpServer.on('request', app)
-
 app.use(cors())
 app.use(express.json())
 app.use(express.static(path.join(__dirname, './build')))
@@ -26,10 +24,10 @@ app.use(express.static(path.join(__dirname, './build')))
 app.use('/ping', async (req, res) => {
   return res.status(200).json('hello ping')
 })
+
 app.use(socketMiddleware(io))
 
 app.use('/api/leaderboards', leaderboardsRouter)
-
 app.use('/api/users', usersRouter)
 app.use('/api/games', gamesRouter)
 app.use('/api', sessionsRouter)
