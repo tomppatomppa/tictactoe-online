@@ -23,7 +23,8 @@ const Navbar = () => {
 
   const { mutate: deleteAccount } = useMutation({
     mutationFn: () => userService.deleteMe(user.id, user.token),
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log(data)
       resetCurrentUser()
     },
   })

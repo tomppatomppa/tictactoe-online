@@ -1,10 +1,13 @@
 const bcrypt = require('bcrypt')
 const router = require('express').Router()
 
-const { User, Leaderboard, Game } = require('../models/index')
+const { User, Leaderboard, Game, Session } = require('../models/index')
 const { userFromToken } = require('../util/middleware')
 const { Op } = require('sequelize')
-
+router.get('/', async (req, res) => {
+  const all = await User.findAll({})
+  res.json(all)
+})
 router.post('/', async (req, res) => {
   const { username, password } = req.body
 
@@ -39,32 +42,38 @@ router.get('/me', userFromToken, async (req, res) => {
   const myActiveGames = await Game.findAll({
     where: {
       [Op.or]: [{ player1: req.user.id }, { player2: req.user.id }],
-      [Op.not]: [{ player2: null }],
+      [Op.and]: [{ player2: { [Op.not]: null } }, { isFinished: false }],
     },
   })
   res.status(200).json({ leaderboard, myGames: games, myActiveGames })
 })
 
-router.delete('/me/:id', async (req, res) => {
+router.delete('/me/:id', userFromToken, async (req, res) => {
   try {
     await Leaderboard.destroy({
       where: {
-        userId: req.params.id,
+        userId: req.user.id,
       },
     })
     await Game.destroy({
       where: {
-        userId: req.params.id,
+        userId: req.user.id,
+      },
+    })
+    await Session.destroy({
+      where: {
+        userId: req.user.id,
       },
     })
     await User.destroy({
       where: {
-        id: req.params.id,
+        id: req.user.id,
       },
     })
-    return res.status(200).json(`deleted ${req.params.id}`)
+    return res.status(200).json(`Deleted user ${req.params.id}`)
   } catch (err) {
-    return res.json({ error: err })
+    console.log(err)
+    return res.status(400).json({ error: err })
   }
 })
 

@@ -13,7 +13,6 @@ const baseUri = '/api/games'
 
 describe('API endpoints', () => {
   let client
-
   beforeAll((done) => {
     httpServer.listen(() => {
       socketUrl = `http://localhost:${httpServer.address().port}`
@@ -33,14 +32,13 @@ describe('API endpoints', () => {
     })
   })
 
-  describe('test game emit', () => {
+  describe('test /api/games emits', () => {
     beforeAll(async () => {
       await initGamesTests()
     })
     afterAll(async () => {
       await cleanupGamesTest()
     })
-
     test('Emits created game object', () => {
       return new Promise((resolve, reject) => {
         client.on('games:new-game', (game) => {
@@ -57,7 +55,7 @@ describe('API endpoints', () => {
           })
       })
     })
-    test('Emits player joined event', () => {
+    test('Emits player joined a game', () => {
       return new Promise((resolve, reject) => {
         client.on('games:player-joined-game', (game) => {
           expect(game.player2).toEqual(player2.id)
@@ -87,7 +85,7 @@ describe('API endpoints', () => {
         })
       })
     })
-    test('Emits updated game to the gameroom', () => {
+    test('Emits updated game object to the gameroom', () => {
       client.emit('games:join-room', gameOnline.id, (error) => {
         if (error) {
           done(error)
@@ -98,6 +96,7 @@ describe('API endpoints', () => {
           expect(game.moves.length).toEqual(1)
           resolve()
         })
+        //Send move to the express route
         request(app)
           .post(`${baseUri}/${gameOnline.id}`)
           .send([0, 0])

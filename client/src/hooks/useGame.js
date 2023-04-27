@@ -37,6 +37,7 @@ const useGame = (user) => {
       toast.success(`Created game ${data.id}`)
     },
   })
+
   const { mutate: sendMove } = useMutation({
     mutationFn: ({ id, move }) => gameServices.makeMove(id, move, user.token),
     onError: (err) => {
