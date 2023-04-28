@@ -105,13 +105,15 @@ $ npm test
 
 ## Description
 
-This repository aims to help me familiarize myself with the basics of WebSocket technologies, such as sockets.io. To achieve this, I implemented a real-time gaming functionality in a tic-tac-toe game.
+This repository aims to help me familiarize myself with the basics of WebSocket technologies, such as sockets.io. To achieve this, I implemented a real-time gaming functionality in a tic-tac-toe game. The client features custom React components that can be reused throughout the app.
 
-The client features custom React components that can be reused throughout the app.
+Right now both the backend and client share some of the "game logic" which wasnt ideal, but i decided it online games would only be saved, so validating all the offline games in the backend would have been odd.
+
+Some thoughts after the project. Focus on making test from the beginning, and try to make everything testable from the start. Refactoring after something is finnished is a pain. Especially for a junior developer it's hard to see the problems ahead, and just have to "wing" it and hopefully make it work.
 
 ## DataGrid Component
 
-My goal was to create some kind of "gamelobby" that receives updates in realtime, and has an "action" button that can be customized based on the data that exists in the grid.
+My goal was to create some kind of "gamelobby" that receives updates in realtime, and has an "action" button that can be customized based on the data that exists in the grid. It does what its suppose to do, maybe the implementation is a bit clucky in places especially when passing the "entity" prop for customized behaviour.
 
 Lets say we received an array of game items:
 
