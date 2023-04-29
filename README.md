@@ -105,11 +105,13 @@ $ npm test
 
 ## Description
 
-This repository aims to help me familiarize myself with the basics of WebSocket technologies, such as sockets.io. To achieve this, I implemented a real-time gaming functionality in a tic-tac-toe game. The client features custom React components that can be reused throughout the app.
+This repository is dedicated to helping me gain a deeper understanding of WebSocket technologies, specifically sockets.io. To achieve this goal, I created a real-time gaming functionality for a tic-tac-toe game. The client-side of the application is built with custom React components that can be easily reused throughout the app.
 
-Right now both the backend and client share some of the "game logic" which wasnt ideal, but i decided it online games would only be saved, so validating all the offline games in the backend would have been odd.
+Currently, both the backend and client share some of the "game logic," which isn't ideal. However, since only online games are saved, validating all offline games in the backend would have been unnecessary.
 
-Some thoughts after the project. Focus on making test from the beginning, and try to make everything testable from the start. Refactoring after something is finnished is a pain. Especially for a junior developer it's hard to see the problems ahead, and just have to "wing" it and hopefully make it work.
+My primary focus was to ensure that no mutations were made to the database via sockets. Instead, mutations were only permitted through the API, which requires authentication. Sockets were primarily used for retrieving the initial state of a game and informing clients of any updates.
+
+In retrospect, I realize that I should have focused on creating tests from the beginning and made everything testable from the start. Refactoring after completing a project can be a challenging task, especially for junior developers. It's difficult to anticipate problems ahead of time, so sometimes you just have to "wing it" and hope for the best.
 
 ## DataGrid Component
 
@@ -135,7 +137,7 @@ Expected output:
 
 ```
 
-Lets say i want to add a button "MyGame" for all games where player1 == 1.
+Say I want to add a button "MyGame" for all games where player1 == 1.
 
 I would have to pass two extra props, entity and onClick.
 
@@ -152,7 +154,7 @@ const playButton = {
   match: [1],          #specify what value is a valid match
   text: 'MyGame',      #button text
   dispatch: ['id'],    #what value to dispatch when clicked
-  type: 'mygame',      #specify a type, can be whatever
+  type: 'mygame',      #specify a type field
   style: buttonStyle,  #custom style for button
 }
 
@@ -168,7 +170,7 @@ Expected output:
 
 ```
 
-OnClick would dispatch {type: "mygame", data: {id:1} as specified in the playButton object.
+OnClick would dispatch {type: "mygame", data: {id: 1} as specified in the playButton object.
 
 ## Features to be implemented
 
