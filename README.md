@@ -62,6 +62,10 @@ $ SECRET=secret
 # Install dependencies
 $ npm install
 
+# Create tables in the database
+# In database.js set line 10 to, this will automatically remove any existing tables and create the neccessary tables according to the defined models
+$ await sequelize.sync({force: true})
+
 # Create a client build and start server on port 3001
 # Or run the client seperately by going to /client folder and run npm start
 $ npm run build:dev
