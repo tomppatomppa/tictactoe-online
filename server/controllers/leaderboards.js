@@ -4,6 +4,7 @@ const { Sequelize, Op } = require('sequelize')
 
 router.get('/', async (req, res) => {
   const leaderboard = await Leaderboard.findAll({
+    //Ranking by Win Loss ratio
     attributes: [
       [
         Sequelize.literal(

@@ -1,16 +1,6 @@
 const { Game } = require('../models/index')
 
 module.exports = (io, socket) => {
-  const initialGames = async () => {
-    const games = await Game.findAll({
-      where: {
-        isFinished: false,
-        type: 'online',
-      },
-    })
-    socket.emit('games:all', games)
-  }
-
   const joinGameRoom = (gameId) => {
     socket.join(gameId)
     const roomSize = io.sockets.adapter.rooms.get(gameId).size
@@ -55,7 +45,6 @@ module.exports = (io, socket) => {
       })
   }
 
-  socket.on('games:get-all', initialGames)
   socket.on('games:join-room', joinGameRoom)
   socket.on('games:leave-room', leaveRoom)
   socket.on('games:get-game', getGameState)

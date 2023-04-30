@@ -4,10 +4,12 @@ const router = require('express').Router()
 const { User, Leaderboard, Game, Session } = require('../models/index')
 const { userFromToken } = require('../util/middleware')
 const { Op } = require('sequelize')
+
 router.get('/', async (req, res) => {
   const all = await User.findAll({})
   res.json(all)
 })
+
 router.post('/', async (req, res) => {
   const { username, password } = req.body
 

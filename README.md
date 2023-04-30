@@ -29,7 +29,7 @@
 - Leaderboard
 - Customizable gridsize
 - Create, Join, Delete Games
-- Quick Rematch Functionality
+- Quick Rematch Functionality for both online and offline
 - Replay Old Games
 - Custom DataDrid component
 - Custom Grid Component
@@ -55,7 +55,7 @@ $ cd tictactoe-online/server
 
 # Connect a database
 # Create a .env file in the server folder with the following contents
-# Tested with https://api.elephantsql.com/ and https://www.postgresql.org/
+# Tested with https://api.elephantsql.com/ free plan
 $ DATABASE_URL="connectionstring"
 $ SECRET=secret
 
@@ -79,11 +79,11 @@ $ http://localhost:3001/
 # Go to server folder
 $ cd ./server
 
-# Disable io.listen(4000) in the app.js
+# Disable io.listen(4000) in app.js
 # Otherwise it will throw EADDRINUSE error
 $ //io.listen(4000)
 
-# Run Server test
+# Run Server tests
 # On a free Database plan you might get "SequelizeConnectionError: too many connections for role xxxxx" error
 $ npm run test
 

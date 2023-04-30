@@ -14,10 +14,6 @@ router.get('/', async (req, res) => {
   res.status(200).json(allGames)
 })
 
-router.get('/on', async (req, res) => {
-  const allGames = await Game.findAll({})
-  res.status(200).json(allGames)
-})
 router.use(userFromToken)
 
 const addToLeaderboard = async (game) => {
