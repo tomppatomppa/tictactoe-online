@@ -46,13 +46,13 @@ const Profile = ({ user }) => {
       <ErrorMessage
         isError={isError}
         error={error}
-        message="Something went wrong loading leaderboard"
+        message='Something went wrong loading profile'
       />
     )
 
   return (
-    <div className="flex flex-col sm:mx-auto  text-white gap-y-4">
-      <Spinner show={isLoading} delay={400} description="loading leaderboard" />
+    <div className='flex flex-col sm:mx-auto  text-white gap-y-4'>
+      <Spinner show={isLoading} delay={400} description='loading profile' />
       {data && (
         <>
           <div>{message}</div>
